@@ -1,623 +1,840 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>IT Guide — Путь в IT</title>
-<style>
-  /* ======================
-     БАЗОВЫЕ ПЕРЕМЕННЫЕ / ТЕМЫ
-     ====================== */
-  :root{
-    --bg: #f3f4f6;
-    --card:#ffffff;
-    --text:#0b1020;
-    --accent:#2563eb;
-    --muted:#6b7280;
-    --glass: rgba(255,255,255,0.6);
-  }
-  .dark{
-    --bg:#0f1724;
-    --card:#0b1220;
-    --text:#e6eef8;
-    --accent:#3b82f6;
-    --muted:#9aa8c0;
-    --glass: rgba(255,255,255,0.03);
-  }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IT Guide — Путь в IT</title>
+  <meta name="description" content="IT Guide — советы, профессии, тест и мини-бот для начинающих в IT. RU/KZ.">
+  <!-- =========== СТИЛИ =========== -->
+  <style>
+    /* ===========================
+       THEME: TECHNO-NEON (Dark-first)
+       =========================== */
 
-  /* ======================
-     ОБЩИЕ СТИЛИ
-     ====================== */
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
-  a{color:inherit;text-decoration:none}
-  header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:linear-gradient(90deg,var(--accent),#1e40af);color:white;position:sticky;top:0;z-index:40}
-  .logo{display:flex;gap:10px;align-items:center;font-weight:700}
-  .logo .dot{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#60a5fa,#1e3a8a);display:flex;align-items:center;justify-content:center;font-size:18px}
-  nav ul{display:flex;gap:12px;list-style:none;margin:0;padding:0;align-items:center}
-  nav a{color:rgba(255,255,255,0.95);padding:8px 10px;border-radius:8px;font-weight:600}
-  nav a:hover, nav a.active { background: rgba(255,255,255,0.08) }
+    :root{
+      --bg:#071025;            /* dark bg */
+      --panel:#071827;         /* panels */
+      --card:#081828;
+      --muted:#9fb0c8;
+      --text:#e6f0fb;
+      --accent-1:#00e0ff;     /* cyan */
+      --accent-2:#7b61ff;     /* violet */
+      --glow: 0 10px 30px rgba(123,97,255,0.14), 0 2px 8px rgba(0,224,255,0.08);
+      --glass: rgba(255,255,255,0.03);
+      --success: #16a34a;
+      --danger: #ef4444;
+      --radius:14px;
+      --monospace: "Fira Code", "Courier New", monospace;
+    }
 
-  .controls{display:flex;gap:8px;align-items:center}
-  .btn, button{cursor:pointer;border:0;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.12);color:white;font-weight:600}
-  .small{padding:6px 8px;font-size:14px}
+    /* Light theme (invert-ish) */
+    .light {
+      --bg:#f4f7fb;
+      --panel:#ffffff;
+      --card:#ffffff;
+      --muted:#41525a;
+      --text:#0b1220;
+      --accent-1:#0ea5a4;
+      --accent-2:#4f46e5;
+      --glow: 0 8px 20px rgba(79,70,229,0.06);
+      --glass: rgba(2,6,23,0.03);
+    }
 
-  main{max-width:1100px;margin:28px auto;padding:0 18px}
-  .hero{display:flex;gap:30px;align-items:center;justify-content:space-between;padding:30px;background:linear-gradient(180deg, rgba(255,255,255,0.6), transparent);border-radius:14px}
-  .hero-left h1{margin:0;font-size:30px}
-  .hero-left p{margin:8px 0;color:var(--muted)}
-  .hero-actions{display:flex;gap:10px;margin-top:12px}
-  .btn-primary{background:var(--accent);color:white;padding:10px 18px;border-radius:10px;font-weight:700}
+    /* Reset + base */
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:radial-gradient(1200px 600px at 10% 10%, rgba(123,97,255,0.06), transparent), radial-gradient(1000px 600px at 90% 90%, rgba(0,224,255,0.04), transparent), var(--bg); color:var(--text); font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif; -webkit-font-smoothing:antialiased}
+    a{color:inherit}
+    img{max-width:100%;display:block}
+    button{font-family:inherit}
 
-  section{margin-top:28px}
-  h2{margin:0 0 12px 0;color:var(--text)}
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:30;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 20px; gap:12px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{
+      width:56px;height:56px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,var(--accent-2),var(--accent-1));
+      color:white;font-weight:800;font-size:18px;box-shadow:var(--glow);
+    }
+    .brand-title{display:flex;flex-direction:column}
+    .brand-title .title{font-weight:800;letter-spacing:0.2px}
+    .brand-title .subtitle{font-size:12px;color:var(--muted)}
 
-  /* ========== КАРТОЧКИ / СПИСОК ПРОФЕССИЙ ========== */
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-  .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.06);display:flex;flex-direction:column;gap:8px}
-  .card h3{margin:0}
-  .tags{display:flex;gap:8px;flex-wrap:wrap}
-  .tag{font-size:12px;padding:6px 8px;border-radius:999px;background:var(--glass);color:var(--muted)}
+    nav {display:flex; gap:8px; align-items:center}
+    nav a{padding:8px 10px;border-radius:10px;color:var(--muted);text-decoration:none;font-weight:600}
+    nav a.active{background:linear-gradient(90deg, rgba(123,97,255,0.12), rgba(0,224,255,0.06)); color:var(--text); box-shadow:var(--glow)}
 
-  .card .actions{margin-top:auto;display:flex;gap:8px}
-  .fav{background:transparent;border:1px dashed var(--accent);color:var(--accent)}
-  .open{background:var(--accent);color:white}
+    .controls{display:flex;gap:8px;align-items:center}
+    .control-btn{background:transparent;border:1px solid rgba(255,255,255,0.03);padding:8px 10px;border-radius:10px;color:var(--text);cursor:pointer}
+    .pill{padding:6px 9px;border-radius:999px;background:var(--glass);color:var(--muted);font-weight:700;font-size:13px}
 
-  /* ========== МОДАЛКА ПРОФЕССИИ ========== */
-  .modal-back{position:fixed;inset:0;background:rgba(2,6,23,0.5);display:none;align-items:center;justify-content:center;z-index:60}
-  .modal{width:720px;max-width:92%;background:var(--card);padding:18px;border-radius:12px;box-shadow:0 10px 40px rgba(2,6,23,0.5);color:var(--text)}
-  .modal .row{display:flex;gap:14px}
-  .skill-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-  .skill{background:var(--glass);padding:6px 8px;border-radius:8px;color:var(--muted);font-weight:600}
+    /* MAIN */
+    main{max-width:1150px;margin:28px auto;padding:0 18px;display:flex;flex-direction:column;gap:22px}
 
-  /* ========== ПОИСК ========== */
-  .searchbar{display:flex;gap:8px;align-items:center;margin-top:10px}
-  input[type="search"]{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);outline:none;background:transparent;color:var(--text)}
-  .small-muted{font-size:13px;color:var(--muted)}
+    /* HERO */
+    .hero{
+      display:grid;grid-template-columns:1fr 360px;gap:18px;padding:26px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow:0 6px 30px rgba(2,6,23,0.35);
+      border:1px solid rgba(255,255,255,0.02);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero-left h1{margin:0;font-size:28px;line-height:1.05}
+    .hero-left p{margin:10px 0;color:var(--muted)}
+    .hero-cta{display:flex;gap:10px;margin-top:12px}
+    .btn-primary{background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white;padding:10px 16px;border-radius:12px;border:0;cursor:pointer;box-shadow:var(--glow);font-weight:800}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:10px;color:var(--text);cursor:pointer}
+    .searchbar{margin-top:12px;display:flex;gap:8px;align-items:center}
+    input[type="search"]{flex:1;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--text);outline:none;font-weight:600}
+    .small-muted{color:var(--muted);font-size:13px}
 
-  /* ========== ТЕСТ "КТО ТЫ В IT" ========== */
-  .quiz{background:var(--card);padding:14px;border-radius:12px}
-  .question{margin-bottom:12px}
-  .options{display:flex;flex-direction:column;gap:8px}
-  .option{padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);cursor:pointer}
-  .option.selected{background:var(--accent);color:white;border-color:transparent}
+    /* CARDS GRID */
+    .section{padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));border:1px solid rgba(255,255,255,0.02)}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:8px;min-height:130px;transition:transform .22s ease, box-shadow .22s}
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.4)}
+    .card h3{margin:0}
+    .skill-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .skill{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:6px 8px;border-radius:999px;border:1px solid rgba(255,255,255,0.03);font-weight:700;color:var(--muted);font-size:13px}
 
-  /* ========== РЕКОМЕНДАЦИИ / НОВОСТИ ========== */
-  .list{display:flex;flex-direction:column;gap:10px}
-  .list-item{background:var(--card);padding:12px;border-radius:10px;display:flex;justify-content:space-between;align-items:center}
+    .card .actions{margin-top:auto;display:flex;gap:8px}
+    .action-btn{padding:8px 10px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+    .action-open{background:transparent;color:var(--accent-1);border:1px dashed rgba(0,224,255,0.08)}
+    .action-fav{background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white}
 
-  /* ========== КОНТАКТЫ ========== */
-  form{display:flex;flex-direction:column;gap:10px}
-  input,textarea{padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:transparent;color:var(--text);resize:vertical}
-  textarea{min-height:100px}
+    /* Modal */
+    .modal-back{position:fixed;inset:0;background:linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.6));display:none;align-items:center;justify-content:center;z-index:80}
+    .modal{width:820px;max-width:94%;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:18px;border-radius:16px;border:1px solid rgba(255,255,255,0.03)}
+    .modal h3{margin:0 0 8px 0}
+    .modal .row{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}
+    .modal .left{flex:1;min-width:220px}
+    .modal .right{flex:1.3;min-width:260px}
 
-  /* ========== БОТ UI ========== */
-  .chatbot-button{position:fixed;right:22px;bottom:22px;width:64px;height:64px;border-radius:50%;background:var(--accent);color:white;border:0;box-shadow:0 10px 30px rgba(0,0,0,0.25);font-size:28px;display:flex;align-items:center;justify-content:center;z-index:70}
-  .chatbot-window{position:fixed;right:22px;bottom:100px;width:340px;max-width:92%;height:440px;border-radius:12px;background:var(--card);box-shadow:0 10px 40px rgba(2,6,23,0.3);display:none;flex-direction:column;overflow:hidden;z-index:70}
-  .chat-header{background:var(--accent);color:white;padding:12px;font-weight:700;text-align:center}
-  .chat-messages{flex:1;padding:12px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
-  .bot-msg,.user-msg{padding:10px;border-radius:12px;max-width:78%}
-  .bot-msg{background:#eef2ff;color:var(--text);align-self:flex-start}
-  .user-msg{background:var(--accent);color:white;align-self:flex-end}
-  .chat-input{display:flex;padding:10px;border-top:1px solid rgba(0,0,0,0.06)}
-  .chat-input input{flex:1;padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}
-  .chat-input button{margin-left:8px;padding:8px 12px;border-radius:8px;background:var(--accent);color:white;border:0}
+    /* LIST & NEWS */
+    .list{display:flex;flex-direction:column;gap:10px}
+    .list-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)}
+    .date{font-size:12px;color:var(--muted)}
 
-  /* ========== FOOTER ========== */
-  footer{text-align:center;padding:22px 10px;color:var(--muted);margin-top:36px}
+    /* QUIZ */
+    .quiz{padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00))}
+    .question{margin-bottom:12px}
+    .options{display:flex;flex-direction:column;gap:8px}
+    .option{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;font-weight:700}
+    .option.selected{background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white;border:0}
 
-  /* ========== МЕЛКИЕ СТИЛИ ========== */
-  @media(max-width:720px){
-    .hero{flex-direction:column;align-items:flex-start}
-    nav ul{display:none}
-  }
-</style>
+    /* CONTACT */
+    form{display:flex;flex-direction:column;gap:10px}
+    input,textarea{padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--text);outline:none}
+    textarea{min-height:120px}
+
+    /* CHATBOT */
+    .chatbot-button{position:fixed;right:20px;bottom:22px;width:66px;height:66px;border-radius:999px;background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white;border:0;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:var(--glow);cursor:pointer;z-index:90}
+    .chatbot-window{position:fixed;right:20px;bottom:100px;width:380px;max-width:96%;height:520px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));box-shadow:0 20px 60px rgba(2,6,23,0.5);display:none;flex-direction:column;overflow:hidden;z-index:90;border:1px solid rgba(255,255,255,0.03)}
+    .chat-header{padding:14px;background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white;font-weight:800;text-align:center}
+    .chat-area{flex:1;padding:12px;display:flex;flex-direction:column;gap:10px;overflow-y:auto}
+    .bot-msg,.user-msg{max-width:78%;padding:10px;border-radius:12px;font-weight:700}
+    .bot-msg{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:var(--text);align-self:flex-start}
+    .user-msg{background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:white;align-self:flex-end}
+    .chat-input{display:flex;padding:12px;border-top:1px solid rgba(255,255,255,0.03);gap:8px}
+
+    /* FOOTER */
+    footer{padding:18px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* Responsive */
+    @media(max-width:980px){
+      .hero{grid-template-columns:1fr; padding:18px}
+    }
+    @media(max-width:720px){
+      nav{display:none}
+      .chatbot-window{right:10px;left:10px;width:auto}
+      .hero-right{display:none}
+    }
+
+    /* little neon animation for hero */
+    .neon {
+      position:absolute;right:-120px;top:-40px;width:420px;height:420px;border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, rgba(123,97,255,0.12), transparent 20%, transparent 100%);
+      filter: blur(40px); opacity:0.65; transform:rotate(12deg); pointer-events:none;
+    }
+
+    /* Code-like box for plan */
+    .plan {
+      font-family:var(--monospace); font-size:13px; background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent); padding:12px;border-radius:10px;border:1px dashed rgba(255,255,255,0.03)
+    }
+
+  </style>
 </head>
+
 <body>
 
-<!-- ========== HEADER ========== -->
-<header>
-  <div class="logo">
-    <div class="dot">IT</div>
-    <div>
-      <div style="font-size:14px">IT Guide</div>
-      <div style="font-size:11px;color:rgba(255,255,255,0.85)">Путь в IT / IT-навигация</div>
-    </div>
-  </div>
-
-  <nav>
-    <ul>
-      <li><a href="#home" class="nav-link active">Главная</a></li>
-      <li><a href="#professions" class="nav-link">Профессии</a></li>
-      <li><a href="#advice" class="nav-link">Советы</a></li>
-      <li><a href="#news" class="nav-link">Новости</a></li>
-      <li><a href="#test" class="nav-link">Тест</a></li>
-      <li><a href="#recommend" class="nav-link">Рекомендации</a></li>
-      <li><a href="#contact" class="nav-link">Контакты</a></li>
-    </ul>
-  </nav>
-
-  <div class="controls">
-    <button id="themeBtn" class="small">🌙</button>
-    <button id="langBtn" class="small">KZ</button>
-  </div>
-</header>
-
-<!-- ========== MAIN ========== -->
-<main>
-
-  <!-- HERO / HOME -->
-  <section id="home" class="hero">
-    <div class="hero-left">
-      <h1>Добро пожаловать в <span style="color:var(--accent)">IT Guide</span></h1>
-      <p>Сайт объясняет IT-профессии, даёт советы новичкам и подсказывает, как начать карьеру в IT.</p>
-      <div class="hero-actions">
-        <a class="btn-primary" href="#professions">Посмотреть профессии</a>
-        <button class="btn" id="openQuiz">Пройти тест</button>
+  <!-- ========== HEADER ========== -->
+  <header>
+    <div class="brand">
+      <div class="logo">IT</div>
+      <div class="brand-title">
+        <div class="title">IT Guide</div>
+        <div class="subtitle">Путь в IT — советы, профессии, тест</div>
       </div>
-
-      <div class="searchbar" style="margin-top:14px">
-        <input id="searchInput" type="search" placeholder="Поиск по профессиям или навыкам (напр., frontend, python...)">
-        <button class="btn small" id="clearSearch">Очистить</button>
-      </div>
-      <div class="small-muted" style="margin-top:8px">Найдено: <span id="searchCount">—</span></div>
     </div>
 
-    <div class="hero-right" style="min-width:280px;max-width:360px">
-      <div style="background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.06)">
-        <h3 style="margin:0 0 8px 0">Популярные направления</h3>
-        <div class="tags">
-          <div class="tag">Frontend</div>
-          <div class="tag">Backend</div>
-          <div class="tag">Data Science</div>
-          <div class="tag">Cybersecurity</div>
-          <div class="tag">DevOps</div>
+    <nav>
+      <a href="#home" class="nav-link active">Главная</a>
+      <a href="#professions" class="nav-link">Профессии</a>
+      <a href="#advice" class="nav-link">Советы</a>
+      <a href="#news" class="nav-link">Новости</a>
+      <a href="#test" class="nav-link">Тест</a>
+      <a href="#recommend" class="nav-link">Рекомендации</a>
+      <a href="#contact" class="nav-link">Контакты</a>
+    </nav>
+
+    <div class="controls">
+      <div class="pill" id="favCount">♡ 0</div>
+      <button class="control-btn" id="exportFavs">Экспорт</button>
+      <button class="control-btn" id="themeToggle" title="Тёмная/светлая тема">Тема</button>
+      <button class="control-btn" id="langToggle" title="RU / KZ">RU</button>
+    </div>
+  </header>
+
+  <!-- ========== MAIN ========== -->
+  <main>
+    <!-- HERO -->
+    <section id="home" class="hero section">
+      <div class="neon" aria-hidden="true"></div>
+      <div class="hero-left">
+        <h1>Добро пожаловать в <span style="color:var(--accent-1)">IT Guide</span></h1>
+        <p>Понять IT-профессии и выбрать путь легко: читай карточки, проходи тест и общайся с мини-ботом.</p>
+        <div class="hero-cta">
+          <button class="btn-primary" id="goProf">Посмотреть профессии</button>
+          <button class="btn-ghost" id="goTest">Пройти тест</button>
         </div>
-        <div style="margin-top:12px">
-          <strong>Быстрый совет:</strong>
-          <p class="small-muted" style="margin:8px 0 0 0">Если не уверен — начни с фронтенда (HTML/CSS/JS). Видимая отдача мотивирует.</p>
+
+        <div class="searchbar" style="margin-top:14px">
+          <input id="search" type="search" placeholder="Поиск профессий или навыков (например: frontend, python...)">
+          <button class="btn-ghost" id="clearSearch">Очистить</button>
+        </div>
+        <div style="margin-top:8px" class="small-muted">Найдено: <span id="count">—</span></div>
+
+        <div style="margin-top:14px">
+          <div class="plan">Простой учебный план: 1) HTML & CSS → 2) JS → 3) Проект → 4) Git + портфолио</div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- PROFESSIONS -->
-  <section id="professions">
-    <h2>Каталог IT-профессий</h2>
-    <div class="cards" id="cardsContainer">
-      <!-- Карточки будут сгенерированы JS -->
-    </div>
-    <div style="margin-top:10px" class="small-muted">Кликайте "Подробнее" в карточке, чтобы открыть окно с детальной информацией.</div>
-  </section>
-
-  <!-- ADVICE -->
-  <section id="advice">
-    <h2>Советы для новичков</h2>
-    <div class="cards">
-      <div class="card">
-        <h3>С чего начать путь в IT</h3>
-        <p>1) Основы компьютера; 2) HTML/CSS; 3) JS; 4) Git; 5) Проекты/портфолио.</p>
-        <div class="small-muted">Практикуйся на реальных мини-проектах: сайт-визитка, ToDo, простая игра.</div>
-      </div>
-      <div class="card">
-        <h3>Бесплатные ресурсы</h3>
-        <p>MDN, freeCodeCamp, Coursera (есть бесплатные курсы), YouTube-каналы — выбирай то, что понятно тебе.</p>
-      </div>
-      <div class="card">
-        <h3>Как составить IT-резюме</h3>
-        <p>Кратко: контакт, навыки, проекты (с ссылками), опыт/стажировки, образование. Код в GitHub — плюс.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- NEWS -->
-  <section id="news">
-    <h2>IT Новости (статичные примеры)</h2>
-    <div class="list" id="newsList">
-      <div class="list-item">
-        <div>
-          <strong>Тренд: AI-инструменты для разработчиков</strong>
-          <div class="small-muted">Инструменты помогают писать код быстрее и рефакторить.</div>
+      <aside class="hero-right" style="min-width:260px;max-width:360px">
+        <div style="padding:14px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent);border:1px solid rgba(255,255,255,0.03)">
+          <h3 style="margin:0 0 8px 0">Популярные направления</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <div class="pill">Frontend</div>
+            <div class="pill">Backend</div>
+            <div class="pill">Data</div>
+            <div class="pill">DevOps</div>
+            <div class="pill">Security</div>
+          </div>
+          <div style="margin-top:12px">
+            <strong>Быстрый совет</strong>
+            <div class="small-muted" style="margin-top:6px">Нет времени? Начни с HTML/CSS — быстрый результат мотивирует учиться дальше.</div>
+          </div>
         </div>
-        <div class="small-muted">2025-09-30</div>
-      </div>
-      <div class="list-item">
-        <div>
-          <strong>Рост спроса на DevOps-инженеров</strong>
-          <div class="small-muted">Компании автоматизируют деплой и мониторинг.</div>
+      </aside>
+    </section>
+
+    <!-- PROFESSIONS -->
+    <section id="professions" class="section">
+      <h2>Каталог IT-профессий</h2>
+      <div id="cards" class="cards" style="margin-top:12px"></div>
+      <div style="margin-top:12px" class="small-muted">Кнопка "Подробнее" открывает модал с планом обучения и ссылками.</div>
+    </section>
+
+    <!-- ADVICE -->
+    <section id="advice" class="section">
+      <h2>Советы для новичков</h2>
+      <div class="cards" style="margin-top:12px">
+        <div class="card">
+          <h3>С чего начать</h3>
+          <p class="small-muted">Изучи базу: компьютеры, логика, HTML/CSS, затем JS. Постепенно добавляй проекты в портфолио.</p>
         </div>
-        <div class="small-muted">2025-08-12</div>
+        <div class="card">
+          <h3>Учебный подход</h3>
+          <p class="small-muted">Учись через практику: 70% — практика, 20% — чтение, 10% — теория.</p>
+        </div>
+        <div class="card">
+          <h3>Где учиться</h3>
+          <p class="small-muted">freeCodeCamp, MDN, Coursera, Stepik, YouTube. Важно — проекты и GitHub.</p>
+        </div>
       </div>
+    </section>
+
+    <!-- NEWS -->
+    <section id="news" class="section">
+      <h2>IT Новости</h2>
+      <div id="newsList" class="list" style="margin-top:12px">
+        <div class="list-item">
+          <div>
+            <strong>AI-инструменты ускоряют разработку</strong>
+            <div class="small-muted">Автоматизация рутинных задач и помощь в коде — тренд 2025.</div>
+          </div>
+          <div class="date small-muted">2025-10-01</div>
+        </div>
+        <div class="list-item">
+          <div>
+            <strong>Рост спроса на DevOps специалистов</strong>
+            <div class="small-muted">Компании инвестируют в CI/CD и облачную инфраструктуру.</div>
+          </div>
+          <div class="date small-muted">2025-08-15</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUIZ -->
+    <section id="test" class="section">
+      <h2>Тест «Кто ты в IT?»</h2>
+      <div class="quiz" style="margin-top:12px">
+        <div id="quizBox"></div>
+        <div style="margin-top:10px;display:flex;gap:8px">
+          <button class="btn-ghost" id="prevQ">Назад</button>
+          <button class="btn-primary" id="nextQ">Дальше</button>
+          <button class="btn-ghost" id="resetQ">Сбросить</button>
+        </div>
+        <div id="quizResult" style="margin-top:12px"></div>
+      </div>
+    </section>
+
+    <!-- RECOMMENDATIONS -->
+    <section id="recommend" class="section">
+      <h2>Рекомендации</h2>
+      <div class="cards" style="margin-top:12px">
+        <div class="card">
+          <h3>Курсы и ресурсы</h3>
+          <p class="small-muted">freeCodeCamp, MDN, Coursera, Stepik, YouTube — выбирай практические курсы.</p>
+        </div>
+        <div class="card">
+          <h3>Книги</h3>
+          <p class="small-muted">You Don't Know JS, Clean Code, Python Crash Course — читай по направлению.</p>
+        </div>
+        <div class="card">
+          <h3>Канал</h3>
+          <p class="small-muted">Подпишись на 2–3 обучающих канала и следи за проектами.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <h2>Контакты / Обратная связь</h2>
+      <form id="contactForm" onsubmit="return false" style="margin-top:12px">
+        <input id="name" placeholder="Имя" required />
+        <input id="email" type="email" placeholder="Email" required />
+        <textarea id="message" placeholder="Сообщение..."></textarea>
+        <div style="display:flex;gap:8px">
+          <button class="btn-primary" id="send">Отправить</button>
+          <button class="btn-ghost" id="clear">Очистить</button>
+        </div>
+        <div id="contactResp" class="small-muted" style="margin-top:8px"></div>
+      </form>
+    </section>
+
+  </main>
+
+  <footer>
+    © 2025 IT Guide — Сделано с ❤️. Технологичный дизайн / RU & KZ / Мини-бот встроен.
+  </footer>
+
+  <!-- Modal — детали профессии -->
+  <div id="modalBack" class="modal-back" role="dialog" aria-hidden="true">
+    <div class="modal" id="modal">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3 id="modalTitle">Профессия</h3>
+        <div style="display:flex;gap:8px">
+          <button id="exportPlan" class="control-btn">Скачать план</button>
+          <button id="closeModal" class="control-btn">Закрыть</button>
+        </div>
+      </div>
+      <div id="modalBody" style="margin-top:12px"></div>
     </div>
-  </section>
-
-  <!-- TEST -->
-  <section id="test">
-    <h2>Тест «Кто ты в IT?»</h2>
-    <div class="quiz" id="quiz">
-      <div id="quizStep">
-        <!-- Вопросы динамически -->
-      </div>
-      <div style="margin-top:12px;display:flex;gap:8px">
-        <button class="btn" id="prevQ">Назад</button>
-        <button class="btn" id="nextQ">Дальше</button>
-        <button class="btn" id="resetQ">Сбросить</button>
-      </div>
-      <div id="quizResult" style="margin-top:12px"></div>
-    </div>
-  </section>
-
-  <!-- RECOMMENDATIONS -->
-  <section id="recommend">
-    <h2>Рекомендации</h2>
-    <div class="cards">
-      <div class="card">
-        <h3>Курсы</h3>
-        <p>freeCodeCamp, Codecademy, Stepik, Coursera — ищи курсы с практическими заданиями.</p>
-      </div>
-      <div class="card">
-        <h3>Книги</h3>
-        <p>«You Don't Know JS» (для JS), «Clean Code» (общие принципы), «Python Crash Course».</p>
-      </div>
-      <div class="card">
-        <h3>YouTube / Каналы</h3>
-        <p>Поиск по ключевым словам: «frontend tutorial», «python tutorial», «data science tutorial».</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <h2>Контакты / Обратная связь</h2>
-    <form id="contactForm" onsubmit="return false;">
-      <input id="nameField" placeholder="Имя" required />
-      <input id="emailField" type="email" placeholder="Email" required />
-      <textarea id="messageField" placeholder="Сообщение"></textarea>
-      <div style="display:flex;gap:8px">
-        <button class="btn-primary" id="sendMsg">Отправить</button>
-        <button class="btn" id="clearForm">Очистить</button>
-      </div>
-      <div id="contactResp" class="small-muted" style="margin-top:8px"></div>
-    </form>
-  </section>
-
-</main>
-
-<!-- FOOTER -->
-<footer>
-  © 2025 IT Guide — Сделано тобой. Тёмная тема и бот внизу.
-</footer>
-
-<!-- ========== MODAL DIALOG ========== -->
-<div id="modalBack" class="modal-back">
-  <div class="modal" id="modal">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3 id="modalTitle">Профессия</h3>
-      <button id="modalClose" class="btn small">Закрыть</button>
-    </div>
-    <div id="modalContent" style="margin-top:12px"></div>
   </div>
-</div>
 
-<!-- ========== CHATBOT UI ========== -->
-<button class="chatbot-button" id="chatbotToggle">🤖</button>
-<div class="chatbot-window" id="chatWindow" aria-hidden="true">
-  <div class="chat-header">IT Helper</div>
-  <div class="chat-messages" id="chatMessages">
-    <div class="bot-msg">Привет! 👋 В чем могу помочь? (Например: "frontend", "как начать", "тестировщик")</div>
-  </div>
-  <div class="chat-input">
-    <input id="chatInput" placeholder="Напиши сообщение..." />
-    <button id="chatSend">Отпр.</button>
-  </div>
-</div>
-
-<script>
-/* ===================================================================
-   ДАННЫЕ: ПРОФЕССИИ (здесь можно дополнять) — по каждой карточке:
-   id, title, short, longDesc, skills (массив), salary (примерно), whereToLearn
-   =================================================================== */
-const professions = [
-  {id:'frontend', title:'Frontend-разработчик', short:'Создает интерфейс сайтов (HTML/CSS/JS).',
-   longDesc:'Frontend — это разработка видимой части сайтов и веб-приложений. Обычно используют HTML, CSS и JavaScript, фреймворки (React, Vue, Angular). Важны навыки адаптивной верстки и UX-принципы.',
-   skills:['HTML','CSS','JavaScript','React/Vue','Responsive'], salary:'Зарплата зависит от страны; junior ≈ low, middle/ senior — выше среднего', whereToLearn:'MDN, freeCodeCamp, YouTube, курсы'},
-
-  {id:'backend', title:'Backend-разработчик', short:'Работает с серверной логикой и БД.',
-   longDesc:'Backend отвечает за обработку данных, авторизацию, бизнес-логику и взаимодействие с базой данных. Популярные языки: Python, Java, Node.js, Go.',
-   skills:['Node.js/Python/Java','Databases','APIs','Auth','Scaling'], salary:'Высокий спрос, зарплаты конкурентные', whereToLearn:'Coursera, Udemy, документация'},
-
-  {id:'data', title:'Data Scientist / Аналитик данных', short:'Анализ данных и ML.',
-   longDesc:'Data Science включает сбор, очистку и анализ данных, обучение моделей машинного обучения и визуализацию результатов. Нужны статистика и Python/SQL.',
-   skills:['Python','Pandas','SQL','ML','Statistics'], salary:'Обычно выше среднего в крупных компаниях', whereToLearn:'Kaggle, Coursera, книги'},
-
-  {id:'ux', title:'UX/UI дизайнер', short:'Делает интерфейсы удобными и красивыми.',
-   longDesc:'Дизайнеры проектируют пользовательские интерфейсы и опыт. Важны принципы UX, прототипирование, владение Figma или Sketch.',
-   skills:['Figma','Prototyping','User Research','Visual Design'], salary:'Зависит от опыта и портфолио', whereToLearn:'Figma обзоры, практические задания'},
-
-  {id:'qa', title:'QA / Тестировщик', short:'Проверяет приложения на ошибки.',
-   longDesc:'Тестировщики создают тест-кейсы, выполняют тестирование и автоматизируют проверки. Важно внимание к деталям, базовое программирование для автотестов.',
-   skills:['Manual Testing','Test Cases','Selenium','API Testing'], salary:'Умеренный, хорош для входа в IT', whereToLearn:'Практика, курсы по QA'},
-
-  {id:'devops', title:'DevOps инженер', short:'Автоматизация деплоя и инфраструктуры.',
-   longDesc:'DevOps объединяет разработку и эксплуатацию: CI/CD, контейнеризация (Docker), оркестрация (Kubernetes), мониторинг.',
-   skills:['Docker','Kubernetes','CI/CD','Cloud'], salary:'Высокий спрос в крупных командах', whereToLearn:'Документация облаков, практические проекты'},
-
-  {id:'sec', title:'Специалист по кибербезопасности', short:'Защищает данные и сети.',
-   longDesc:'Кибербезопасность включает мониторинг, анализ уязвимостей и реакцию на инциденты. Нужны знания сетей, криптографии и практики защиты.',
-   skills:['Network Security','Pentesting','Crypto','Forensics'], salary:'Высокий спрос, особенно в крупных компаниях', whereToLearn:'CTF, курсы, практические задания'}
-];
-
-/* ===================================================================
-   ИНИЦИАЛИЗАЦИЯ: Рендер карточек профессий
-   =================================================================== */
-const cardsContainer = document.getElementById('cardsContainer');
-const searchInput = document.getElementById('searchInput');
-const searchCount = document.getElementById('searchCount');
-
-function renderCards(filter='') {
-  cardsContainer.innerHTML = '';
-  const f = filter.trim().toLowerCase();
-  const filtered = professions.filter(p=>{
-    if(!f) return true;
-    return p.title.toLowerCase().includes(f) || p.short.toLowerCase().includes(f) || p.skills.join(' ').toLowerCase().includes(f);
-  });
-  searchCount.textContent = filtered.length + ' / ' + professions.length;
-  filtered.forEach(p=>{
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <h3>${p.title}</h3>
-      <div class="small-muted">${p.short}</div>
-      <div class="skill-list" style="margin-top:10px">
-        ${p.skills.slice(0,4).map(s=>`<div class="skill">${s}</div>`).join('')}
-      </div>
-      <div class="actions" style="margin-top:12px">
-        <button class="open" data-id="${p.id}">Подробнее</button>
-        <button class="fav" data-id="${p.id}">♡ В избранное</button>
-      </div>
-    `;
-    cardsContainer.appendChild(card);
-  });
-  // attach handlers
-  document.querySelectorAll('.open').forEach(b=>b.onclick=()=>openModal(b.dataset.id));
-  document.querySelectorAll('.fav').forEach(b=>b.onclick=()=>toggleFav(b.dataset.id,b));
-}
-
-// initial render
-renderCards();
-
-/* ===================================================================
-   ПОИСК
-   =================================================================== */
-searchInput.addEventListener('input', ()=>renderCards(searchInput.value));
-document.getElementById('clearSearch').addEventListener('click', ()=>{ searchInput.value=''; renderCards(); });
-
-/* ===================================================================
-   MODAL (детали профессии)
-   =================================================================== */
-const modalBack = document.getElementById('modalBack');
-const modal = document.getElementById('modal');
-const modalTitle = document.getElementById('modalTitle');
-const modalContent = document.getElementById('modalContent');
-document.getElementById('modalClose').addEventListener('click', ()=>modalBack.style.display='none');
-
-function openModal(id){
-  const p = professions.find(x=>x.id===id);
-  if(!p) return;
-  modalTitle.textContent = p.title;
-  modalContent.innerHTML = `
-    <div style="display:flex;gap:14px;flex-direction:column">
-      <div><strong>Кратко:</strong> ${p.short}</div>
-      <div><strong>Описание:</strong><p class="small-muted" style="margin:6px 0 0 0">${p.longDesc}</p></div>
-      <div><strong>Ключевые навыки:</strong>
-        <div class="skill-list">${p.skills.map(s=>`<div class="skill">${s}</div>`).join('')}</div>
-      </div>
-      <div><strong>Где учиться:</strong> ${p.whereToLearn}</div>
-      <div><strong>Комментарии по зарплате:</strong> ${p.salary}</div>
-      <div style="margin-top:10px;display:flex;gap:8px">
-        <button class="btn open" id="toProjects">Планы обучения</button>
-        <button class="btn fav" id="favInModal">♡ В избранное</button>
-      </div>
+  <!-- Chatbot -->
+  <button id="botBtn" class="chatbot-button" aria-haspopup="true" aria-expanded="false">🤖</button>
+  <div id="botWindow" class="chatbot-window" role="dialog" aria-hidden="true">
+    <div class="chat-header">IT Helper</div>
+    <div class="chat-area" id="chatArea">
+      <div class="bot-msg">Привет! 👋 В чём могу помочь? (Попробуй: "frontend", "как начать", "qa", "devops")</div>
     </div>
-  `;
-  modalBack.style.display = 'flex';
-  document.getElementById('favInModal').onclick = ()=>toggleFav(p.id);
-  document.getElementById('toProjects').onclick = ()=>{ alert('Пример плана обучения:\n1) Основы HTML/CSS\n2) JS\n3) Проект\n4) Git\n(Можно создать персональный план)'); };
-}
+    <div class="chat-input">
+      <input id="chatInput" placeholder="Напиши сообщение..." />
+      <button id="chatSend" class="btn-primary">Отпр.</button>
+    </div>
+  </div>
 
-/* ===================================================================
-   ИЗБРАННОЕ (localStorage)
-   =================================================================== */
-function favKey(){ return 'itguide.favs.v1' }
-function getFavs(){ try{ return JSON.parse(localStorage.getItem(favKey())||'[]') }catch(e){return []} }
-function saveFavs(arr){ localStorage.setItem(favKey(), JSON.stringify(arr)) }
-function toggleFav(id, btn=null){
-  const favs = new Set(getFavs());
-  if(favs.has(id)){ favs.delete(id); if(btn) btn.textContent='♡ В избранное' }
-  else { favs.add(id); if(btn) btn.textContent='❤ В избранное' }
-  saveFavs(Array.from(favs));
-  // небольшая подсказка
-  alert(favs.has(id) ? 'Добавлено в избранное' : 'Удалено из избранного');
-}
+  <!-- Шаблон данных (можно редактировать/дополнять) -->
+  <script>
+    /* ============================
+       ДАННЫЕ: карточки профессий
+       ============================ */
+    const PROFESSIONS = [
+      {
+        id: 'frontend',
+        title: {ru:'Frontend-разработчик', kz:'Фронтенд-разработушы'},
+        short: {ru:'Создает интерфейсы сайтов (HTML/CSS/JS)', kz:'Сайттардың интерфейсін жасайды (HTML/CSS/JS)'},
+        long: {ru:'Frontend — это разработка видимой части сайтов и веб-приложений. Используют HTML, CSS, JavaScript; популярны фреймворки React, Vue, Angular. Важно: адаптивность, производительность и UX.', kz:'Фронтенд — сайттар мен веб-қосымшалардың көрінетін бөлігін жасау. HTML, CSS, JavaScript қолданылады; кеңінен React, Vue, Angular қолданады.'},
+        skills: ['HTML','CSS','JavaScript','React/Vue','Responsive'],
+        salary: {ru:'Зависит от страны и опыта: junior → среднее, senior → высоко', kz:'Елге және тәжірибеге байланысты: junior орташа, senior жоғары'},
+        where: {ru:'MDN, freeCodeCamp, YouTube, курсы', kz:'MDN, freeCodeCamp, YouTube, курстар'}
+      },
+      {
+        id: 'backend',
+        title: {ru:'Backend-разработчик', kz:'Бэкенд-разработушы'},
+        short: {ru:'Серверная логика, БД и API', kz:'Сервер логикасы, деректер базасы және API'},
+        long: {ru:'Backend отвечает за серверную логику: API, БД, авторизацию и бизнес-логику. Популярные языки: Python, Node.js, Java, Go.', kz:'Бэкенд сервер логикасына жауап береді: API, деректер базасы, авторизация. Python, Node.js, Java, Go танымал.'},
+        skills: ['Python','Node.js','Databases','APIs','Auth'],
+        salary: {ru:'Хороший спрос, зарплаты конкурентные', kz:'Сұраныс жоғары, жалақы бәсекеге қабілетті'},
+        where: {ru:'Coursera, Udemy, документация', kz:'Coursera, Udemy, құжаттама'}
+      },
+      {
+        id: 'data',
+        title: {ru:'Data Scientist / Аналитик данных', kz:'Деректер бойынша аналитик'},
+        short: {ru:'Анализ данных, ML', kz:'Деректерді талдау, ML'},
+        long: {ru:'Работа с данными: сбор, очистка, моделирование и визуализация. Навыки: Python, Pandas, SQL, статистика.', kz:'Деректермен жұмыс: жинау, тазалау, модельдеу және визуализация. Біліктіліктер: Python, Pandas, SQL, статистика.'},
+        skills: ['Python','Pandas','SQL','ML','Statistics'],
+        salary: {ru:'Часто выше среднего', kz:'Көбінесе ортадан жоғары'},
+        where: {ru:'Kaggle, Coursera, книги', kz:'Kaggle, Coursera, кітаптар'}
+      },
+      {
+        id: 'ux',
+        title: {ru:'UX/UI дизайнер', kz:'UX/UI дизайнер'},
+        short: {ru:'Делает интерфейсы удобными и красивыми', kz:'Интерфейстерді ыңғайлы әрі әдемі етеді'},
+        long: {ru:'Дизайнеры изучают поведение пользователей, прототипируют интерфейсы и создают визуализации. Важны Figma и основы UX.', kz:'Дизайнерлер пайдаланушылардың мінез-құлқын зерттеп, интерфейстердің прототиптерін жасайды. Figma және UX негіздері маңызды.'},
+        skills: ['Figma','Prototyping','User Research','Visual Design'],
+        salary: {ru:'Зависит от портфолио', kz:'Портфолиодан тәуелді'},
+        where: {ru:'Figma, YouTube, курсы', kz:'Figma, YouTube, курстар'}
+      },
+      {
+        id: 'qa',
+        title: {ru:'QA / Тестировщик', kz:'QA / Тестілеуші'},
+        short: {ru:'Проверяет приложения и находит ошибки', kz:'Қосымшаларды тексеріп, қателерді табады'},
+        long: {ru:'QA специалисты создают тест-кейсы, проводят ручное и автоматизированное тестирование. Полезно знать основы программирования для автотестов.', kz:'QA мамандары тест-кейстер құрып, қолмен және автоматтандырылған тестілеу жүргізеді. Автотесттер үшін бағдарламалаудың негіздерін білу пайдалы.'},
+        skills: ['Manual Testing','Test Cases','Selenium','API Testing'],
+        salary: {ru:'Умеренные, хорошие для входа в IT', kz:'Орташа, IT-ға кіру үшін жақсы'},
+        where: {ru:'Практика, курсы по QA', kz:'Тәжірибе, QA курстары'}
+      },
+      {
+        id: 'devops',
+        title: {ru:'DevOps инженер', kz:'DevOps инженері'},
+        short: {ru:'Автоматизация деплоя, контейнеры, облако', kz:'Деплойды автоматтандыру, контейнерлер, бұлтты жүйелер'},
+        long: {ru:'DevOps объединяет разработку и эксплуатацию: CI/CD, Docker, Kubernetes, мониторинг. Цель — быстрая и надежная поставка ПО.', kz:'DevOps әзірлеме және эксплуатацияны біріктіреді: CI/CD, Docker, Kubernetes, мониторинг.'},
+        skills: ['Docker','Kubernetes','CI/CD','Cloud','Monitoring'],
+        salary: {ru:'Высокий спрос', kz:'Сұраныс жоғары'},
+        where: {ru:'Документация облаков, практические проекты', kz:'Бұлт құжаттамасы, практикалық жобалар'}
+      },
+      {
+        id: 'sec',
+        title: {ru:'Специалист по кибербезопасности', kz:'Киберқауіпсіздік маманы'},
+        short: {ru:'Защита данных и сетей', kz:'Деректер мен желілерді қорғау'},
+        long: {ru:'Работа с уязвимостями, мониторинг, анализ инцидентов, pentesting. Полезны знания сетей и криптографии.', kz:'Әмияндылықтарды анықтау, мониторинг, инциденттерді талдау, pentesting. Желі және криптография туралы білу пайдалы.'},
+        skills: ['Network Security','Pentesting','Crypto','Forensics'],
+        salary: {ru:'Высокий спрос в крупных компаниях', kz:'Ірі компанияларда сұраныс жоғары'},
+        where: {ru:'CTF, курсы, практические задания', kz:'CTF, курстар, практикалық тапсырмалар'}
+      }
+    ];
 
-/* ===================================================================
-   ТЕМЫ и ЯЗЫК
-   =================================================================== */
-const themeBtn = document.getElementById('themeBtn');
-const langBtn = document.getElementById('langBtn');
-themeBtn.addEventListener('click', ()=>{
-  document.body.classList.toggle('dark');
-  themeBtn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-});
+    /* ============================
+       Прочие данные (настройки)
+       ============================ */
+    const DEFAULT_LANG = 'ru'; // default on load
+    let LANG = DEFAULT_LANG;
+    let FAVS = new Set(JSON.parse(localStorage.getItem('itguide.favs')||'[]'));
 
-langBtn.addEventListener('click', ()=>{
-  const current = langBtn.textContent.trim();
-  const next = current === 'KZ' ? 'RU' : 'KZ';
-  langBtn.textContent = next;
-  // упрощённый: меняем несколько текстов
-  if(next === 'KZ'){
-    document.querySelector('.logo div:nth-child(2) div').textContent = 'Путь в IT';
-    document.querySelector('header .logo div:nth-child(2) div:nth-child(2)').textContent = 'IT-навигация';
-    alert('Тіл KZ - кейбір мәтіндер қысқаша аударылды.');
-  } else {
-    alert('Язык переключен на RU');
-  }
-});
+    /* ============================
+       УТИЛИТЫ: локализация
+       ============================ */
+    function t(obj){
+      // obj может быть строкой или {ru:..., kz:...}
+      if(!obj) return '';
+      if(typeof obj === 'string') return obj;
+      return obj[LANG] || obj['ru'] || Object.values(obj)[0];
+    }
 
-/* ===================================================================
-   QUIZ: простой тест "Кто ты в IT?"
-   =================================================================== */
-const quizData = [
-  {q:'Какой тип задач тебе ближе?', opts:['Делать интерфейс и дизайн','Работать с данными и числами','Настраивать серверы и автоматизацию','Искать ошибки и тестировать']},
-  {q:'Какой инструмент тебе интересен?', opts:['Figma / CSS','Python / Pandas','Docker / Linux','Selenium / Postman']},
-  {q:'Что приносит удовольствие?', opts:['Креатив и визуал','Аналитика и модели','Инфраструктура и стабильность','Нахождение багов и улучшение']},
-];
-let quizIndex = 0;
-let quizAnswers = [];
+    /* ============================
+       РЕНДЕР: карточки
+       ============================ */
+    const cardsRoot = document.getElementById('cards');
+    const countEl = document.getElementById('count');
 
-function showQuiz(){
-  const step = document.getElementById('quizStep');
-  step.innerHTML = '';
-  const q = quizData[quizIndex];
-  const qbox = document.createElement('div');
-  qbox.className='question';
-  qbox.innerHTML = `<h4>Вопрос ${quizIndex+1}: ${q.q}</h4>`;
-  const opts = document.createElement('div'); opts.className='options';
-  q.opts.forEach((o,i)=>{
-    const d = document.createElement('div'); d.className='option'; d.textContent=o;
-    if(quizAnswers[quizIndex]===i) d.classList.add('selected');
-    d.onclick=()=>{
-      quizAnswers[quizIndex]=i;
-      document.querySelectorAll('.option').forEach(x=>x.classList.remove('selected'));
-      d.classList.add('selected');
-    };
-    opts.appendChild(d);
-  });
-  qbox.appendChild(opts);
-  step.appendChild(qbox);
-  document.getElementById('quizResult').textContent = '';
-}
-document.getElementById('prevQ').addEventListener('click', ()=>{ if(quizIndex>0) quizIndex--; showQuiz(); });
-document.getElementById('nextQ').addEventListener('click', ()=>{
-  if(quizIndex < quizData.length-1) quizIndex++; else computeQuiz();
-  showQuiz();
-});
-document.getElementById('resetQ').addEventListener('click', ()=>{ quizIndex=0; quizAnswers=[]; showQuiz(); });
-function computeQuiz(){
-  // простая логика: выбираем по большинству совпадений
-  const counts = {frontend:0, data:0, devops:0, qa:0};
-  quizAnswers.forEach((a,i)=>{
-    if(a===0) counts.frontend++;
-    if(a===1) counts.data++;
-    if(a===2) counts.devops++;
-    if(a===3) counts.qa++;
-  });
-  const winner = Object.keys(counts).reduce((best,k)=>counts[k]>counts[best]?k:best,'frontend');
-  let text='';
-  if(winner==='frontend') text='Вам подходит: Frontend-разработчик.';
-  if(winner==='data') text='Вам подходит: Data Scientist / Аналитик данных.';
-  if(winner==='devops') text='Вам подходит: DevOps инженер.';
-  if(winner==='qa') text='Вам подходит: QA / Тестировщик.';
-  document.getElementById('quizResult').innerHTML = `<div style="padding:12px;border-radius:10px;background:var(--card)">${text}<div class="small-muted" style="margin-top:8px">Результат ориентировочный — попробуйте пройти практику в нескольких направлениях.</div></div>`;
-}
+    function renderCards(filter=''){
+      cardsRoot.innerHTML = '';
+      const q = (filter||'').trim().toLowerCase();
+      const filtered = PROFESSIONS.filter(p=>{
+        if(!q) return true;
+        const hay = (t(p.title)+' '+t(p.short)+' '+p.skills.join(' ')).toLowerCase();
+        return hay.includes(q);
+      });
+      countEl.textContent = filtered.length + ' / ' + PROFESSIONS.length;
+      filtered.forEach(p=>{
+        const el = document.createElement('div'); el.className='card';
+        el.innerHTML = `
+          <h3>${t(p.title)}</h3>
+          <div class="small-muted">${t(p.short)}</div>
+          <div class="skill-list">${p.skills.slice(0,5).map(s=>`<div class="skill">${s}</div>`).join('')}</div>
+          <div class="actions">
+            <button class="action-btn action-open" data-id="${p.id}">Подробнее</button>
+            <button class="action-btn action-fav" data-id="${p.id}">${FAVS.has(p.id)?'❤ В избранном':'♡ В избранное'}</button>
+          </div>
+        `;
+        cardsRoot.appendChild(el);
+      });
+      // bind events
+      document.querySelectorAll('.action-open').forEach(b=>b.onclick = ()=>openModal(b.dataset.id));
+      document.querySelectorAll('.action-fav').forEach(b=>b.onclick = (e)=>{ toggleFav(b.dataset.id, b); });
+      updateFavCount();
+    }
 
-/* Инициализация квиза */
-showQuiz();
+    renderCards();
 
-/* ===================================================================
-   CONTACT FORM (локальная имитация отправки)
-   =================================================================== */
-document.getElementById('sendMsg').addEventListener('click', ()=>{
-  const name = document.getElementById('nameField').value.trim();
-  const email = document.getElementById('emailField').value.trim();
-  const msg = document.getElementById('messageField').value.trim();
-  if(!name || !email){ document.getElementById('contactResp').textContent='Пожалуйста, укажите имя и email.'; return; }
-  // Здесь реальной отправки нет — имитация
-  document.getElementById('contactResp').textContent = 'Спасибо! Ваше сообщение не отправляется (это демо). Для реальной отправки нужен бэкенд.';
-  document.getElementById('contactForm').reset();
-});
-document.getElementById('clearForm').addEventListener('click', ()=>document.getElementById('contactForm').reset());
+    /* ============================
+       Поиск
+       ============================ */
+    const searchInput = document.getElementById('search');
+    document.getElementById('clearSearch').addEventListener('click', ()=>{ searchInput.value=''; renderCards(''); });
+    searchInput.addEventListener('input', (e)=> renderCards(e.target.value));
 
-/* ===================================================================
-   NAV LINK highlighting + smooth scroll
-   =================================================================== */
-document.querySelectorAll('.nav-link').forEach(a=>{
-  a.addEventListener('click', (e)=>{
-    e.preventDefault();
-    document.querySelectorAll('.nav-link').forEach(x=>x.classList.remove('active'));
-    a.classList.add('active');
-    const target = a.getAttribute('href').slice(1);
-    document.getElementById(target).scrollIntoView({behavior:'smooth',block:'start'});
-  });
-});
+    /* ============================
+       МОДАЛ: подробности профессии
+       ============================ */
+    const modalBack = document.getElementById('modalBack');
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const closeModalBtn = document.getElementById('closeModal');
+    const exportPlanBtn = document.getElementById('exportPlan');
 
-/* ===================================================================
-   OPEN QUIZ via hero button
-   =================================================================== */
-document.getElementById('openQuiz').addEventListener('click', ()=>{ document.querySelector('nav a[href="#test"]').click(); });
+    closeModalBtn.addEventListener('click', ()=> modalBack.style.display='none');
+    modalBack.addEventListener('click', (e)=> { if(e.target===modalBack) modalBack.style.display='none' });
 
-/* ===================================================================
-   CHATBOT (простой, без API) — заранее заданные ответы
-   =================================================================== */
-const chatToggle = document.getElementById('chatbotToggle');
-const chatWindow = document.getElementById('chatWindow');
-const chatMessages = document.getElementById('chatMessages');
-const chatInput = document.getElementById('chatInput');
-const chatSend = document.getElementById('chatSend');
+    function openModal(id){
+      const p = PROFESSIONS.find(x=>x.id===id); if(!p) return;
+      modalTitle.textContent = t(p.title);
+      modalBody.innerHTML = `
+        <div class="row">
+          <div class="left">
+            <div><strong>Кратко:</strong> ${t(p.short)}</div>
+            <div style="margin-top:8px"><strong>Навыки:</strong>
+              <div class="skill-list" style="margin-top:8px">${p.skills.map(s=>`<div class="skill">${s}</div>`).join('')}</div>
+            </div>
+            <div style="margin-top:10px"><strong>Где учиться:</strong> ${t(p.where)}</div>
+            <div style="margin-top:10px"><strong>Зарплата:</strong> ${t(p.salary)}</div>
+          </div>
+          <div class="right">
+            <h4>План на 3 месяца</h4>
+            <div class="plan">
+              1) Недели 1-2: Основы (${p.skills[0]})<br>
+              2) Недели 3-6: Практика, проект <br>
+              3) Недели 7-10: Расширение навыков (${p.skills.slice(1,4).join(', ')})<br>
+              4) Недели 11-12: Портфолио и резюме
+            </div>
+            <div style="margin-top:12px">
+              <button class="btn-primary" id="startPlan">Скопировать план</button>
+              <button class="btn-ghost" id="favModal">${FAVS.has(p.id)?'❤ Удалить из избранного':'♡ В избранное'}</button>
+            </div>
+          </div>
+        </div>
+      `;
+      // bind modal buttons
+      modalBack.style.display='flex';
+      document.getElementById('startPlan').onclick = ()=> {
+        // копируем план в буфер
+        const planText = modalBody.querySelector('.plan').innerText;
+        navigator.clipboard?.writeText(planText).then(()=> alert('План скопирован в буфер обмена'));
+      };
+      document.getElementById('favModal').onclick = (e)=> {
+        toggleFav(p.id);
+        // обновить текст кнопки
+        e.target.textContent = FAVS.has(p.id)?'❤ Удалено из избранного':'♡ В избранное';
+      };
+      exportPlanBtn.onclick = ()=> {
+        const data = {
+          title: t(p.title), skills: p.skills, plan: modalBody.querySelector('.plan').innerText
+        };
+        const filename = `plan_${p.id}.json`;
+        const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+        URL.revokeObjectURL(url);
+      };
+    }
 
-chatToggle.addEventListener('click', ()=>{
-  chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
-  chatWindow.setAttribute('aria-hidden', chatWindow.style.display === 'none');
-});
+    /* ============================
+       ИЗБРАННОЕ (localStorage)
+       ============================ */
+    function toggleFav(id, btn){
+      if(FAVS.has(id)) { FAVS.delete(id); } else { FAVS.add(id); }
+      localStorage.setItem('itguide.favs', JSON.stringify(Array.from(FAVS)));
+      // обновить UI
+      if(btn) btn.textContent = FAVS.has(id)?'❤ В избранном':'♡ В избранное';
+      renderCards(searchInput.value);
+      updateFavCount();
+    }
+    function updateFavCount(){
+      document.getElementById('favCount').textContent = `♡ ${FAVS.size}`;
+    }
+    document.getElementById('exportFavs').addEventListener('click', ()=>{
+      const arr = Array.from(FAVS).map(id=> PROFESSIONS.find(p=>p.id===id)).filter(Boolean);
+      const blob = new Blob([JSON.stringify(arr, null, 2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'itguide_favs.json'; a.click();
+      URL.revokeObjectURL(url);
+    });
 
-chatSend.addEventListener('click', sendChat);
-chatInput.addEventListener('keypress', e=>{ if(e.key==='Enter') sendChat(); });
+    /* ============================
+       THEME & LANG
+       ============================ */
+    const themeToggle = document.getElementById('themeToggle');
+    const langToggle = document.getElementById('langToggle');
 
-function sendChat(){
-  const txt = chatInput.value.trim();
-  if(!txt) return;
-  addChat('user', txt);
-  chatInput.value='';
-  setTimeout(()=>{
-    addChat('bot', getBotReply(txt));
-  }, 600 + Math.random()*400);
-}
-function addChat(who, text){
-  const d = document.createElement('div');
-  d.className = who==='bot' ? 'bot-msg' : 'user-msg';
-  d.textContent = text;
-  chatMessages.appendChild(d);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-function getBotReply(input){
-  const i = input.toLowerCase();
-  if(i.includes('привет') || i.includes('здрав')) return 'Привет! 👋 Чем могу помочь? Могу рассказать про профессии: frontend, backend, data, ux, qa, devops, sec.';
-  if(i.includes('frontend')) return 'Frontend — HTML, CSS, JS. Рекомендую: сделай несколько маленьких проектов и учи React/Vue.';
-  if(i.includes('backend')) return 'Backend — Python/Node/Java, БД, API. Начни с простого REST API на Flask/Express.';
-  if(i.includes('data') || i.includes('аналит')) return 'Data: изучай Python, Pandas, SQL, попробуй Kaggle.';
-  if(i.includes('qa') || i.includes('тест')) return 'QA: начни с мануального тестирования, потом автоматизируй на Selenium/Playwright.';
-  if(i.includes('devops')) return 'DevOps: Docker, CI/CD, Kubernetes, cloud (AWS/GCP/Azure). Практика важнее теории.';
-  if(i.includes('как начать') || i.includes('с чего')) return 'Начни с основ: HTML/CSS, затем простой JS. Сделай 2-3 проекта и выложи на GitHub.';
-  if(i.includes('карьера') || i.includes('зарп')) return 'Зарплаты зависят от страны и опыта. Сосредоточься на навыках и проектах.';
-  return 'Хмм... не понял. Попробуй спросить конкретно про профессию (frontend/backend/data/qa/devops) или "как начать".';
-}
+    // Try to load saved theme/lang
+    if(localStorage.getItem('itguide.theme') === 'light'){ document.body.classList.add('light'); }
+    if(localStorage.getItem('itguide.lang')){ LANG = localStorage.getItem('itguide.lang'); langToggle.textContent = LANG.toUpperCase(); renderAllTexts(); }
 
-/* ===================================================================
-   Дополнения: показываем количество избранных в header (пример)
-   =================================================================== */
-function updateFavCount(){ const c = getFavs().length; /* можно добавить в header при желании */ }
-updateFavCount();
+    themeToggle.addEventListener('click', ()=>{
+      document.body.classList.toggle('light');
+      const cur = document.body.classList.contains('light') ? 'light' : 'dark';
+      localStorage.setItem('itguide.theme', cur);
+    });
 
-/* ===================================================================
-   Небольшие удобства: при загрузке — скролл вверх плавно
-   =================================================================== */
-window.scrollTo({top:0,behavior:'smooth'});
+    langToggle.addEventListener('click', ()=>{
+      LANG = LANG === 'ru' ? 'kz' : 'ru';
+      localStorage.setItem('itguide.lang', LANG);
+      langToggle.textContent = LANG.toUpperCase();
+      renderAllTexts();
+    });
 
-/* ===================================================================
-   Малые проверки: сохранить/восстановить тему при обновлении (по желанию)
-   =================================================================== */
-// (можно добавить локальное сохранение темы/языка — оставлено как TODO)
+    function renderAllTexts(){
+      // update text-sensitive parts: titles and buttons that we've built
+      document.querySelectorAll('.nav-link').forEach(a=>{
+        // static nav we keep RU/KZ, but could be fully localized
+      });
+      // re-render cards and other texts
+      renderCards(searchInput.value);
+    }
 
-</script>
+    /* ============================
+       QUIZ: простой тест
+       ============================ */
+    const QUIZ = [
+      { q: {ru:'Какой тип задач тебе ближе?', kz:'Сенге қай тапсырмалар жақын?'}, opts:[
+          {ru:'Делать интерфейс и дизайн', kz:'Интерфейс және дизайн жасау'},
+          {ru:'Работать с данными и числами', kz:'Деректер мен сандармен жұмыс'},
+          {ru:'Настраивать серверы и автоматизацию', kz:'Серверлер мен автоматтандыруды баптау'},
+          {ru:'Искать ошибки и тестировать', kz:'Қателерді тауып, тестілеу'}
+      ]},
+      { q: {ru:'Какой инструмент интересен?', kz:'Қандай құрал қызықты?'}, opts:[
+          {ru:'Figma / CSS', kz:'Figma / CSS'},
+          {ru:'Python / Pandas', kz:'Python / Pandas'},
+          {ru:'Docker / Linux', kz:'Docker / Linux'},
+          {ru:'Selenium / Postman', kz:'Selenium / Postman'}
+      ]},
+      { q: {ru:'Что приносит удовольствие?', kz:'Не нәрсе қуаныш сыйлайды?'}, opts:[
+          {ru:'Креатив и визуал', kz:'Креатив және визуал'},
+          {ru:'Аналитика и модели', kz:'Аналитика және модельдер'},
+          {ru:'Инфраструктура и стабильность', kz:'Инфрақұрылым және тұрақтылық'},
+          {ru:'Нахождение багов и улучшение', kz:'Қателерді табу және жақсарту'}
+      ]}
+    ];
+
+    let quizIndex = 0;
+    let quizAnswers = [];
+
+    const quizBox = document.getElementById('quizBox');
+    const quizResult = document.getElementById('quizResult');
+
+    function showQuiz(){
+      const data = QUIZ[quizIndex];
+      quizBox.innerHTML = '';
+      const qDiv = document.createElement('div'); qDiv.className='question';
+      qDiv.innerHTML = `<h4>Вопрос ${quizIndex+1}: ${t(data.q)}</h4>`;
+      const optsDiv = document.createElement('div'); optsDiv.className='options';
+      data.opts.forEach((o, i)=>{
+        const opt = document.createElement('div'); opt.className='option'; opt.textContent = t(o);
+        if(quizAnswers[quizIndex] === i) opt.classList.add('selected');
+        opt.onclick = ()=>{ quizAnswers[quizIndex]=i; showQuiz(); };
+        optsDiv.appendChild(opt);
+      });
+      qDiv.appendChild(optsDiv);
+      quizBox.appendChild(qDiv);
+      quizResult.innerHTML = '';
+    }
+
+    document.getElementById('prevQ').addEventListener('click', ()=>{ if(quizIndex>0) quizIndex--; showQuiz(); });
+    document.getElementById('nextQ').addEventListener('click', ()=>{ if(quizIndex < QUIZ.length-1) { quizIndex++; showQuiz(); } else computeQuiz(); });
+    document.getElementById('resetQ').addEventListener('click', ()=>{ quizIndex=0; quizAnswers=[]; showQuiz(); });
+
+    function computeQuiz(){
+      const counts = {frontend:0, data:0, devops:0, qa:0};
+      quizAnswers.forEach(a=>{
+        if(a===0) counts.frontend++;
+        if(a===1) counts.data++;
+        if(a===2) counts.devops++;
+        if(a===3) counts.qa++;
+      });
+      const winner = Object.keys(counts).reduce((best,k)=>counts[k]>counts[best]?k:best,'frontend');
+      let text = '';
+      if(winner==='frontend') text = LANG==='ru' ? 'Вам подходит: Frontend-разработчик.' : 'Сізге сәйкес: Фронтенд-разработушы.';
+      if(winner==='data') text = LANG==='ru' ? 'Вам подходит: Data Scientist / Аналитик данных.' : 'Сізге сәйкес: Деректер аналитигі.';
+      if(winner==='devops') text = LANG==='ru' ? 'Вам подходит: DevOps инженер.' : 'Сізге сәйкес: DevOps инженері.';
+      if(winner==='qa') text = LANG==='ru' ? 'Вам подходит: QA / Тестировщик.' : 'Сізге сәйкес: QA / Тестілеуші.';
+      quizResult.innerHTML = `<div style="padding:12px;border-radius:10px;background:linear-gradient(90deg, rgba(255,255,255,0.01), transparent)">${text}<div class="small-muted" style="margin-top:8px">${LANG==='ru' ? 'Результат ориентировочный — попробуйте практиковать несколько направлений.' : 'Нәтиже бағамдық — бірнеше бағыттарды практика жасап көріңіз.'}</div></div>`;
+    }
+
+    showQuiz();
+
+    /* ============================
+       CONTACT FORM (имитация)
+       ============================ */
+    document.getElementById('send').addEventListener('click', ()=>{
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const msg = document.getElementById('message').value.trim();
+      const resp = document.getElementById('contactResp');
+      if(!name || !email){ resp.textContent = LANG==='ru' ? 'Укажите имя и email.' : 'Аты мен email көрсетіңіз.'; return; }
+      resp.textContent = LANG==='ru' ? 'Спасибо! (Это демо — реальная отправка требует бэкенд).' : 'Рахмет! (Бұл демо — нақты жіберу үшін бэкенд қажет).';
+      document.getElementById('contactForm').reset?.();
+    });
+    document.getElementById('clear').addEventListener('click', ()=> { document.getElementById('contactForm').reset?.(); });
+
+    /* ============================
+       NAV smooth highlight & scroll
+       ============================ */
+    document.querySelectorAll('.nav-link').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        document.querySelectorAll('.nav-link').forEach(x=>x.classList.remove('active'));
+        a.classList.add('active');
+        const id = a.getAttribute('href').slice(1);
+        document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+
+    document.getElementById('goProf').addEventListener('click', ()=> document.querySelector('a[href="#professions"]').click());
+    document.getElementById('goTest').addEventListener('click', ()=> document.querySelector('a[href="#test"]').click());
+
+    /* ============================
+       CHATBOT (локальный, заранее запрограммирован)
+       ============================ */
+    const botBtn = document.getElementById('botBtn');
+    const botWindow = document.getElementById('botWindow');
+    const chatArea = document.getElementById('chatArea');
+    const chatInput = document.getElementById('chatInput');
+    const chatSendBtn = document.getElementById('chatSend');
+
+    botBtn.addEventListener('click', ()=> {
+      const open = botWindow.style.display === 'flex';
+      botWindow.style.display = open ? 'none' : 'flex';
+      botBtn.setAttribute('aria-expanded', String(!open));
+      botWindow.setAttribute('aria-hidden', open ? 'true' : 'false');
+      if(!open) chatInput.focus();
+    });
+
+    function addChat(who, text){
+      const div = document.createElement('div');
+      div.className = who === 'bot' ? 'bot-msg' : 'user-msg';
+      // simulate typing for bot
+      if(who === 'bot'){
+        div.textContent = '...';
+        chatArea.appendChild(div);
+        chatArea.scrollTop = chatArea.scrollHeight;
+        // animate typing then replace text
+        setTimeout(()=>{ div.textContent = text; chatArea.scrollTop = chatArea.scrollHeight; }, 500 + Math.random()*700);
+      } else {
+        div.textContent = text;
+        chatArea.appendChild(div);
+        chatArea.scrollTop = chatArea.scrollHeight;
+      }
+    }
+
+    chatSendBtn.addEventListener('click', sendBot);
+    chatInput.addEventListener('keypress', (e)=>{ if(e.key==='Enter') sendBot(); });
+
+    function sendBot(){
+      const txt = chatInput.value.trim(); if(!txt) return;
+      addChat('user', txt);
+      chatInput.value = '';
+      // bot replies
+      setTimeout(()=> {
+        const reply = botReply(txt);
+        addChat('bot', reply);
+      }, 300 + Math.random()*600);
+    }
+
+    function botReply(input){
+      const i = input.toLowerCase();
+      if(i.includes('привет')||i.includes('здрав')) return LANG==='ru' ? 'Привет! Чем могу помочь? Могу рассказать про: frontend, backend, data, ux, qa, devops, sec.' : 'Сәлем! Қалай көмектесе аламын? Мүмкін: frontend, backend, data, ux, qa, devops, sec туралы айтуым мүмкін.';
+      if(i.includes('frontend')) return LANG==='ru' ? 'Frontend: HTML, CSS, JS. Рекомендую проекты и изучение React/Vue.' : 'Фронтенд: HTML, CSS, JS. React/Vue үйренуді ұсыныңыз.';
+      if(i.includes('backend')) return LANG==='ru' ? 'Backend: изучай Python/Node, базы данных, REST API.' : 'Бэкенд: Python/Node, деректер базасы, REST API оқыңыз.';
+      if(i.includes('data')||i.includes('аналит')) return LANG==='ru' ? 'Data: Python, Pandas, SQL, Kaggle — хорошие места для практики.' : 'Деректер: Python, Pandas, SQL, Kaggle — тәжірибе үшін жақсы.';
+      if(i.includes('qa')||i.includes('тест')) return LANG==='ru' ? 'QA: начни с ручного тестирования, затем автоматизация на Selenium/Playwright.' : 'QA: алдымен қолмен тестілеуден бастаңыз, сосын автоматтандыру.';
+      if(i.includes('devops')) return LANG==='ru' ? 'DevOps: Docker, CI/CD, Kubernetes + облака. Начни с Docker и простых CI-пайплайнов.' : 'DevOps: Docker, CI/CD, Kubernetes және бұлт. Docker-дан бастаңыз.';
+      if(i.includes('как начать')||i.includes('с чего')) return LANG==='ru' ? 'Начни с HTML & CSS → затем JS → 2 проекта → GitHub/портфолио.' : 'HTML & CSS-тен бастаңыз → сосын JS → 2 жоба → GitHub/портфолио.';
+      if(i.includes('зарп')||i.includes('карьера')) return LANG==='ru' ? 'Зарплаты зависят от страны и опыта; важны навыки и проекты.' : 'Жалақы елге және тәжірибеге байланысты; дағдылар мен жобалар маңызды.';
+      // fallback — подсказка
+      return LANG==='ru' ? 'Я не понял точно. Попробуй: "frontend", "как начать", "qa", "data", "devops"' : 'Нақты түсінбедім. Мысалы: "frontend", "қалай бастау", "qa", "data", "devops"';
+    }
+
+    /* ============================
+       Сохранение состояния: тема/lang/favs
+       ============================ */
+    // сохранение темы и языка уже реализовано при переключении
+    // favorites сохраняются при toggleFav
+
+    /* ============================
+       Инициализация UI: события и начальное состояние
+       ============================ */
+    document.getElementById('favCount').textContent = `♡ ${FAVS.size}`;
+    document.getElementById('goProf').addEventListener('click', ()=> document.querySelector('a[href="#professions"]').click());
+    document.getElementById('goTest').addEventListener('click', ()=> document.querySelector('a[href="#test"]').click());
+
+    // кнопка "добавить в фавориты" в модалке (поведение настроено в openModal)
+    // отклик на изменение языка
+    function applyLangTexts(){
+      // небольшие места: header subtitle
+      const sub = document.querySelector('.brand-title .subtitle');
+      sub.textContent = LANG === 'ru' ? 'Путь в IT — советы, профессии, тест' : 'IT-ға жол — кеңестер, мамандықтар, тест';
+      // другие быстрые тексты можно локализовать здесь (TODO: полный перевод)
+    }
+    applyLangTexts();
+
+    /* ============================
+       Дополнительные удобства:
+       - Сохранение поискового запроса в sessionStorage при обновлении
+       - Быстрый экспорт избранных
+       ============================ */
+
+    // сохраняем поисковый запрос
+    searchInput.value = sessionStorage.getItem('itguide.lastSearch') || '';
+    if(searchInput.value) renderCards(searchInput.value);
+    searchInput.addEventListener('input', ()=> sessionStorage.setItem('itguide.lastSearch', searchInput.value));
+
+    // кнопка "фавит" из header
+    document.getElementById('favCount').addEventListener('click', ()=>{
+      const arr = Array.from(FAVS).map(id => PROFESSIONS.find(p=>p.id===id)).filter(Boolean);
+      if(arr.length===0){ alert(LANG==='ru' ? 'Избранных нет' : 'Таңдаулы жоқ'); return; }
+      // show names
+      alert(arr.map(x=>t(x.title)).join('\\n'));
+    });
+
+    // footer scroll to top on double click
+    document.querySelector('footer').addEventListener('dblclick', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+
+    // keyboard shortcut: press "/" to focus search
+    window.addEventListener('keydown', (e)=>{ if(e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){ e.preventDefault(); searchInput.focus(); } });
+
+    // initial render
+    renderCards('');
+
+  </script>
 </body>
 </html>
