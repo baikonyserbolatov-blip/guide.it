@@ -722,6 +722,111 @@ window.addEventListener('keydown', (e) => {
 })();
 
 /* ================== КОНЕЦ ЧАСТИ 3 ================== */
+  "COBOL", "Fortran", "Ada", "Lisp", "Prolog", "Pascal", "Logo",
+  "Smalltalk", "Forth", "Delphi", "Clipper", "ALGOL", "PL/I",
+  "Erlang", "ML", "AWK", "Tcl", "FoxPro", "Simula"
+;
+
+const container = document.getElementById("languagesContainer");
+
+extraLangs.forEach(lang => {
+  const card = document.createElement("div");
+  card.className = "lang-card";
+  card.innerHTML = `
+    <h3>${lang}</h3>
+    <p>Подробнее о языке ${lang} — история, особенности, применение, плюсы и минусы.</p>
+    <button onclick="openModal('${lang}')">Подробнее</button>
+  `;
+  container.appendChild(card);
+});
+
+// ========== МОДАЛКА ========== //
+const modal = document.getElementById("infoModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalBody = document.getElementById("modalBody");
+
+function openModal(lang) {
+  modal.style.display = "flex";
+  modalTitle.textContent = lang;
+
+  const data = {
+    "Python": "Python — язык для анализа данных, AI и веб-разработки. Прост в изучении, популярен, имеет огромную экосистему библиотек. Минус — медленнее C++.",
+    "JavaScript": "JS управляет динамикой сайтов, используется во фронтенде и бэкенде (Node.js). Минус — быстро меняется экосистема.",
+    "Java": "Java — корпоративный стандарт. Мощный, безопасный, но многословный.",
+    "C++": "C++ — мощный язык для игр, систем и высокопроизводительных приложений. Минус — сложен в изучении.",
+    "C#": "C# используется для Unity, Windows и веба. Комфортный, но связан с экосистемой Microsoft.",
+    "Go": "Go — быстрый и лёгкий, создан Google. Идеален для серверов и микросервисов.",
+    "Rust": "Rust — безопасный аналог C++, без утечек памяти. Минус — медленное освоение.",
+    "Kotlin": "Kotlin — современная замена Java для Android. Короткий и выразительный.",
+    "Swift": "Swift — язык Apple для iOS и macOS. Удобный, но ограничен экосистемой Apple.",
+    "PHP": "PHP — для веба, работает на миллионах сайтов. Минус — старый синтаксис, но всё ещё актуален.",
+    "TypeScript": "TypeScript — улучшенный JavaScript с типами, делает код стабильнее."
+  };
+
+  modalBody.textContent = data[lang] || `Информация о языке ${lang} скоро появится.`;
+}
+
+function closeModal() {
+  modal.style.display = "none";
+}
+
+window.onclick = e => {
+  if (e.target === modal) closeModal();
+};
+
+// ========== ЧАТ-БОТ ========== //
+const chatBox = document.getElementById("chatBox");
+const chatToggle = document.getElementById("chatToggle");
+const chatMessages = document.getElementById("chatMessages");
+const chatInput = document.getElementById("chatInput");
+
+chatToggle.onclick = () => {
+  chatBox.style.display = chatBox.style.display === "flex" ? "none" : "flex";
+};
+
+function sendMessage() {
+  const msg = chatInput.value.trim();
+  if (!msg) return;
+  const userMsg = document.createElement("div");
+  userMsg.textContent = "Вы: " + msg;
+  chatMessages.appendChild(userMsg);
+
+  const botMsg = document.createElement("div");
+  let reply = "Пока я учусь. Попробуй спросить про языки программирования!";
+  if (msg.toLowerCase().includes("привет")) reply = "Привет! Я помогу тебе разобраться в языках программирования.";
+  if (msg.toLowerCase().includes("какой язык лучше")) reply = "Зависит от цели: Python для анализа, JS для веба, C++ для игр, Java для бизнеса.";
+  if (msg.toLowerCase().includes("учить")) reply = "Начни с Python — он проще и поможет понять основы.";
+  if (msg.toLowerCase().includes("html")) reply = "HTML — это каркас сайта, язык разметки, не программирования.";
+
+  botMsg.textContent = "🤖 " + reply;
+  chatMessages.appendChild(botMsg);
+  chatInput.value = "";
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ========== //
+const themeToggle = document.getElementById("themeToggle");
+themeToggle.onclick = () => {
+  document.body.classList.toggle("dark");
+  themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+};
+
+// ========== СВЕЧЕНИЕ КУРСОРА ========== //
+const cursor = document.createElement("div");
+cursor.style.position = "fixed";
+cursor.style.width = "25px";
+cursor.style.height = "25px";
+cursor.style.borderRadius = "50%";
+cursor.style.pointerEvents = "none";
+cursor.style.background = "rgba(0, 153, 255, 0.4)";
+cursor.style.boxShadow = "0 0 25px rgba(0,153,255,0.6)";
+cursor.style.transition = "transform 0.1s ease";
+cursor.style.zIndex = "9999";
+document.body.appendChild(cursor);
+
+document.addEventListener("mousemove", e => {
+  cursor.style.transform = `translate(${e.clientX - 12}px, ${e.clientY - 12}px)`;
+});
 </script>
 
 </body>
