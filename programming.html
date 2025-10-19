@@ -1,584 +1,728 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>IT Portal — Программирование</title>
-<meta name="description" content="Программирование — языки, видео, краткие описания. IT Portal.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Языки программирования</title>
 <style>
-  /* ===== Variables & base ===== */
-  :root{
-    --bg-light:#f3f6fb;
-    --panel-light:#ffffff;
-    --text-light:#0b1220;
-    --muted-light:#55606a;
-    --accent-light: #00A8FF; /* нежный голубой */
+:root {
+  --bg: #f4f6fb;
+  --text: #111;
+  --card: #fff;
+  --accent: #0059ff;
+  --light: rgba(255,255,255,0.3);
+}
+body.dark {
+  --bg: #0e1320;
+  --text: #f5f5f5;
+  --card: #1c2233;
+  --accent: #3b82f6;
+  --light: rgba(255,255,255,0.05);
+}
+body {
+  background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1740&q=80') center/cover no-repeat fixed;
+  color: var(--text);
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  transition: background-color .3s, color .3s;
+}
 
-    --bg-dark:#0b1220;
-    --panel-dark:#0f1726;
-    --text-dark:#e6eef6;
-    --muted-dark:#9aa6b2;
-    --accent-dark:#3b82f6;   /* синий акцент */
-    --glass: rgba(255,255,255,0.03);
-    --radius:14px;
-    --shadow-lg: 0 18px 45px rgba(2,6,23,0.5);
-  }
+/* Glow Cursor */
+body::before {
+  content: '';
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 153, 255, 0.25), transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  top: var(--y);
+  left: var(--x);
+  transition: top .1s, left .1s;
+  z-index: 1;
+}
 
-  html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale}
-  body{background:var(--bg-light);color:var(--text-light);transition:background .28s,color .28s}
-  body.dark{background:var(--bg-dark);color:var(--text-dark)}
-  .page{min-height:100vh;display:flex;flex-direction:column}
+/* Header */
+header {
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 50px;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(10px);
+  color:white;
+}
+.logo {
+  font-size:1.6rem;
+  font-weight:700;
+  color:var(--accent);
+}
+.theme-toggle {
+  background:none;
+  border:none;
+  font-size:1.5rem;
+  cursor:pointer;
+  color:white;
+}
 
-  /* Background image (subtle, covers) */
-  .bg-photo{
-    position:fixed;inset:0;z-index:-2;background-position:center center;background-size:cover;
-    filter:brightness(.18) saturate(.9);
-    transition:filter .3s ease;
-  }
-  body.light .bg-photo{filter:brightness(.95) saturate(1)}
-  /* cursor glow */
-  .cursor-glow{
-    position:fixed;pointer-events:none;z-index:9999;
-    width:380px;height:380px;border-radius:50%;
-    transform:translate(-50%,-50%) scale(.6);
-    background:radial-gradient(circle at 35% 35%, rgba(59,130,246,0.18), rgba(59,130,246,0.035) 25%, transparent 40%);
-    mix-blend-mode:screen;transition:opacity .12s linear;
-    opacity:.9;filter:blur(18px);
-  }
-  body.light .cursor-glow{background:radial-gradient(circle at 35% 35%, rgba(0,168,255,0.18), rgba(0,168,255,0.04) 25%, transparent 40%)}
+/* Grid */
+main {
+  padding:60px 40px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:25px;
+  position: relative;
+  z-index: 2;
+}
+.card {
+  background:var(--card);
+  border-radius:15px;
+  padding:25px;
+  text-align:center;
+  box-shadow:0 8px 25px rgba(0,0,0,.2);
+  transition:transform .3s, box-shadow .3s;
+  cursor:pointer;
+  backdrop-filter:blur(10px);
+}
+.card:hover {
+  transform:translateY(-8px);
+  box-shadow:0 15px 35px rgba(0,0,0,.25);
+}
+.card img {
+  width:70px;
+  height:70px;
+  margin-bottom:10px;
+}
+.card h3 {
+  margin:10px 0;
+  font-size:1.2rem;
+}
+.card p {
+  font-size:0.95rem;
+  color:gray;
+}
 
-  /* Header */
-  header{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;gap:18px;position:relative;z-index:20}
-  .brand{display:flex;align-items:center;gap:12px}
-  .logo{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;background:linear-gradient(135deg,#0ea5a4,#3b82f6);color:white;box-shadow:var(--shadow-lg)}
-  .brand-title{display:flex;flex-direction:column}
-  .brand-title .title{font-weight:800;font-size:16px}
-  .brand-title .sub{font-size:12px;color:var(--muted-light)}
-  body.dark .brand-title .sub{color:var(--muted-dark)}
+/* Modal */
+.modal {
+  display:none;
+  position:fixed;
+  top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.7);
+  justify-content:center;align-items:center;
+  z-index: 10;
+}
+.modal-content {
+  background:var(--card);
+  color:var(--text);
+  border-radius:15px;
+  padding:30px;
+  width:90%;
+  max-width:800px;
+  max-height:80vh;
+  overflow-y:auto;
+  box-shadow:0 0 30px rgba(0,0,0,0.4);
+  position:relative;
+}
+.modal-content h2 {
+  text-align:center;
+  color:var(--accent);
+}
+.close-btn {
+  position:absolute;
+  right:15px;
+  top:10px;
+  font-size:1.5rem;
+  background:none;
+  border:none;
+  color:var(--text);
+  cursor:pointer;
+}
 
+/* Chatbot */
+.chat-btn {
+  position:fixed;bottom:25px;right:25px;
+  background:var(--accent);color:#fff;
+  border:none;border-radius:50%;
+  width:60px;height:60px;font-size:28px;
+  cursor:pointer;box-shadow:0 0 15px rgba(0,0,0,.3);
+  z-index: 15;
+}
+.chat-box {
+  position:fixed;bottom:100px;right:25px;
+  width:320px;background:var(--card);
+  border-radius:12px;box-shadow:0 0 20px rgba(0,0,0,.3);
+  display:none;flex-direction:column;overflow:hidden;
+  z-index: 20;
+}
+.chat-header {
+  background:var(--accent);color:#fff;
+  padding:12px;text-align:center;
+  font-weight:600;
+}
+.chat-messages {
+  flex:1;padding:10px;overflow-y:auto;
+  max-height:250px;
+}
+.chat-messages div {margin-bottom:8px;}
+.chat-input {
+  display:flex;
+}
+.chat-input input {
+  flex:1;padding:10px;border:none;outline:none;
+  background:var(--bg);color:var(--text);
+}
+.chat-input button {
+  padding:10px;border:none;
+  background:var(--accent);color:#fff;
+  cursor:pointer;
+}
 
-  nav{display:flex;gap:10px;align-items:center}
-  nav a{padding:8px 12px;border-radius:10px;color:var(--muted-light);background:transparent;text-decoration:none;font-weight:700;transition:background .18s}
-  body.dark nav a{color:var(--muted-dark)}
-  nav a:hover{background:rgba(255,255,255,0.03);color:inherit}
-
-  .controls{display:flex;align-items:center;gap:10px}
-  .btn{padding:10px 12px;border-radius:10px;border:0;cursor:pointer;font-weight:800}
-  .btn-ghost{background:transparent;border:1px solid rgba(0,0,0,0.06)}
-  .theme-toggle{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:linear-gradient(90deg,#ffffff22,#ffffff00);border:1px solid rgba(255,255,255,0.03);cursor:pointer}
-
-  /* Hero */
-  .hero{
-    display:flex;gap:20px;align-items:center;justify-content:space-between;padding:36px;max-width:1200px;margin:0 auto;
-    margin-top:6px;
-  }
-  .hero-left{flex:1;max-width:760px}
-  .kicker{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,#00A8FF22,#3b82f622);font-weight:800;font-size:13px;color:var(--accent-dark)}
-  .hero h1{margin:12px 0 8px;font-size:32px;line-height:1.03}
-  .hero p{margin:0;color:var(--muted-light);max-width:70%}
-  body.dark .hero p{color:var(--muted-dark)}
-
-  .hero-ctas{display:flex;gap:12px;margin-top:16px}
-  .cta-primary{background:linear-gradient(90deg,var(--accent-dark),#06b6d4);color:white;padding:10px 14px;border-radius:12px;border:0;cursor:pointer}
-  .cta-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:inherit;padding:10px 12px;border-radius:12px}
-
-  /* Grid of language blocks */
-  .content{max-width:1200px;margin:18px auto;padding:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;z-index:10}
-  .lang-card{
-    background:var(--panel-light);border-radius:14px;padding:18px;border:1px solid rgba(0,0,0,0.04);
-    box-shadow:0 8px 24px rgba(2,6,23,0.06);transition:transform .22s ease, box-shadow .22s ease;
-    display:flex;flex-direction:column;gap:10px;min-height:260px;position:relative;overflow:hidden;
-  }
-  body.dark .lang-card{background:var(--panel-dark);border-color:rgba(255,255,255,0.03);box-shadow:0 8px 30px rgba(2,6,23,0.5)}
-  .lang-card:hover{transform:translateY(-8px);box-shadow:0 22px 48px rgba(2,6,23,0.5)}
-  .lang-top{display:flex;gap:12px;align-items:center}
-  .lang-logo{width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,#ffffff20,#ffffff05);flex-shrink:0}
-  .lang-title{font-weight:800;font-size:18px}
-  .lang-desc{color:var(--muted-light);font-size:14px}
-  body.dark .lang-desc{color:var(--muted-dark)}
-
-  .lang-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-  .tag{padding:6px 8px;border-radius:999px;background:rgba(0,0,0,0.04);font-weight:700;font-size:13px}
-  body.dark .tag{background:rgba(255,255,255,0.02)}
-
-  .lang-cta{margin-top:auto;display:flex;gap:8px;align-items:center;justify-content:space-between}
-  .play-btn{background:linear-gradient(90deg,var(--accent-dark),#06b6d4);color:white;padding:8px 12px;border-radius:10px;border:0;cursor:pointer}
-
-  /* small meta */
-  .meta{font-size:12px;color:var(--muted-light)}
-  body.dark .meta{color:var(--muted-dark)}
-
-  /* video modal */
-  .video-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:9999}
-  .video-box{width:min(1000px,95%);height:min(620px,86%);background:var(--panel-light);border-radius:12px;overflow:hidden;box-shadow:0 30px 80px rgba(2,6,23,0.6);position:relative}
-  body.dark .video-box{background:var(--panel-dark)}
-  .video-close{position:absolute;right:12px;top:12px;background:transparent;border:0;color:var(--text-dark);font-size:20px;cursor:pointer}
-  iframe{width:100%;height:100%;border:0;display:block}
-
-  /* Chat messenger (assistant) — integrated look */
-  .assistant{
-    position:fixed;right:28px;bottom:28px;width:360px;max-width:92%;height:520px;border-radius:12px;background:var(--panel-light);box-shadow:0 30px 80px rgba(2,6,23,0.6);display:flex;flex-direction:column;overflow:hidden;z-index:9998;
-  }
-  body.dark .assistant{background:var(--panel-dark)}
-  .assistant-header{padding:12px;background:linear-gradient(90deg,var(--accent-dark),#06b6d4);color:white;font-weight:800;display:flex;align-items:center;justify-content:space-between}
-  .assistant-body{flex:1;padding:12px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
-  .assistant-footer{display:flex;padding:12px;border-top:1px solid rgba(255,255,255,0.03)}
-  .assistant-footer input{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);outline:none;background:transparent;color:inherit}
-  .assistant-footer button{padding:10px 12px;margin-left:8px;background:linear-gradient(90deg,var(--accent-dark),#06b6d4);color:white;border:0;border-radius:10px;cursor:pointer}
-  .msg{max-width:78%;padding:10px;border-radius:12px;font-weight:600}
-  .msg.bot{align-self:flex-start;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:var(--text-dark)}
-  .msg.user{align-self:flex-end;background:linear-gradient(90deg,var(--accent-dark),#06b6d4);color:white}
-
-  /* responsive */
-  @media(max-width:900px){
-    .hero{padding:22px;flex-direction:column;align-items:flex-start}
-    header{padding:12px 16px}
-    .content{padding:12px}
-    .assistant{right:12px;left:12px;bottom:12px;width:auto;max-height:60vh}
-    .video-box{height:60vh}
-  }
+/* Footer */
+footer {
+  text-align:center;
+  padding:25px;
+  color:lightgray;
+  font-size:0.9rem;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(10px);
+  position:relative;
+  z-index: 2;
+}
 </style>
 </head>
 <body>
-  <div class="bg-photo" id="bgPhoto" aria-hidden="true"></div>
-  <div class="cursor-glow" id="glow"></div>
 
-  <div class="page">
-    <header>
-      <div class="brand">
-        <div class="logo">IT</div>
-        <div class="brand-title">
-          <div class="title">IT Portal</div>
-          <div class="sub">Программирование — языки, видео, краткие пояснения</div>
-        </div>
-      </div>
+<header>
+  <div class="logo">🧠 Programming Hub</div>
+  <button class="theme-toggle" id="themeToggle">🌙</button>
+</header>
 
-      <nav>
-        <a href="index.html">🏠 Главная</a>
-        <a href="memes.html">😂 Мемы</a>
-        <a href="videos.html">🎬 Видео</a>
-        <a href="quiz.html">🧠 Викторины</a>
-        <a href="career.html">🎓 Карьера</a>
-      </nav>
-
-      <div class="controls">
-        <button class="theme-toggle btn" id="themeBtn" aria-pressed="false">☀️ / 🌙</button>
-      </div>
-    </header>
-
-    <main>
-      <section class="hero" role="banner" aria-labelledby="heroTitle">
-        <div class="hero-left">
-          <div class="kicker">Раздел</div>
-          <h1 id="heroTitle">Программирование — языки, где начать и что выбрать</h1>
-          <p>Каждый блок — это быстрый путеводитель: лого, краткое описание, преимущества и короткое видео. Нажми ▶, чтобы посмотреть.</p>
-          <div class="hero-ctas">
-            <button class="cta-primary" onclick="scrollToGrid()">Ознакомиться</button>
-            <button class="cta-ghost" onclick="document.getElementById('assistant').style.display='flex'">Открыть помощника</button>
-          </div>
-        </div>
-
-        <div class="hero-right" aria-hidden="true" style="min-width:280px;max-width:360px">
-          <div style="padding:14px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03)">
-            <strong>Совет</strong>
-            <div class="meta" style="margin-top:8px">Если ты новичок — начни с <strong>Python</strong> или <strong>JavaScript</strong>. Сосредоточься на небольших проектах и GitHub.</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="content" id="grid">
-        <!-- Language cards: logo, title, short desc, tags, play -->
-        <!-- Python -->
-        <article class="lang-card" data-lang="python" id="lang-python">
-          <div class="lang-top">
-            <div class="lang-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" style="width:48px;height:48px"></div>
-            <div>
-              <div class="lang-title">Python</div>
-              <div class="lang-desc">Простой и универсальный язык — подходит для обучения, Data Science и Web.</div>
-            </div>
-          </div>
-          <div class="lang-tags"><div class="tag">Python</div><div class="tag">Data</div><div class="tag">ML</div><div class="tag">Backend</div></div>
-          <div class="meta">Подходит новичкам, огромная экосистема библиотек.</div>
-          <div class="lang-cta">
-            <button class="play-btn" data-video="rfscVS0vtbw">▶ Смотреть</button>
-            <div style="font-size:13px;color:var(--muted-light)">Коротко: читается легко, много учебных ресурсов</div>
-          </div>
-        </article>
-
-        <!-- JavaScript -->
-        <article class="lang-card" data-lang="javascript" id="lang-js">
-          <div class="lang-top">
-            <div class="lang-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript" style="width:48px;height:48px"></div>
-            <div>
-              <div class="lang-title">JavaScript</div>
-              <div class="lang-desc">Язык веба: браузерные интерфейсы, серверный JS (Node.js) и экосистема фреймворков.</div>
-            </div>
-          </div>
-          <div class="lang-tags"><div class="tag">Frontend</div><div class="tag">Node.js</div><div class="tag">React</div></div>
-          <div class="meta">Необходим для фронтенда; большой спрос в вакансиях.</div>
-          <div class="lang-cta">
-            <button class="play-btn" data-video="PkZNo7MFNFg">▶ Смотреть</button>
-            <div style="font-size:13px;color:var(--muted-light)">Коротко: учи DOM, асинхронность и фреймворки</div>
-          </div>
-        </article>
-
-        <!-- Java -->
-        <article class="lang-card" data-lang="java" id="lang-java">
-          <div class="lang-top">
-            <div class="lang-logo"><img src="https://upload.wikimedia.org/wikipedia/en/3/30/Java_programming_language_logo.svg" alt="Java" style="width:48px;height:48px"></div>
-            <div>
-              <div class="lang-title">Java</div>
-              <div class="lang-desc">Популярный в корпоративной разработке язык с JVM, сильной типизацией и масштабируемостью.</div>
-            </div>
-          </div>
-          <div class="lang-tags"><div class="tag">Backend</div><div class="tag">JVM</div><div class="tag">Android</div></div>
-          <div class="meta">Хорош для больших систем и Android-разработки.</div>
-          <div class="lang-cta">
-            <button class="play-btn" data-video="grEKMHGYyns">▶ Смотреть</button>
-            <div style="font-size:13px;color:var(--muted-light)">Коротко: строгая типизация, стабильность</div>
-          </div>
-        </article>
-
-        <!-- C++ -->
-        <article class="lang-card" data-lang="cpp" id="lang-cpp">
-          <div class="lang-top">
-            <div class="lang-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg" alt="C++" style="width:48px;height:48px"></div>
-            <div>
-              <div class="lang-title">C++</div>
-              <div class="lang-desc">Мощный язык для системного программирования и игр — высокая производительность.</div>
-            </div>
-          </div>
-          <div class="lang-tags"><div class="tag">Performance</div><div class="tag">Games</div><div class="tag">Systems</div></div>
-          <div class="meta">Круто, но порог входа выше — управление памятью.</div>
-          <div class="lang-cta">
-            <button class="play-btn" data-video="vLnPwxZdW4Y">▶ Смотреть</button>
-            <div style="font-size:13px;color:var(--muted-light)">Коротко: изучай основы и алгоритмы</div>
-          </div>
-        </article>
-
-        <!-- C# -->
-        <article class="lang-card" data-lang="csharp" id="lang-csharp">
-          <div class="lang-top">
-            <div class="lang-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Csharp_Logo.png" alt="C#" style="width:48px;height:48px"></div>
-            <div>
-              <div class="lang-title">C#</div>
-              <div class="lang-desc">Язык Microsoft: приложения, игры на Unity, серверная разработка на .NET.</div>
-            </div>
-          </div>
-          <div class="lang-tags"><div class="tag">Unity</div><div class="tag">.NET</div></div>
-          <div class="meta">Хорош для игр и корпоративных приложений.</div>
-          <div class="lang-cta">
-            <button class="play-btn" data-video="GhQdlIFylQ8">▶ Смотреть</button>
-            <div style="font-size:13px;color:var(--muted-light)">Коротко: удобная экосистема .NET</div>
-          </div>
-        </article>
-
-        <!-- PHP -->
-        <article class="lang-card" data-lang="php" id="lang-php">
-          <div class="lang-top">
-            <div class="lang-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg" alt="PHP" style="width:48px;height:48px"></div>
-            <div>
-              <div class="lang-title">PHP</div>
-              <div class="lang-desc">Широко используется в вебе (серверная логика) — WordPress, Laravel.</div>
-            </div>
-          </div>
-          <div class="lang-tags"><div class="tag">Web</div><div class="tag">Server</div></div>
-          <div class="meta">Легко начать, много готовых проектов и CMS.</div>
-          <div class="lang-cta">
-            <button class="play-btn" data-video="OK_JCtrrv-c">▶ Смотреть</button>
-            <div style="font-size:13px;color:var(--muted-light)">Коротко: быстрый старт в вебе</div>
-          </div>
-        </article>
-
-        <!-- Go -->
-        <article class="lang-card" data-lang="go" id="lang-go">
-          <div class="lang-top">
-            <div class="lang-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg" alt="Go" style="width:48px;height:48px"></div>
-            <div>
-              <div class="lang-title">Go</div>
-              <div class="lang-desc">Простой и быстрый язык от Google для серверных приложений и микросервисов.</div>
-            </div>
-          </div>
-          <div class="lang-tags"><div class="tag">Cloud</div><div class="tag">Microservices</div></div>
-          <div class="meta">Отлично для производительных сетевых сервисов.</div>
-          <div class="lang-cta">
-            <button class="play-btn" data-video="YS4e4q9oBaU">▶ Смотреть</button>
-            <div style="font-size:13px;color:var(--muted-light)">Коротко: простая синтаксис и высокая производительность</div>
-          </div>
-        </article>
-
-        <!-- Swift -->
-        <article class="lang-card" data-lang="swift" id="lang-swift">
-          <div class="lang-top">
-            <div class="lang-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Swift_logo.svg" alt="Swift" style="width:48px;height:48px"></div>
-            <div>
-              <div class="lang-title">Swift</div>
-              <div class="lang-desc">Язык Apple для iOS/macOS — современный, безопасный и быстрый.</div>
-            </div>
-          </div>
-          <div class="lang-tags"><div class="tag">iOS</div><div class="tag">Mobile</div></div>
-          <div class="meta">Лучше всего подходит для разработки под Apple-экосистему.</div>
-          <div class="lang-cta">
-            <button class="play-btn" data-video="FcsY1YPBwzQ">▶ Смотреть</button>
-            <div style="font-size:13px;color:var(--muted-light)">Коротко: идеально для iOS-разработки</div>
-          </div>
-        </article>
-
-        <!-- Rust -->
-        <article class="lang-card" data-lang="rust" id="lang-rust">
-          <div class="lang-top">
-            <div class="lang-logo"><img src="https://www.rust-lang.org/logos/rust-logo-512x512.png" alt="Rust" style="width:48px;height:48px"></div>
-            <div>
-              <div class="lang-title">Rust</div>
-              <div class="lang-desc">Современный безопасный язык для системного программирования без компромиссов по скорости.</div>
-            </div>
-          </div>
-          <div class="lang-tags"><div class="tag">Systems</div><div class="tag">Safe</div></div>
-          <div class="meta">Отлично для низкоуровневой безопасности и скорости.</div>
-          <div class="lang-cta">
-            <button class="play-btn" data-video="ygL_xcavzQ4">▶ Смотреть</button>
-            <div style="font-size:13px;color:var(--muted-light)">Коротко: высокая безопасность памяти</div>
-          </div>
-        </article>
-
-        <!-- Kotlin -->
-        <article class="lang-card" data-lang="kotlin" id="lang-kotlin">
-          <div class="lang-top">
-            <div class="lang-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/7/74/Kotlin_Icon.png" alt="Kotlin" style="width:48px;height:48px"></div>
-            <div>
-              <div class="lang-title">Kotlin</div>
-              <div class="lang-desc">Современный JVM-язык, популярный для Android-разработки и безопасной серверной логики.</div>
-            </div>
-          </div>
-          <div class="lang-tags"><div class="tag">Android</div><div class="tag">JVM</div></div>
-          <div class="meta">Современная альтернатива Java с лаконичным синтаксисом.</div>
-          <div class="lang-cta">
-            <button class="play-btn" data-video="F9UC9DY-vIU">▶ Смотреть</button>
-            <div style="font-size:13px;color:var(--muted-light)">Коротко: удобный для Android</div>
-          </div>
-        </article>
-
-        <!-- Ruby -->
-        <article class="lang-card" data-lang="ruby" id="lang-ruby">
-          <div class="lang-top">
-            <div class="lang-logo"><img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Ruby_logo.svg" alt="Ruby" style="width:48px;height:48px"></div>
-            <div>
-              <div class="lang-title">Ruby</div>
-              <div class="lang-desc">Язык с фокусом на простоте и продуктивности — популярен с фреймворком Rails.</div>
-            </div>
-          </div>
-          <div class="lang-tags"><div class="tag">Web</div><div class="tag">Rails</div></div>
-          <div class="meta">Отлично для быстрой разработки и MVP.</div>
-          <div class="lang-cta">
-            <button class="play-btn" data-video="v1et5PqSx6Y">▶ Смотреть</button>
-            <div style="font-size:13px;color:var(--muted-light)">Коротко: фокус на удобстве разработчика</div>
-          </div>
-        </article>
-
-      </section>
-    </main>
-
-    <footer style="padding:24px;text-align:center;color:var(--muted-light);z-index:10">© 2025 IT Portal — Программирование • Сделано аккуратно</footer>
-  </div>
-
-  <!-- Video modal -->
-  <div class="video-modal" id="videoModal" aria-hidden="true">
-    <div class="video-box" role="dialog" aria-modal="true">
-      <button class="video-close" id="closeVideo" aria-label="Close video">✖</button>
-      <iframe id="videoFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-  </div>
-
-  <!-- Assistant messenger (hidden by default) -->
-  <div class="assistant" id="assistant" style="display:none" role="dialog" aria-label="Помощник">
-    <div class="assistant-header">
-      <div>💡 Помощник по языкам</div>
-      <div style="font-size:13px;opacity:.9;cursor:pointer" id="assistantClose">✖</div>
-    </div>
-    <div class="assistant-body" id="assistantBody">
-      <div class="msg bot">Привет! Могу подсказать по языкам, где начать, какие курсы выбрать и предложить короткие советы. Попробуй написать: "Что выбрать: Python или JS?" или "Расскажи про Rust".</div>
-    </div>
-    <div class="assistant-footer">
-      <input id="assistantInput" placeholder="Напиши вопрос, например: 'Как начать с Python?'" aria-label="assistant input">
-      <button id="assistantSend">Отправить</button>
-    </div>
-  </div>
-
+<main id="languagesGrid">
+  <!-- Карточки языков начнутся здесь в части 2 -->
+</main>
+<!-- ====== ЯЗЫКИ ПРОГРАММИРОВАНИЯ ====== -->
 <script>
-/* ====== Initialization ====== */
+const languages = [
+  {
+    name: "Python",
+    logo: "https://cdn-icons-png.flaticon.com/512/5968/5968350.png",
+    desc: "Один из самых популярных языков. Прост, читаем и идеально подходит для начинающих.",
+    details: `
+      <h2>Python</h2>
+      <p><b>Описание:</b> Интерпретируемый язык, ориентированный на простоту и читаемость. Используется для веб-разработки, анализа данных, AI и автоматизации.</p>
+      <h3>Плюсы:</h3>
+      <ul>
+        <li>Прост в изучении и синтаксис максимально понятный</li>
+        <li>Мощные библиотеки (NumPy, Django, TensorFlow)</li>
+        <li>Кроссплатформенность</li>
+      </ul>
+      <h3>Минусы:</h3>
+      <ul>
+        <li>Низкая скорость исполнения</li>
+        <li>Не подходит для мобильных приложений напрямую</li>
+      </ul>
+      <h3>План обучения:</h3>
+      <table border="1" cellpadding="6">
+        <tr><th>Этап</th><th>Что изучать</th></tr>
+        <tr><td>1</td><td>Основы синтаксиса, переменные, циклы, функции</td></tr>
+        <tr><td>2</td><td>ООП и работа с модулями</td></tr>
+        <tr><td>3</td><td>Библиотеки NumPy, Pandas, Matplotlib</td></tr>
+        <tr><td>4</td><td>Flask / Django</td></tr>
+        <tr><td>5</td><td>AI / Data Science проекты</td></tr>
+      </table>
+    `
+  },
+  {
+    name: "JavaScript",
+    logo: "https://cdn-icons-png.flaticon.com/512/5968/5968292.png",
+    desc: "Язык веба. Управляет поведением страниц, работает в браузере и на сервере.",
+    details: `
+      <h2>JavaScript</h2>
+      <p><b>Описание:</b> Универсальный язык для создания интерактивных веб-приложений. Используется с HTML и CSS.</p>
+      <h3>Плюсы:</h3>
+      <ul>
+        <li>Работает в браузере без установки</li>
+        <li>Огромное сообщество и экосистема</li>
+        <li>Node.js позволяет использовать JS и на сервере</li>
+      </ul>
+      <h3>Минусы:</h3>
+      <ul>
+        <li>Иногда непредсказуемое поведение типов</li>
+        <li>Быстро меняющаяся экосистема</li>
+      </ul>
+      <h3>План обучения:</h3>
+      <table border="1" cellpadding="6">
+        <tr><th>Этап</th><th>Что изучать</th></tr>
+        <tr><td>1</td><td>Основы JS, DOM, функции</td></tr>
+        <tr><td>2</td><td>ES6+, классы и модули</td></tr>
+        <tr><td>3</td><td>Асинхронность (Promise, async/await)</td></tr>
+        <tr><td>4</td><td>React, Vue или Angular</td></tr>
+        <tr><td>5</td><td>Node.js и Express</td></tr>
+      </table>
+    `
+  },
+  {
+    name: "Java",
+    logo: "https://cdn-icons-png.flaticon.com/512/226/226777.png",
+    desc: "Мощный и безопасный язык. Основа корпоративных систем и Android-приложений.",
+    details: `
+      <h2>Java</h2>
+      <p><b>Описание:</b> Объектно-ориентированный язык, созданный для стабильности и масштабируемости.</p>
+      <h3>Плюсы:</h3>
+      <ul>
+        <li>Высокая производительность</li>
+        <li>Надёжность и безопасность</li>
+        <li>Огромное количество библиотек</li>
+      </ul>
+      <h3>Минусы:</h3>
+      <ul>
+        <li>Большой объём кода для простых задач</li>
+        <li>Потребляет больше памяти</li>
+      </ul>
+      <h3>План обучения:</h3>
+      <table border="1" cellpadding="6">
+        <tr><th>Этап</th><th>Что изучать</th></tr>
+        <tr><td>1</td><td>Основы Java и синтаксис</td></tr>
+        <tr><td>2</td><td>ООП и коллекции</td></tr>
+        <tr><td>3</td><td>Многопоточность</td></tr>
+        <tr><td>4</td><td>Spring Framework</td></tr>
+        <tr><td>5</td><td>Проекты и Android</td></tr>
+      </table>
+    `
+  },
+  {
+    name: "C++",
+    logo: "https://cdn-icons-png.flaticon.com/512/6132/6132222.png",
+    desc: "Классика системного программирования. Быстрый и гибкий язык.",
+    details: `
+      <h2>C++</h2>
+      <p><b>Описание:</b> Используется для разработки игр, системных приложений, ПО в реальном времени.</p>
+      <h3>Плюсы:</h3>
+      <ul>
+        <li>Высокая производительность</li>
+        <li>Контроль над памятью</li>
+        <li>Подходит для любых систем</li>
+      </ul>
+      <h3>Минусы:</h3>
+      <ul>
+        <li>Сложный синтаксис</li>
+        <li>Легко сделать ошибку при управлении памятью</li>
+      </ul>
+      <h3>План обучения:</h3>
+      <table border="1" cellpadding="6">
+        <tr><th>Этап</th><th>Что изучать</th></tr>
+        <tr><td>1</td><td>Основы синтаксиса и компиляция</td></tr>
+        <tr><td>2</td><td>Функции и указатели</td></tr>
+        <tr><td>3</td><td>ООП и шаблоны</td></tr>
+        <tr><td>4</td><td>STL и структуры данных</td></tr>
+        <tr><td>5</td><td>Проекты (игры, системы)</td></tr>
+      </table>
+    `
+  },
+  {
+    name: "C#",
+    logo: "https://cdn-icons-png.flaticon.com/512/6132/6132221.png",
+    desc: "Современный язык от Microsoft. Подходит для приложений, игр и веба.",
+    details: `
+      <h2>C#</h2>
+      <p><b>Описание:</b> Используется с платформой .NET, для Unity-игр, Windows и веба.</p>
+      <h3>Плюсы:</h3>
+      <ul>
+        <li>Интеграция с .NET</li>
+        <li>Безопасное управление памятью</li>
+        <li>Подходит для кроссплатформенной разработки</li>
+      </ul>
+      <h3>Минусы:</h3>
+      <ul>
+        <li>Привязан к экосистеме Microsoft</li>
+        <li>Медленнее, чем C++</li>
+      </ul>
+      <h3>План обучения:</h3>
+      <table border="1" cellpadding="6">
+        <tr><th>Этап</th><th>Что изучать</th></tr>
+        <tr><td>1</td><td>Основы синтаксиса, переменные, классы</td></tr>
+        <tr><td>2</td><td>ООП и интерфейсы</td></tr>
+        <tr><td>3</td><td>Работа с WinForms/WPF</td></tr>
+        <tr><td>4</td><td>Unity 3D</td></tr>
+        <tr><td>5</td><td>ASP.NET Core</td></tr>
+      </table>
+    `
+  }
+];
 
-// background photo (choose subtle tech photo)
-const bg = document.getElementById('bgPhoto');
-// set a default background; you can replace URL with your own image
-bg.style.backgroundImage = "url('https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=2000&q=80')";
+// вставка карточек
+const grid = document.getElementById("languagesGrid");
+languages.forEach(lang => {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <img src="${lang.logo}">
+    <h3>${lang.name}</h3>
+    <p>${lang.desc}</p>
+  `;
+  card.onclick = () => openModal(lang.details);
+  grid.appendChild(card);
+});
+</script>
+<!-- ========== ЧАСТЬ 3/3 ========== -->
+<script>
+/* ================== ЧАСТЬ 3: дополнительные языки, модал, чат-бот, тема, курсор ================== */
 
-/* Theme (combined: save to localStorage) */
-const THEME_KEY = 'itportal.theme.v2';
+/* 1) Функции модалки (openModal / closeModal) — используются карточками, определёнными в Части 2 */
+function openModal(htmlContent, langObj = null) {
+  // Если передан объект языка, формируем расширённый контент (с видео и таблицей)
+  const modal = document.getElementById('languageModal');
+  const modalInner = document.getElementById('modalContent');
+  if (langObj) {
+    // build detailed content from langObj
+    let videoBlock = '';
+    if (langObj.video) {
+      videoBlock = `
+        <div style="margin:12px 0;">
+          <div style="position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;">
+            <iframe class="video-embed" src="https://www.youtube.com/embed/${langObj.video}?rel=0" 
+              style="position:absolute;inset:0;width:100%;height:100%;border:0;" allowfullscreen></iframe>
+          </div>
+        </div>
+      `;
+    }
+    const pros = (langObj.pros || []).map(p => `<li>${p}</li>`).join('') || '<li>—</li>';
+    const cons = (langObj.cons || []).map(c => `<li>${c}</li>`).join('') || '<li>—</li>';
+    const resources = (langObj.resources || []).map(r => `<li>${r}</li>`).join('') || '<li>—</li>';
+    const planRows = (langObj.plan || []).map(row => `<tr><td>${escapeHtml(row.level)}</td><td>${escapeHtml(row.items)}</td></tr>`).join('');
+    modalInner.innerHTML = `
+      <button class="close-btn" onclick="closeModal()" aria-label="Закрыть">✖</button>
+      <h2 style="margin-top:6px;color:var(--accent);">${escapeHtml(langObj.name)}</h2>
+      <div style="display:flex;gap:12px;align-items:flex-start;margin-top:10px;">
+        <div style="flex:1">
+          <p style="color:var(--text);line-height:1.45;">${langObj.longDesc || langObj.desc || 'Информация отсутствует.'}</p>
+          <h3>Преимущества</h3><ul style="margin-left:18px;color:var(--text)">${pros}</ul>
+          <h3>Недостатки</h3><ul style="margin-left:18px;color:var(--text)">${cons}</ul>
+          <h3>Где применяется</h3><p style="color:var(--text)">${(langObj.where || '—')}</p>
+          <h3>Ресурсы</h3><ul style="margin-left:18px;color:var(--text)">${resources}</ul>
+        </div>
+        <aside style="width:360px;max-width:40%">
+          <strong>План обучения</strong>
+          <table style="width:100%;margin-top:8px;border-collapse:collapse">
+            <thead><tr><th style="text-align:left;border-bottom:1px solid rgba(0,0,0,0.08);padding:6px">Уровень</th><th style="text-align:left;border-bottom:1px solid rgba(0,0,0,0.08);padding:6px">Фокус</th></tr></thead>
+            <tbody>${planRows}</tbody>
+          </table>
+          <div style="margin-top:10px">
+            <button onclick="copyPlan(${JSON.stringify(langObj.plan || []).replace(/"/g,'&quot;')})" class="btn-primary" style="width:100%;">Копировать план</button>
+          </div>
+        </aside>
+      </div>
+      ${videoBlock}
+      <div style="margin-top:8px;color:var(--muted);font-size:13px">Источник: демонстрационный контент — проверяй официальную документацию и курсы.</div>
+    `;
+  } else {
+    modalInner.innerHTML = htmlContent;
+  }
+  modal.style.display = 'flex';
+  modal.setAttribute('aria-hidden','false');
+  // trap focus (basic)
+  setTimeout(()=> {
+    const close = modal.querySelector('.close-btn');
+    if (close) close.focus();
+  },100);
+}
+
+function closeModal() {
+  const modal = document.getElementById('languageModal');
+  modal.style.display = 'none';
+  modal.setAttribute('aria-hidden','true');
+  // stop all videos by clearing iframes inside modal
+  const iframes = modal.querySelectorAll('iframe');
+  iframes.forEach(f=> f.src = '');
+}
+
+function copyPlan(planArrayJson) {
+  try {
+    const arr = typeof planArrayJson === 'string' ? JSON.parse(planArrayJson) : planArrayJson;
+    const text = arr.map(r => `${r.level}: ${r.items}`).join('\n');
+    navigator.clipboard && navigator.clipboard.writeText(text);
+    alert('План скопирован в буфер обмена');
+  } catch (e) {
+    alert('Не удалось скопировать план');
+  }
+}
+
+/* helper to sanitize small html fragments (very basic) */
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* 2) Дополнительные языки (чтобы суммарно было около 50 карт) — короткие записи для менее популярных,
+      но для ключевых (HTML/CSS/TS/SQL/Rust/Go/Swift/Kotlin/etc) даём расширения.
+   Мы создаём массив extraLangs и затем динамически добавляем карточки в grid (как в Части 2).
+*/
+const extraLangs = [
+  { name: "HTML", logo: "https://cdn-icons-png.flaticon.com/512/732/732212.png", desc: "Язык разметки для создания структуры веб-страниц.", longDesc: "HTML (HyperText Markup Language) — основа веба. Используется для структуры страниц, семантической разметки и совместной работы с CSS/JavaScript.", tags:['Web','Markup'], where:'Browsers, Web', pros:['Простейший старт для веба'], cons:['Не язык программирования, а разметка'], resources:['MDN HTML'], plan:[{level:'Beginner',items:'Теги, структура, семантика'},{level:'Intermediate',items:'Forms, семантическая разметка'},{level:'Advanced',items:'Accessibility, SEO'}], video:'UB1O30fR-EE' },
+  { name: "CSS", logo: "https://cdn-icons-png.flaticon.com/512/732/732190.png", desc: "Каскадные таблицы стилей — оформление веб-страниц.", longDesc: "CSS отвечает за внешний вид: позиционирование, адаптивность, анимации и дизайн систем.", tags:['Web','Styling'], where:'Browsers, UI', pros:['Мощный средства стилизации'], cons:['Иногда сложное поведение каскада'], resources:['MDN CSS'], plan:[{level:'Beginner',items:'Селекторы, box-model'},{level:'Intermediate',items:'Flexbox, Grid, адаптивность'},{level:'Advanced',items:'Анимации, производительность'}], video:'yfoY53QXEnI' },
+  { name: "TypeScript", logo: "https://cdn.worldvectorlogo.com/logos/typescript.svg", desc: "Надстройка над JS с типами.", longDesc: "TypeScript добавляет статическую типизацию, что улучшает масштабирование больших проектов и сокращает количество ошибок на этапе разработки.", tags:['Frontend','Typed'], where:'Web, Node.js', pros:['Статическая типизация'], cons:['Необходима сборка в JS'], resources:['TypeScript Handbook'], plan:[{level:'Beginner',items:'Типы, интерфейсы'},{level:'Intermediate',items:'Generics, утилиты типов'},{level:'Advanced',items:'TS в больших проектах'}], video:'BwuLxPH8IDs' },
+  { name: "SQL", logo: "https://cdn-icons-png.flaticon.com/512/2602/2602106.png", desc: "Язык запросов к реляционным базам данных.", longDesc: "SQL — незаменим для работы с реляционными БД: создание запросов, JOIN'ы, агрегация и оптимизация.", tags:['Data','DB'], where:'Databases, Backend', pros:['Необходим для аналитики и backend'], cons:['Различия в диалектах'], resources:['SQLZoo, LeetCode DB'], plan:[{level:'Beginner',items:'SELECT, WHERE, JOINs'},{level:'Intermediate',items:'Индексы, транзакции'},{level:'Advanced',items:'Проектирование схем, оптимизация'}], video:'HXV3zeQKqGY' },
+  { name: "Rust", logo: "https://www.rust-lang.org/logos/rust-logo-512x512.png", desc: "Безопасный и быстрый язык.", longDesc: "Rust делает упор на безопасность памяти и отсутствие data races. Отлично для системного ПО, WebAssembly и высоконагруженных сервисов.", tags:['Systems','Safe'], where:'Systems, WebAssembly', pros:['Безопасность памяти на уровне компилятора'], cons:['Крутая кривая обучения'], resources:['The Rust Book'], plan:[{level:'Beginner',items:'Ownership, базовый синтаксис'},{level:'Intermediate',items:'Типажи, жизненный цикл'},{level:'Advanced',items:'Unsafe, оптимизация'}], video:'ygL_xcavzQ4' },
+  { name: "Go", logo: "https://golang.org/lib/godoc/images/go-logo-blue.svg", desc: "Простой и быстрый язык для серверов.", longDesc: "Go ориентирован на простоту, скорость и отличную поддержку параллелизма (goroutines). Часто используется в облачных сервисах и микросервисах.", tags:['Cloud','Backend'], where:'Microservices, Cloud', pros:['Простота и надёжность'], cons:['Меньше удобств чем в высокоуровневых языках'], resources:['Tour of Go'], plan:[{level:'Beginner',items:'Синтаксис, пакеты'},{level:'Intermediate',items:'Горутины, каналы'},{level:'Advanced',items:'Микросервисы'}], video:'YS4e4q9oBaU' },
+  { name: "Swift", logo: "https://developer.apple.com/assets/elements/icons/swift/swift-64x64_2x.png", desc: "Язык Apple для iOS/macOS.", longDesc: "Swift — современный, безопасный и быстрый язык для разработки приложений под iOS и macOS. Поддерживает SwiftUI и современную экосистему.", tags:['Mobile','iOS'], where:'iOS/macOS', pros:['Оптимизирован для Apple'], cons:['Ограниченная экосистема вне Apple'], resources:['Apple Developer'], plan:[{level:'Beginner',items:'Синтаксис, Xcode'},{level:'Intermediate',items:'SwiftUI/Combine'},{level:'Advanced',items:'Архитектура приложений'}], video:'FcsY1YPBwzQ' },
+  { name: "Kotlin", logo: "https://upload.wikimedia.org/wikipedia/commons/7/74/Kotlin_Icon.png", desc: "Современный JVM-язык, популярен на Android.", longDesc: "Kotlin сочетает лаконичность и совместимость с Java. Широко применяется в Android-разработке и серверной части.", tags:['Android','JVM'], where:'Android, Backend', pros:['Совместим с Java'], cons:['Меньше исторических материалов'], resources:['Kotlin docs'], plan:[{level:'Beginner',items:'Синтаксис, базовые структуры'},{level:'Intermediate',items:'Coroutines, Android'},{level:'Advanced',items:'Архитектура и оптимизация'}], video:'F9UC9DY-vIU' },
+  { name: "Ruby", logo: "https://upload.wikimedia.org/wikipedia/commons/7/73/Ruby_logo.svg", desc: "Фокус на удобстве разработчика, популярен с Rails.", longDesc: "Ruby предлагает чистый синтаксис и концентрируется на продуктивности. Ruby on Rails позволил быстро создавать веб-приложения.", tags:['Web','Rails'], where:'Web, Startups', pros:['Быстрая разработка MVP'], cons:['Меньше вакансий сейчас'], resources:['Rails Guides'], plan:[{level:'Beginner',items:'Ruby syntax'},{level:'Intermediate',items:'Rails basics'},{level:'Advanced',items:'Performance'}], video:'v1et5PqSx6Y' },
+  { name: "PHP", logo: "https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg", desc: "Серверный веб-язык с большим наследием.", longDesc: "PHP остаётся популярным благодаря WordPress и большому количеству сайтов. Современные фреймворки (Laravel) делают разработку удобнее.", tags:['Web','Server'], where:'Web', pros:['Лёгкий старт'], cons:['Критика дизайна языка'], resources:['PHP Manual'], plan:[{level:'Beginner',items:'Синтаксис и формы'},{level:'Intermediate',items:'Laravel basics'},{level:'Advanced',items:'Безопасность и масштабирование'}], video:'OK_JCtrrv-c' },
+  { name: "Scala", logo: "https://upload.wikimedia.org/wikipedia/commons/3/39/Scala-full-color.svg", desc: "Функциональный JVM-язык, популярен в Big Data.", longDesc: "Scala сочетает функциональные и объектно-ориентированные парадигмы, используется в экосистеме Spark.", tags:['JVM','Functional','Big Data'], where:'Big Data, Backend', pros:['Мощные абстракции'], cons:['Крутая кривая'], resources:['Scala docs'], plan:[{level:'Beginner',items:'Синтаксис, OOP vs FP'},{level:'Intermediate',items:'Spark basics'},{level:'Advanced',items:'Производительность'}], video:'' },
+  { name: "R", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg", desc: "Язык для статистики и визуализации данных.", longDesc: "R широко применяется в академии и аналитике; отличная экосистема для статистики и визуализации.", tags:['Data','Statistics'], where:'Data Science', pros:['Сильная статистическая поддержка'], cons:['Может быть медленным'], resources:['R for Data Science'], plan:[{level:'Beginner',items:'Основы R и визуализация'},{level:'Intermediate',items:'dplyr, ggplot2'},{level:'Advanced',items:'Моделирование'}], video:'s2Z5tZ51Gqk' },
+  { name: "Dart", logo: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Dart-logo.png", desc: "Язык для Flutter — кроссплатформенные UI.", longDesc: "Dart используется в связке с Flutter для создания приложений под iOS/Android и веб, с единым кодом интерфейса.", tags:['Mobile','Flutter'], where:'Mobile, Web', pros:['Быстрый UI dev'], cons:['Связан в основном с Flutter'], resources:['Flutter docs'], plan:[{level:'Beginner',items:'Dart basics'},{level:'Intermediate',items:'Widgets, state'},{level:'Advanced',items:'Performance'}], video:'1gDhl4leEzA' },
+  { name: "MATLAB", logo: "https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png", desc: "Среда и язык для научных вычислений.", longDesc: "MATLAB удобен для прототипирования и численных методов; часто используется в инженерии и научных исследованиях.", tags:['Numeric','Science'], where:'Research, Engineering', pros:['Мощные инструменты для численных задач'], cons:['Коммерческая лицензия'], resources:['MathWorks'], plan:[{level:'Beginner',items:'Matrix ops'},{level:'Intermediate',items:'Toolboxes'},{level:'Advanced',items:'Simulink'}], video:'' },
+  { name: "Haskell", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Haskell-Logo.svg", desc: "Чисто функциональный язык с сильной типизацией.", longDesc: "Haskell полезен для изучения функциональных парадигм и работы с абстракциями; богатая система типов.", tags:['Functional','Research'], where:'Academia, Research', pros:['Высокая абстракция и безопасность типов'], cons:['Крутая кривая'], resources:['Learn You a Haskell'], plan:[{level:'Beginner',items:'FP basics'},{level:'Intermediate',items:'Monads, types'},{level:'Advanced',items:'Performance'}], video:'' },
+  { name: "Lua", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Lua-Logo.svg", desc: "Лёгкий встраиваемый скриптовый язык.", longDesc: "Lua часто встраивают в игры и приложения как конфигурационный или скриптовый язык.",
+    tags:['Embedded','Games'], where:'Games, Embedded', pros:['Лёгкий и быстрый'], cons:['Ограниченная стандартная библиотека'], resources:['Programming in Lua'], plan:[{level:'Beginner',items:'Syntax, tables'},{level:'Intermediate',items:'Coroutines'},{level:'Advanced',items:'C API'}], video:'' },
+  { name: "Assembly", logo: "", desc: "Низкоуровневый язык для работы с железом.", longDesc: "Assembly — диалекты для x86/ARM; нужен для драйверов, встроенных систем и оптимизации.", tags:['Low-level'], where:'Embedded, Drivers', pros:['Максимальный контроль и скорость'], cons:['Сложная разработка'], resources:['Assembly guides'], plan:[{level:'Beginner',items:'Registers & mnemonics'},{level:'Intermediate',items:'Calling conventions'},{level:'Advanced',items:'Optimization'}], video:'' },
+  { name: "Fortran", logo: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Fortran_logo.png", desc: "Язык для численного моделирования (исторически важен).", longDesc: "Fortran всё ещё используется в науке и инженерии для численных расчётов и высокопроизводительных вычислений.", tags:['Numeric'], where:'Scientific computing', pros:['Оптимизирован для математических расчётов'], cons:['Устаревшие парадигмы'], resources:['Fortran docs'], plan:[{level:'Beginner',items:'Синтаксис'}, {level:'Intermediate',items:'Функции'}, {level:'Advanced',items:'Performance'}], video:'' },
+  { name: "COBOL", logo: "https://upload.wikimedia.org/wikipedia/commons/3/3b/COBOL_logo.png", desc: "Язык бизнес-приложений — активно используется в банковских системах.", longDesc: "COBOL применяется в старых банковских и финансовых системах; понимание COBOL ценно в поддержке legacy-систем.", tags:['Legacy','Business'], where:'Banks, Legacy systems', pros:['Много унаследованного кода'], cons:['Устаревшая парадигма'], resources:['COBOL resources'], plan:[{level:'Beginner',items:'Syntax'}, {level:'Intermediate',items:'File handling'}, {level:'Advanced',items:'Integration'}], video:'' },
+  { name: "Pascal", logo: "https://upload.wikimedia.org/wikipedia/commons/5/50/Pascal_logo.png", desc: "Образовательный язык, исторически используемый для обучения.", longDesc: "Pascal хорош для обучения алгоритмам и структурному программированию; имеет несколько диалектов и реализаций.", tags:['Education'], where:'Education', pros:['Хорош для базового обучения'], cons:['Меньше применения в продакшне'], resources:['Pascal guides'], plan:[{level:'Beginner',items:'Syntax'}, {level:'Intermediate',items:'Structures'}, {level:'Advanced',items:'Projects'}], video:'' },
+  { name: "Lisp", logo: "https://upload.wikimedia.org/wikipedia/commons/3/36/Common_Lisp_Logo.svg", desc: "Один из старейших языков, влиявший на AI-исследования.", longDesc: "Lisp с его макросистемой и обработкой списков исторически важен и использовался в ранних исследованиях AI.", tags:['AI','Research'], where:'Research', pros:['Очень гибкий'], cons:['Необычный синтаксис'], resources:['Lisp guides'], plan:[{level:'Beginner',items:'S-expressions'},{level:'Intermediate',items:'Macros'},{level:'Advanced',items:'DSLs'}], video:'' },
+  { name: "Prolog", logo: "https://upload.wikimedia.org/wikipedia/commons/8/87/Prolog_logo.png", desc: "Логический язык, применяемый в экспертных системах.", longDesc: "Prolog удобен для задач логики и вывода, часто используется в академических исследованиях.", tags:['Logic'], where:'Research', pros:['Естественен для логических задач'], cons:['Узкая область применения'], resources:['Prolog docs'], plan:[{level:'Beginner',items:'Facts & rules'},{level:'Intermediate',items:'Backtracking'},{level:'Advanced',items:'Constraints'}], video:'' },
+  { name: "Scala2", logo: "", desc: "См. Scala (повтор)", longDesc: "", tags:[], where:'', pros:[], cons:[], resources:[], plan:[], video:'' },
+  { name: "Elixir", logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Elixir_logo.png", desc: "Функциональный язык для распределённых систем (Erlang VM).", longDesc: "Elixir подходит для realtime и распределённых приложений, используя надёжность BEAM VM.", tags:['Functional','Concurrent'], where:'Backend, Telecom', pros:['Высокая надёжность'], cons:['Нишевая экосистема'], resources:['Elixir docs'], plan:[{level:'Beginner',items:'Basics'},{level:'Intermediate',items:'OTP'},{level:'Advanced',items:'Scalability'}], video:'' },
+  { name: "Erlang", logo: "https://upload.wikimedia.org/wikipedia/commons/5/59/Erlang_logo.png", desc: "Язык для надёжных распределённых систем.", longDesc: "Erlang и BEAM VM обеспечивают устойчивость и обработку большого числа соединений.", tags:['Concurrent'], where:'Telecom, Backend', pros:['Fault-tolerance'], cons:['Неинтуитивный синтаксис'], resources:['Erlang docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'OTP'}], video:'' },
+  { name: "Solidity", logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png", desc: "Язык смарт-контрактов (Ethereum).", longDesc: "Solidity используется для создания смарт-контрактов и DApps в экосистеме Ethereum.", tags:['Blockchain'], where:'Smart contracts', pros:['Ключевой язык Web3'], cons:['Высокая ответственность и уязвимости'], resources:['Solidity docs'], plan:[{level:'Beginner',items:'Basics & security'},{level:'Intermediate',items:'Testing'},{level:'Advanced',items:'Audits'}], video:'' },
+  { name: "Julia", logo: "https://julialang.org/assets/julialogo.svg", desc: "Язык для численных вычислений и научных задач.", longDesc: "Julia сочетает простоту и высокую производительность, особенно в численных задачах.", tags:['Numeric'], where:'Science', pros:['Быстро для численных задач'], cons:['Экосистема меньше Python'], resources:['Julia docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'Packages'},{level:'Advanced',items:'Optimization'}], video:'' },
+  { name: "OCaml", logo: "https://upload.wikimedia.org/wikipedia/commons/8/8f/OCaml_logo.png", desc: "Функциональный язык со статической типизацией.", longDesc: "OCaml даёт мощную типовую систему и удобен для построения компиляторов и аналитических инструментов.", tags:['Functional'], where:'Research, Tools', pros:['Сильная типизация'], cons:['Меньше материалов'], resources:['OCaml docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'Modules'},{level:'Advanced',items:'Projects'}], video:'' },
+  { name: "F#", logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/F_Sharp_logo.png", desc: "Функциональный язык на платформе .NET.", longDesc: "F# сочетает функциональные парадигмы с экосистемой .NET и подходит для аналитических задач.", tags:['Functional','.NET'], where:'Enterprise, Analytics', pros:['Интеграция с .NET'], cons:['Нишевая экосистема'], resources:['F# docs'], plan:[{level:'Beginner',items:'Basics'},{level:'Intermediate',items:'Functional patterns'},{level:'Advanced',items:'Applications'}], video:'' },
+  { name: "Groovy", logo: "https://www.groovy-lang.org/images/groovy-logo.png", desc: "Динамический JVM-язык, удобен для скриптов и DSL.", longDesc: "Groovy упрощает разработку скриптов на JVM, хорошо интегрирован с Gradle и инструментами Java.", tags:['JVM','Scripting'], where:'Build scripts, Automation', pros:['Удобен как скриптовый язык'], cons:['Меньше использования в новых проектах'], resources:['Groovy docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'DSLs'},{level:'Advanced',items:'Integrations'}], video:'' },
+  { name: "Bash", logo: "", desc: "Shell scripting для UNIX-систем.", longDesc: "Bash незаменим для администрирования серверов, автоматизации задач и простых утилит.", tags:['Scripting','DevOps'], where:'System admin', pros:['Незаменим для автоматизации'], cons:['Портируемость и сложность скриптов'], resources:['Bash guides'], plan:[{level:'Beginner',items:'Scripts'},{level:'Intermediate',items:'Automation'},{level:'Advanced',items:'Complex tooling'}], video:'' },
+  { name: "PowerShell", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Windows_PowerShell_5.0_icon.png", desc: "Инструмент автоматизации для Windows и кроссплатформенный PowerShell Core.", longDesc: "PowerShell мощный для управления Windows-инфраструктурой и имеет современную кроссплатформенную версию.", tags:['Admin'], where:'Windows admin', pros:['Мощный для администрирования'], cons:['Изначально Windows-centric'], resources:['Microsoft docs'], plan:[{level:'Beginner',items:'Cmdlets'},{level:'Intermediate',items:'Scripting'},{level:'Advanced',items:'Modules'}], video:'' },
+  { name: "Nim", logo: "https://nim-lang.org/assets/nim-logo.svg", desc: "Компилируемый язык с лаконичным синтаксисом и генерируемым C.", longDesc: "Nim предлагает простоту и скорость, компилируясь в C для получения высокой производительности.", tags:['Systems'], where:'Systems, Tools', pros:['Лёгкий синтаксис и быстрый код'], cons:['Меньше экосистемы'], resources:['Nim docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'Interop'},{level:'Advanced',items:'Projects'}], video:'' },
+  { name: "Crystal", logo: "https://crystal-lang.org/images/crystal-logo.svg", desc: "Синтаксис как Ruby, компилируется в быстрый код.", longDesc: "Crystal похож на Ruby по синтаксису, но компилируется и даёт высокую производительность.", tags:['Compiled','Web'], where:'Web, Tools', pros:['Синтаксис удобен, производительность хороша'], cons:['Молодой язык'], resources:['Crystal docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'Frameworks'},{level:'Advanced',items:'Performance'}], video:'' },
+  { name: "Julia2", logo: "", desc: "Повтор Julia (см. выше)", longDesc:'', tags:[], where:'', pros:[], cons:[], resources:[], plan:[], video:'' },
+  { name: "Racket", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Racket-logo.svg", desc: "Язык семейства Lisp, часто в образовании.", longDesc: "Racket удобен для прототипирования языков и обладает мощной средой разработки.", tags:['Education'], where:'Academia', pros:['Гибкость'], cons:['Нишевая экосистема'], resources:['Racket docs'], plan:[{level:'Beginner',items:'Basics'},{level:'Intermediate',items:'Macros'},{level:'Advanced',items:'DSLs'}], video:'' },
+  { name: "Groovy2", logo:'', desc:'повтор Groovy' },
+  { name: "Perl", logo: "https://www.perl.org/images/perlorg-logo.png", desc: "Мощный язык для текстовой обработки и автоматизации.", longDesc: "Perl широко использовался в вебе и системном администрировании; имеет сильные возможности обработки строк и регулярных выражений.", tags:['Scripting','Text'], where:'Scripting', pros:['Regex power'], cons:['Плохая читаемость иногда'], resources:['Modern Perl'], plan:[{level:'Beginner',items:'Regex basics'},{level:'Intermediate',items:'CPAN modules'},{level:'Advanced',items:'Large scripts'}], video:'' },
+  { name: "Cobol2", logo:'', desc:'повтор COBOL' },
+  { name: "Ada", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2b/Ada_language_logo.png", desc: "Язык с сильной типизацией, применяемый в критичных системах.", longDesc: "Ada используется в авиации и других областях, где критична надёжность и предсказуемость.", tags:['Safety','Embedded'], where:'Aerospace, Safety-critical', pros:['Высокая надёжность'], cons:['Узкая область применения'], resources:['Ada docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'RTOS integration'},{level:'Advanced',items:'Formal verification'}], video:'' },
+  { name: "Haxe", logo:'', desc:'Кроссплатформенный язык с компиляцией в разные таргеты.' },
+  { name: "OpenCL C", logo:'', desc:'Язык для GPGPU-программирования (OpenCL).' },
+  { name: "CUDA C", logo:'', desc:'Язык NVIDIA для программирования GPU.' },
+  { name: "GLSL", logo:'', desc:'Шейдерный язык OpenGL для графики.' },
+  { name: "VHDL", logo:'', desc:'Язык описания аппаратуры для FPGA/ASIC.' },
+  { name: "Verilog", logo:'', desc:'Ещё один язык описания аппаратуры.' },
+  { name: "Smalltalk", logo:'https://upload.wikimedia.org/wikipedia/commons/2/24/Smalltalk_logo.png', desc:'Один из первых объектно-ориентированных языков; влиял на OOP.' },
+  { name: "Delphi", logo:'https://upload.wikimedia.org/wikipedia/commons/9/90/Embarcadero-Delphi.svg', desc:'Object Pascal / RAD-инструмент для Windows.' },
+  { name: "Pascal2", logo:'', desc:'повтор Pascal' },
+  { name: "Algol", logo:'', desc:'Исторически важный язык, оказавший влияние на синтаксис многих современных языков.' },
+  { name: "Logo", logo:'', desc:'Образовательные языки (черепашка)' },
+  { name: "Scratch", logo:'https://scratch.mit.edu/images/scratch-og.png', desc:'Визуальная среда для обучения детей.' },
+  { name: "APL", logo:'', desc:'Язык с символической нотацией для матричных операций.' },
+  { name: "J", logo:'', desc:'Язык, родственный APL, для матричных вычислений.' },
+  { name: "Awk", logo:'', desc:'Удобен для обработки текстовых потоков и логов.' },
+  { name: "Tcl", logo:'', desc:'Скриптовый язык с возможностью встраивания.' },
+  { name: "PostScript", logo:'', desc:'Язык описания страниц и векторной графики.' },
+  { name: "XSLT", logo:'', desc:'Язык трансформации XML.' },
+  { name: "ML", logo:'', desc:'Семейство функциональных языков (Standard ML).' },
+  { name: "Standard ML", logo:'', desc:'Functional language with strong typing.' },
+  { name: "SML(N)", logo:'', desc:'Повтор SML' }
+];
+
+/* Функция добавления карточки в DOM (используем ту же структуру, что в Части 2) */
+const gridEl = document.getElementById('languagesGrid');
+function appendLangCard(lang) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    ${lang.logo ? `<img src="${lang.logo}" alt="${escapeHtml(lang.name)}" style="width:70px;height:70px;object-fit:contain">` : ''}
+    <h3>${escapeHtml(lang.name)}</h3>
+    <p>${escapeHtml(lang.desc || 'Описание отсутствует')}</p>
+  `;
+  card.addEventListener('click', () => {
+    // open modal with detailed content where available
+    if (lang.longDesc || lang.plan || lang.pros || lang.cons) {
+      openModal('', lang);
+    } else if (lang.details) {
+      openModal(lang.details);
+    } else {
+      openModal(`<h2>${escapeHtml(lang.name)}</h2><p>Краткая информация: ${escapeHtml(lang.desc||'—')}</p>`);
+    }
+  });
+  gridEl.appendChild(card);
+}
+
+/* Добавляем дополнительные карточки */
+extraLangs.forEach(l => appendLangCard(l));
+
+/* 3) Тема + сохранение состояния темы в localStorage */
 (function(){
-  const btn = document.getElementById('themeBtn');
-  const saved = localStorage.getItem(THEME_KEY) || 'dark';
-  applyTheme(saved);
+  const btn = document.getElementById('themeToggle');
+  const key = 'itportal.theme';
+  const saved = localStorage.getItem(key) || 'dark';
+  applyTheme(saved === 'light' ? 'light' : 'dark');
   btn.addEventListener('click', ()=>{
-    const current = document.body.classList.contains('dark') ? 'dark' : 'light';
-    const next = current === 'dark' ? 'light' : 'dark';
-    localStorage.setItem(THEME_KEY, next);
+    const cur = document.body.classList.contains('dark') ? 'dark' : 'light';
+    const next = cur === 'dark' ? 'light' : 'dark';
     applyTheme(next);
+    localStorage.setItem(key, next);
   });
   function applyTheme(name){
-    if(name === 'light'){ document.body.classList.remove('dark'); document.getElementById('themeBtn').textContent = '🌙 / ☀️'; }
-    else { document.body.classList.add('dark'); document.getElementById('themeBtn').textContent = '🌙 / ☀️'; }
+    if(name === 'light') {
+      document.body.classList.remove('dark');
+      document.body.classList.add('light');
+      // adjust colors for light mode if needed
+    } else {
+      document.body.classList.remove('light');
+      document.body.classList.add('dark');
+    }
   }
 })();
 
-/* Cursor glow that follows mouse (subtle) */
+/* 4) Курсор: обновляем CSS-переменные для ::before (часть 1 использует var(--x) var(--y)) */
 (function(){
-  const glow = document.getElementById('glow');
-  let timeout;
-  window.addEventListener('mousemove', (e)=>{
-    glow.style.left = e.clientX + 'px';
-    glow.style.top = e.clientY + 'px';
-    glow.style.opacity = '1';
-    clearTimeout(timeout);
-    timeout = setTimeout(()=>{ glow.style.opacity = '0.08'; }, 800);
+  window.addEventListener('mousemove', (e) => {
+    document.body.style.setProperty('--x', e.clientX + 'px');
+    document.body.style.setProperty('--y', e.clientY + 'px');
   });
-  // hide on touch devices
-  window.addEventListener('touchstart', ()=> glow.style.display='none');
 })();
 
-/* Scroll to grid */
-function scrollToGrid(){ document.getElementById('grid').scrollIntoView({behavior:'smooth'}); }
-
-/* ===== Video modal handling ===== */
+/* 5) Простой оффлайн чат-бот (знает языки на странице) */
 (function(){
-  const modal = document.getElementById('videoModal');
-  const frame = document.getElementById('videoFrame');
-  const close = document.getElementById('closeVideo');
+  // Create assistant UI (small improvements)
+  // If chat box not present, create minimal one (we had in earlier parts chat-box markup, but ensure)
+  let assistantWindow = document.querySelector('.chat-box');
+  if(!assistantWindow){
+    // create structure
+    assistantWindow = document.createElement('div');
+    assistantWindow.className = 'chat-box';
+    assistantWindow.innerHTML = `
+      <div class="chat-header">Помощник</div>
+      <div class="chat-messages" id="chatMessages"><div style="opacity:.9;color:var(--muted);padding:6px">Привет! Спроси меня про язык: "Python", "план JavaScript" или "плюсы Rust".</div></div>
+      <div class="chat-input">
+        <input id="chatInput" placeholder="Например: 'расскажи про Python'">
+        <button id="chatSend" class="btn-primary">Отправить</button>
+      </div>
+    `;
+    document.body.appendChild(assistantWindow);
+  }
 
-  document.querySelectorAll('.play-btn').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      const id = btn.dataset.video;
-      if(!id) return;
-      // set YouTube embed
-      frame.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
-      modal.style.display = 'flex';
-      modal.setAttribute('aria-hidden','false');
+  // Assistant floating button (exists in some parts as chat-btn)
+  let assistantBtn = document.getElementById('assistantBtn') || document.getElementById('openAssistantMini') || document.createElement('button');
+  let createdBtn = false;
+  if(!document.getElementById('assistantBtn')){
+    assistantBtn.className = 'chat-btn';
+    assistantBtn.id = 'assistantBtn';
+    assistantBtn.title = 'Помощник';
+    assistantBtn.innerText = '💬';
+    document.body.appendChild(assistantBtn);
+    createdBtn = true;
+  }
+
+  const chatMessages = document.getElementById('chatMessages');
+  const chatInput = document.getElementById('chatInput');
+  const chatSend = document.getElementById('chatSend');
+
+  // Toggle assistant window
+  const chatBoxEl = document.querySelector('.chat-box');
+  assistantBtn.addEventListener('click', ()=> {
+    if(chatBoxEl.style.display === 'flex') chatBoxEl.style.display = 'none';
+    else chatBoxEl.style.display = 'flex';
+  });
+
+  // Build a simple knowledge-base from all languages on the page (both initial and extraLangs)
+  const knownLangs = [];
+  // collect languages from part2 (variable 'languages' exists) and our extraLangs
+  try {
+    if(Array.isArray(window.languages)) window.languages.forEach(l=> knownLangs.push(l));
+  } catch(e){}
+  extraLangs.forEach(l=> knownLangs.push(l));
+
+  function appendMessage(who, text) {
+    const div = document.createElement('div');
+    div.textContent = (who === 'bot' ? 'Бот: ' : 'Вы: ') + text;
+    div.style.fontWeight = who === 'bot' ? 700 : 600;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  function findLangByName(name){
+    if(!name) return null;
+    const q = name.toLowerCase().trim();
+    return knownLangs.find(l => (l.name||'').toLowerCase() === q) || knownLangs.find(l => (l.name||'').toLowerCase().includes(q));
+  }
+
+  function botRespond(text){
+    const q = (text||'').toLowerCase();
+    // direct commands
+    if(/план|plan|как учиться|как начать/.test(q)){
+      // try to find language in query
+      const words = q.split(/\s+/);
+      for(const w of words){
+        const lang = findLangByName(w);
+        if(lang){
+          appendMessage('bot', `План изучения для ${lang.name}: ${ (lang.plan||[]).map(p=>p.level+': '+p.items).join(' | ') }`);
+          return;
+        }
+      }
+      appendMessage('bot', 'Уточни язык, например: "план Python" или "как начать с JavaScript".');
+      return;
+    }
+    if(/плюс|минус|польза|недостаток|причины/.test(q)){
+      const words = q.split(/\s+/);
+      for(const w of words){
+        const lang = findLangByName(w);
+        if(lang){
+          appendMessage('bot', `Плюсы: ${(lang.pros||[]).slice(0,5).join(', ') || '—'}; Минусы: ${(lang.cons||[]).slice(0,5).join(', ') || '—'}`);
+          return;
+        }
+      }
+      appendMessage('bot', 'Скажи: "плюсы Python" или "минусы Rust" — я отвечу конкретно.');
+      return;
+    }
+    // general language info
+    const lang = findLangByName(q.replace(/расскажи про |tell me about |about /i,''));
+    if(lang){
+      appendMessage('bot', `${lang.name}: ${lang.longDesc || lang.desc || 'Краткая информация отсутствует.'}`);
+      return;
+    }
+    // fallback
+    appendMessage('bot', 'Извини, не понял. Попробуй: "расскажи про Python", "план JavaScript", "плюсы Rust".');
+  }
+
+  // send mechanisms
+  if(chatSend){
+    chatSend.addEventListener('click', ()=>{
+      const txt = chatInput.value && chatInput.value.trim();
+      if(!txt) return;
+      appendMessage('user', txt);
+      chatInput.value = '';
+      setTimeout(()=> botRespond(txt), 350 + Math.random()*450);
     });
-  });
+  }
+  if(chatInput){
+    chatInput.addEventListener('keypress', (e)=>{ if(e.key === 'Enter') chatSend && chatSend.click(); });
+  }
 
-  close.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+  // Close/Hide assistant by pressing Escape
+  window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ const box = document.querySelector('.chat-box'); if(box && box.style.display === 'flex') box.style.display = 'none'; } });
 
-  function closeModal(){
-    frame.src = '';
-    modal.style.display = 'none';
-    modal.setAttribute('aria-hidden','true');
+})();
+
+/* 6) Accessibility: close modal with ESC; stop video on close is already implemented */
+window.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape') {
+    const modal = document.getElementById('languageModal');
+    if (modal && modal.style.display === 'flex') closeModal();
+  }
+});
+
+/* 7) Final touch: if user searches via URL (?lang=python) open that language automatically */
+(function(){
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('lang');
+  if(q){
+    // try to find on page
+    const allLangs = (window.languages && window.languages.slice ? window.languages.concat(extraLangs) : extraLangs);
+    const found = allLangs.find(l => (l.name||'').toLowerCase() === q.toLowerCase());
+    if(found){
+      // delay to ensure DOM ready
+      setTimeout(()=> openModal('', found), 300);
+    }
   }
 })();
 
-/* ===== Assistant (offline smart-ish bot) ===== */
-(function(){
-  const assistant = document.getElementById('assistant');
-  const toggleBtn = document.querySelector('.cta-ghost');
-  const openFromHeader = document.querySelector('.cta-ghost');
-  const closeBtn = document.getElementById('assistantClose');
-  const sendBtn = document.getElementById('assistantSend');
-  const input = document.getElementById('assistantInput');
-  const body = document.getElementById('assistantBody');
-
-  // show assistant when clicking certain elements
-  document.querySelectorAll('.cta-ghost').forEach(btn=>{
-    btn.addEventListener('click', ()=> assistant.style.display = 'flex');
-  });
-
-  closeBtn.addEventListener('click', ()=> assistant.style.display = 'none');
-
-  // knowledge base: pattern -> answer
-  const KB = [
-    {pat:/\bpython\b/i, resp:"Python — отличный язык для новичков. Используется в Data Science, web (Django/Flask), автоматизации. Начни с основ: синтаксис, переменные, функции, затем проекты."},
-    {pat:/\bjavascript\b/i, resp:"JavaScript — основной язык для фронтенда. Учите DOM, асинхронные операции (Promises/async), затем фреймворки: React, Vue."},
-    {pat:/\bjava\b/i, resp:"Java — строгая типизированная платформа, часто используется в корпоративной разработке и Android. Полезна для больших систем."},
-    {pat:/\bc\+\+\b/i, resp:"C++ — для высокой производительности: игровые движки, системное ПО. Изучи управление памятью и структуры данных."},
-    {pat:/\brust\b/i, resp:"Rust — современный язык для безопасного и быстрого кода. Подходит, если нужны безопасность памяти и скорость."},
-    {pat:/\bhow to start|как начать|с чего начать\b/i, resp:"Начни с выбора языка (Python/JS) → пройди 1-2 курса → сделай 2 небольших проекта → выложи на GitHub и начни искать стажировку."},
-    {pat:/\bfrontend\b/i, resp:"Frontend — это интерфейсы: HTML, CSS, JS. Изучи адаптивную верстку и библиотеку/фреймворк (React/Vue)."},
-    {pat:/\bbackend\b/i, resp:"Backend — серверная логика, базы данных и API. Популярны: Node.js, Python (Django/Flask), Java, Go."},
-    {pat:/\bdevops\b/i, resp:"DevOps: автоматизация деплоя, мониторинг, контейнеры (Docker/Kubernetes), CI/CD — важны навыки инфраструктуры."},
-    {pat:/\bcourses|курсы|где учиться\b/i, resp:"Практические платформы: freeCodeCamp, Coursera, Udemy, Stepik. Смотри курсы с проектами и домашней работой."},
-    {pat:/\bmem(ы|ы)|мем(ы)?\b/i, resp:"Раздел мемов — отличное место, чтобы отдохнуть. Переходи в 'Мемы' в навигации и выбирай лучшую картинку!"}
-  ];
-
-  function append(who, text){
-    const el = document.createElement('div');
-    el.className = 'msg ' + (who==='bot' ? 'bot' : 'user');
-    el.textContent = (who==='bot' ? 'Бот: ' : 'Вы: ') + text;
-    body.appendChild(el);
-    body.scrollTop = body.scrollHeight;
-  }
-
-  function respond(q){
-    // simple pattern matching with fallback
-    let ans = "Извини, пока не знаю точный ответ. Попробуй уточнить: 'Python', 'JavaScript', 'Как начать' или 'Курсы'.";
-    for(const item of KB){
-      if(item.pat.test(q)){ ans = item.resp; break; }
-    }
-    append('bot', ans);
-  }
-
-  sendBtn.addEventListener('click', ()=>{
-    const text = input.value.trim();
-    if(!text) return;
-    append('user', text);
-    input.value='';
-    // simulate thinking
-    setTimeout(()=> respond(text), 350 + Math.random()*500);
-  });
-
-  input.addEventListener('keypress', (e)=>{ if(e.key === 'Enter') sendBtn.click(); });
-
-  // open assistant automatically if anchor ?assist=1
-  if(new URLSearchParams(location.search).get('assist') === '1'){ assistant.style.display = 'flex'; }
-})();
-
-/* ===== Small UX & accessibility: keyboard '/' focuses input, ESC closes modals ===== */
-(function(){
-  const videoModal = document.getElementById('videoModal');
-  const assistant = document.getElementById('assistant');
-  window.addEventListener('keydown', (e)=>{
-    if(e.key === '/') {
-      e.preventDefault();
-      const searchInput = document.getElementById('assistantInput');
-      if(searchInput){ searchInput.focus(); }
-    }
-    if(e.key === 'Escape'){
-      if(videoModal.style.display === 'flex') document.getElementById('closeVideo').click();
-      if(assistant.style.display === 'flex') document.getElementById('assistantClose').click();
-    }
-  });
-})();
-
-/* ===== Optional: click language card to show short tooltip (enhanced) ===== */
-(function(){
-  document.querySelectorAll('.lang-card').forEach(card=>{
-    card.addEventListener('dblclick', ()=>{
-      // on double click, open assistant with language suggested
-      const lang = card.dataset.lang || '';
-      const assistant = document.getElementById('assistant');
-      const input = document.getElementById('assistantInput');
-      assistant.style.display = 'flex';
-      input.value = `Расскажи про ${lang}`;
-      input.focus();
-    });
-  });
-})();
-
-/* ===== Preload logos small tweak to avoid flicker ===== */
-(function(){
-  const imgs = Array.from(document.querySelectorAll('.lang-logo img'));
-  imgs.forEach(img=>{
-    const i = new Image();
-    i.src = img.src;
-  });
-})();
+/* ================== КОНЕЦ ЧАСТИ 3 ================== */
 </script>
+
 </body>
 </html>
