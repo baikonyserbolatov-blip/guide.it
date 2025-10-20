@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Искусственный интеллект - IT Portal</title>
+    <style>
+        :root {
+            --bg: #f4f6fb;
+            --text: #111;
+            --card: #fff;
+            --accent: #0059ff;
+        }
+        body.dark {
+            --bg: #0e1320;
+            --text: #f5f5f5;
+            --card: #1c2233;
+            --accent: #3b82f6;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            transition: background-color .3s, color .3s;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: var(--card);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .back-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #ff6b6b, #ffa726);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .ai-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .ai-card {
+            background: var(--card);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,.1);
+        }
+
+        .ai-card h3 {
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .ml-types {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .ml-type {
+            flex: 1;
+            min-width: 250px;
+            background: var(--card);
+            margin: 10px;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo">💻 IT Portal</a>
+    <a href="index.html" class="back-btn">← Назад</a>
+</header>
+
+<section class="hero">
+    <h1>🤖 Искусственный интеллект</h1>
+    <p>Изучайте машинное обучение, нейросети и современные AI-технологии</p>
+</section>
+
+<div class="container">
+    <div class="ai-grid">
+        <div class="ai-card">
+            <h3>🧠 Машинное обучение</h3>
+            <ul>
+                <li>Обучение с учителем</li>
+                <li>Обучение без учителя</li>
+                <li>Ансамбли моделей</li>
+                <li>Глубокое обучение</li>
+                <li>Рекомендательные системы</li>
+            </ul>
+        </div>
+
+        <div class="ai-card">
+            <h3>🔬 Data Science</h3>
+            <ul>
+                <li>Анализ данных</li>
+                <li>Визуализация</li>
+                <li>Статистика</li>
+                <li>Feature Engineering</li>
+                <li>ML Pipeline</li>
+            </ul>
+        </div>
+
+        <div class="ai-card">
+            <h3>📚 Фреймворки</h3>
+            <ul>
+                <li>TensorFlow & Keras</li>
+                <li>PyTorch</li>
+                <li>Scikit-learn</li>
+                <li>Hugging Face</li>
+                <li>OpenCV</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="ml-types">
+        <div class="ml-type">
+            <h4>👁️ Computer Vision</h4>
+            <p>Распознавание изображений, обработка видео, сегментация</p>
+        </div>
+        <div class="ml-type">
+            <h4>🗣️ NLP</h4>
+            <p>Обработка естественного языка, ChatGPT, перевод</p>
+        </div>
+        <div class="ml-type">
+            <h4>🎮 Reinforcement Learning</h4>
+            <p>Обучение с подкреплением, игры, робототехника</p>
+        </div>
+    </div>
+
+    <div class="ai-grid">
+        <div class="ai-card">
+            <h3>🐍 Python для AI</h3>
+            <ul>
+                <li>NumPy & Pandas</li>
+                <li>Matplotlib & Seaborn</li>
+                <li>Jupyter Notebooks</li>
+                <li>ML библиотеки</li>
+                <li>API разработка</li>
+            </ul>
+        </div>
+
+        <div class="ai-card">
+            <h3>☁️ AI в облаке</h3>
+            <ul>
+                <li>AWS SageMaker</li>
+                <li>Google AI Platform</li>
+                <li>Azure Machine Learning</li>
+                <li>Hugging Face Spaces</li>
+                <li>Colab & Kaggle</li>
+            </ul>
+        </div>
+
+        <div class="ai-card">
+            <h3>🚀 Приложения</h3>
+            <ul>
+                <li>Автономные автомобили</li>
+                <li>Медицинская диагностика</li>
+                <li>Финтех аналитика</li>
+                <li>Голосовые помощники</li>
+                <li>Генеративный AI</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
