@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Новости - IT Portal</title>
+    <style>
+        :root {
+            --bg: #f4f6fb;
+            --text: #111;
+            --card: #fff;
+            --accent: #0059ff;
+        }
+        body.dark {
+            --bg: #0e1320;
+            --text: #f5f5f5;
+            --card: #1c2233;
+            --accent: #3b82f6;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            transition: background-color .3s, color .3s;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: var(--card);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .back-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .news-card {
+            background: var(--card);
+            border-radius: 15px;
+            padding: 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-date {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .news-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            margin-bottom: 10px;
+        }
+
+        .trending {
+            background: #f59e0b;
+        }
+
+        .ai-news {
+            background: #ef4444;
+        }
+
+        .web-news {
+            background: #8b5cf6;
+        }
+
+        .security-news {
+            background: #10b981;
+        }
+
+        .news-card h3 {
+            margin: 10px 0;
+            line-height: 1.4;
+        }
+
+        .news-card p {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .read-more {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo">💻 IT Portal</a>
+    <a href="index.html" class="back-btn">← Назад</a>
+</header>
+
+<section class="hero">
+    <h1>📰 IT Новости</h1>
+    <p>Последние события и тренды из мира технологий</p>
+</section>
+
+<div class="container">
+    <div class="news-grid">
+        <!-- Новость 1 -->
+        <div class="news-card" onclick="window.open('https://openai.com/blog/gpt-4', '_blank')">
+            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500&h=300&fit=crop" alt="AI Technology" class="news-image">
+            <div class="news-content">
+                <div class="news-date">Декабрь 2024</div>
+                <span class="news-tag trending">ТРЕНД</span>
+                <span class="news-tag ai-news">AI</span>
+                <h3>OpenAI представляет новые возможности GPT-4</h3>
+                <p>Компания OpenAI анонсировала значительные улучшения в своей флагманской модели GPT-4, включая расширенный контекст и улучшенные возможности программирования...</p>
+                <a href="https://openai.com/blog/gpt-4" class="read-more" target="_blank">Читать далее →</a>
+            </div>
+        </div>
+
+        <!-- Новость 2 -->
+        <div class="news-card" onclick="window.open('https://react.dev/blog/2023/03/16/react-labs', '_blank')">
+            <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=500&h=300&fit=crop" alt="React Development" class="news-image">
+            <div class="news-content">
+                <div class="news-date">Ноябрь 2024</div>
+                <span class="news-tag web-news">REACT</span>
+                <span class="news-tag trending">ТРЕНД</span>
+                <h3>React 19: Revolution in Web Development</h3>
+                <p>Новая версия React приносит революционные изменения в веб-разработку, включая серверные компоненты и улучшенную производительность...</p>
+                <a href="https://react.dev/blog/2023/03/16/react-labs" class="read-more" target="_blank">Читать далее →</a>
+            </div>
+        </div>
+
+        <!-- Новость 3 -->
+        <div class="news-card" onclick="window.open('https://www.python.org/downloads/', '_blank')">
+            <img src="https://images.unsplash.com/photo-1526379879527-8559ecfcaec0?w=500&h=300&fit=crop" alt="Python Programming" class="news-image">
+            <div class="news-content">
+                <div class="news-date">Октябрь 2024</div>
+                <span class="news-tag">PYTHON</span>
+                <span class="news-tag trending">ТРЕНД</span>
+                <h3>Python 3.12: Ускорение на 25%</h3>
+                <p>Вышла новая версия Python 3.12 с значительным увеличением производительности и новыми синтаксическими возможностями для разработчиков...</p>
+                <a href="https://www.python.org/downloads/" class="read-more" target="_blank">Читать далее →</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="news-grid">
+        <!-- Новость 4 -->
+        <div class="news-card" onclick="window.open('https://github.blog/2024-12-01-github-copilot-updates', '_blank')">
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&h=300&fit=crop" alt="GitHub Copilot" class="news-image">
+            <div class="news-content">
+                <div class="news-date">Сентябрь 2024</div>
+                <span class="news-tag ai-news">AI</span>
+                <span class="news-tag">GITHUB</span>
+                <h3>GitHub Copilot X: ИИ-помощник для кода</h3>
+                <p>GitHub представляет Copilot X - следующее поколение ИИ-помощника для программистов с расширенными возможностями и поддержкой большего количества языков...</p>
+                <a href="https://github.blog/2024-12-01-github-copilot-updates" class="read-more" target="_blank">Читать далее →</a>
+            </div>
+        </div>
+
+        <!-- Новость 5 -->
+        <div class="news-card" onclick="window.open('https://cloud.google.com/blog/products/ai-machine-learning', '_blank')">
+            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&h=300&fit=crop" alt="Cloud Computing" class="news-image">
+            <div class="news-content">
+                <div class="news-date">Август 2024</div>
+                <span class="news-tag trending">ТРЕНД</span>
+                <span class="news-tag">CLOUD</span>
+                <h3>Google Cloud снижает цены на AI сервисы</h3>
+                <p>Google Cloud объявляет о снижении цен на свои AI и машинное обучение сервисы, делая технологии искусственного интеллекта более доступными...</p>
+                <a href="https://cloud.google.com/blog/products/ai-machine-learning" class="read-more" target="_blank">Читать далее →</a>
+            </div>
+        </div>
+
+        <!-- Новость 6 -->
+        <div class="news-card" onclick="window.open('https://www.microsoft.com/security/blog/', '_blank')">
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=500&h=300&fit=crop" alt="Cybersecurity" class="news-image">
+            <div class="news-content">
+                <div class="news-date">Июль 2024</div>
+                <span class="news-tag security-news">БЕЗОПАСНОСТЬ</span>
+                <h3>Новые угрозы кибербезопасности в 2024</h3>
+                <p>Эксперты по безопасности предупреждают о новых типах атак на облачные инфраструктуры и рекомендации по защите данных...</p>
+                <a href="https://www.microsoft.com/security/blog/" class="read-more" target="_blank">Читать далее →</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="news-grid">
+        <!-- Новость 7 -->
+        <div class="news-card" onclick="window.open('https://aws.amazon.com/blogs/aws/', '_blank')">
+            <img src="https://images.unsplash.com/photo-1451188502541-13943edb6acb?w=500&h=300&fit=crop" alt="AWS Services" class="news-image">
+            <div class="news-content">
+                <div class="news-date">Июнь 2024</div>
+                <span class="news-tag">AWS</span>
+                <span class="news-tag trending">ТРЕНД</span>
+                <h3>AWS запускает новые сервисы машинного обучения</h3>
+                <p>Amazon Web Services представляет новые управляемые сервисы для ML, упрощающие развертывание и масштабирование моделей искусственного интеллекта...</p>
+                <a href="https://aws.amazon.com/blogs/aws/" class="read-more" target="_blank">Читать далее →</a>
+            </div>
+        </div>
+
+        <!-- Новость 8 -->
+        <div class="news-card" onclick="window.open('https://developer.apple.com/ios/', '_blank')">
+            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=500&h=300&fit=crop" alt="iOS Development" class="news-image">
+            <div class="news-content">
+                <div class="news-date">Май 2024</div>
+                <span class="news-tag">MOBILE</span>
+                <span class="news-tag">APPLE</span>
+                <h3>iOS 18: Новые API для разработчиков</h3>
+                <p>Apple представляет iOS 18 с расширенными возможностями для разработчиков, включая новые фреймворки и улучшенную производительность...</p>
+                <a href="https://developer.apple.com/ios/" class="read-more" target="_blank">Читать далее →</a>
+            </div>
+        </div>
+
+        <!-- Новость 9 -->
+        <div class="news-card" onclick="window.open('https://kotlinlang.org/docs/whatsnew.html', '_blank')">
+            <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=500&h=300&fit=crop" alt="Kotlin Programming" class="news-image">
+            <div class="news-content">
+                <div class="news-date">Апрель 2024</div>
+                <span class="news-tag">KOTLIN</span>
+                <span class="news-tag trending">ТРЕНД</span>
+                <h3>Kotlin 2.0: Основные улучшения</h3>
+                <p>Вышла новая версия Kotlin с улучшенной производительностью компилятора и новыми функциями для multiplatform разработки...</p>
+                <a href="https://kotlinlang.org/docs/whatsnew.html" class="read-more" target="_blank">Читать далее →</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Добавляем функциональность для открытия ссылок при клике на карточку
+document.addEventListener('DOMContentLoaded', function() {
+    const newsCards = document.querySelectorAll('.news-card');
+    
+    newsCards.forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function(e) {
+            // Не открываем ссылку если кликнули на саму ссылку "Читать далее"
+            if (e.target.tagName !== 'A') {
+                const link = this.querySelector('.read-more');
+                if (link) {
+                    window.open(link.href, '_blank');
+                }
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>
