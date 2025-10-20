@@ -1,833 +1,921 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Языки программирования</title>
-<style>
-:root {
-  --bg: #f4f6fb;
-  --text: #111;
-  --card: #fff;
-  --accent: #0059ff;
-  --light: rgba(255,255,255,0.3);
-}
-body.dark {
-  --bg: #0e1320;
-  --text: #f5f5f5;
-  --card: #1c2233;
-  --accent: #3b82f6;
-  --light: rgba(255,255,255,0.05);
-}
-body {
-  background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1740&q=80') center/cover no-repeat fixed;
-  color: var(--text);
-  font-family: "Inter", sans-serif;
-  margin: 0;
-  transition: background-color .3s, color .3s;
-}
-
-/* Glow Cursor */
-body::before {
-  content: '';
-  position: fixed;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 153, 255, 0.25), transparent 70%);
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  top: var(--y);
-  left: var(--x);
-  transition: top .1s, left .1s;
-  z-index: 1;
-}
-
-/* Header */
-header {
-  display:flex;justify-content:space-between;align-items:center;
-  padding:20px 50px;
-  background:rgba(0,0,0,0.5);
-  backdrop-filter:blur(10px);
-  color:white;
-}
-.logo {
-  font-size:1.6rem;
-  font-weight:700;
-  color:var(--accent);
-}
-.theme-toggle {
-  background:none;
-  border:none;
-  font-size:1.5rem;
-  cursor:pointer;
-  color:white;
-}
-
-/* Grid */
-main {
-  padding:60px 40px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:25px;
-  position: relative;
-  z-index: 2;
-}
-.card {
-  background:var(--card);
-  border-radius:15px;
-  padding:25px;
-  text-align:center;
-  box-shadow:0 8px 25px rgba(0,0,0,.2);
-  transition:transform .3s, box-shadow .3s;
-  cursor:pointer;
-  backdrop-filter:blur(10px);
-}
-.card:hover {
-  transform:translateY(-8px);
-  box-shadow:0 15px 35px rgba(0,0,0,.25);
-}
-.card img {
-  width:70px;
-  height:70px;
-  margin-bottom:10px;
-}
-.card h3 {
-  margin:10px 0;
-  font-size:1.2rem;
-}
-.card p {
-  font-size:0.95rem;
-  color:gray;
-}
-
-/* Modal */
-.modal {
-  display:none;
-  position:fixed;
-  top:0;left:0;width:100%;height:100%;
-  background:rgba(0,0,0,0.7);
-  justify-content:center;align-items:center;
-  z-index: 10;
-}
-.modal-content {
-  background:var(--card);
-  color:var(--text);
-  border-radius:15px;
-  padding:30px;
-  width:90%;
-  max-width:800px;
-  max-height:80vh;
-  overflow-y:auto;
-  box-shadow:0 0 30px rgba(0,0,0,0.4);
-  position:relative;
-}
-.modal-content h2 {
-  text-align:center;
-  color:var(--accent);
-}
-.close-btn {
-  position:absolute;
-  right:15px;
-  top:10px;
-  font-size:1.5rem;
-  background:none;
-  border:none;
-  color:var(--text);
-  cursor:pointer;
-}
-
-/* Chatbot */
-.chat-btn {
-  position:fixed;bottom:25px;right:25px;
-  background:var(--accent);color:#fff;
-  border:none;border-radius:50%;
-  width:60px;height:60px;font-size:28px;
-  cursor:pointer;box-shadow:0 0 15px rgba(0,0,0,.3);
-  z-index: 15;
-}
-.chat-box {
-  position:fixed;bottom:100px;right:25px;
-  width:320px;background:var(--card);
-  border-radius:12px;box-shadow:0 0 20px rgba(0,0,0,.3);
-  display:none;flex-direction:column;overflow:hidden;
-  z-index: 20;
-}
-.chat-header {
-  background:var(--accent);color:#fff;
-  padding:12px;text-align:center;
-  font-weight:600;
-}
-.chat-messages {
-  flex:1;padding:10px;overflow-y:auto;
-  max-height:250px;
-}
-.chat-messages div {margin-bottom:8px;}
-.chat-input {
-  display:flex;
-}
-.chat-input input {
-  flex:1;padding:10px;border:none;outline:none;
-  background:var(--bg);color:var(--text);
-}
-.chat-input button {
-  padding:10px;border:none;
-  background:var(--accent);color:#fff;
-  cursor:pointer;
-}
-
-/* Footer */
-footer {
-  text-align:center;
-  padding:25px;
-  color:lightgray;
-  font-size:0.9rem;
-  background:rgba(0,0,0,0.5);
-  backdrop-filter:blur(10px);
-  position:relative;
-  z-index: 2;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Portal - Programming Languages</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .search-filter {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .search-box i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6a11cb;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: #6a11cb;
+            color: white;
+            border-color: #6a11cb;
+        }
+        
+        .languages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .language-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .language-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .language-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-right: 1rem;
+            color: white;
+        }
+        
+        .language-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+        
+        .language-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .description {
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        
+        .details {
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-item {
+            margin-bottom: 0.8rem;
+        }
+        
+        .detail-title {
+            font-weight: 600;
+            color: #6a11cb;
+            margin-bottom: 3px;
+        }
+        
+        .pros-cons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .pros, .cons {
+            flex: 1;
+        }
+        
+        .pros h4, .cons h4 {
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .pros ul, .cons ul {
+            padding-left: 1.2rem;
+            font-size: 0.9rem;
+        }
+        
+        .pros li {
+            color: #2ecc71;
+        }
+        
+        .cons li {
+            color: #e74c3c;
+        }
+        
+        .video-container {
+            margin-top: 1.5rem;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .chat-bot {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .chat-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .chat-header h3 {
+            margin-left: 10px;
+            color: #6a11cb;
+        }
+        
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #f9f9f9;
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+        }
+        
+        .bot-message {
+            background: #e6f2ff;
+            border-bottom-left-radius: 5px;
+            align-self: flex-start;
+        }
+        
+        .user-message {
+            background: #6a11cb;
+            color: white;
+            border-bottom-right-radius: 5px;
+            margin-left: auto;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 1rem;
+        }
+        
+        .chat-input button {
+            padding: 12px 25px;
+            background: #6a11cb;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .chat-input button:hover {
+            background: #5a0db9;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            background: #2c3e50;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .languages-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pros-cons {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<header>
-  <div class="logo">🧠 Programming Hub</div>
-  <button class="theme-toggle" id="themeToggle">🌙</button>
-</header>
-
-<main id="languagesGrid">
-  <!-- Карточки языков начнутся здесь в части 2 -->
-</main>
-<!-- ====== ЯЗЫКИ ПРОГРАММИРОВАНИЯ ====== -->
-<script>
-const languages = [
-  {
-    name: "Python",
-    logo: "https://cdn-icons-png.flaticon.com/512/5968/5968350.png",
-    desc: "Один из самых популярных языков. Прост, читаем и идеально подходит для начинающих.",
-    details: `
-      <h2>Python</h2>
-      <p><b>Описание:</b> Интерпретируемый язык, ориентированный на простоту и читаемость. Используется для веб-разработки, анализа данных, AI и автоматизации.</p>
-      <h3>Плюсы:</h3>
-      <ul>
-        <li>Прост в изучении и синтаксис максимально понятный</li>
-        <li>Мощные библиотеки (NumPy, Django, TensorFlow)</li>
-        <li>Кроссплатформенность</li>
-      </ul>
-      <h3>Минусы:</h3>
-      <ul>
-        <li>Низкая скорость исполнения</li>
-        <li>Не подходит для мобильных приложений напрямую</li>
-      </ul>
-      <h3>План обучения:</h3>
-      <table border="1" cellpadding="6">
-        <tr><th>Этап</th><th>Что изучать</th></tr>
-        <tr><td>1</td><td>Основы синтаксиса, переменные, циклы, функции</td></tr>
-        <tr><td>2</td><td>ООП и работа с модулями</td></tr>
-        <tr><td>3</td><td>Библиотеки NumPy, Pandas, Matplotlib</td></tr>
-        <tr><td>4</td><td>Flask / Django</td></tr>
-        <tr><td>5</td><td>AI / Data Science проекты</td></tr>
-      </table>
-    `
-  },
-  {
-    name: "JavaScript",
-    logo: "https://cdn-icons-png.flaticon.com/512/5968/5968292.png",
-    desc: "Язык веба. Управляет поведением страниц, работает в браузере и на сервере.",
-    details: `
-      <h2>JavaScript</h2>
-      <p><b>Описание:</b> Универсальный язык для создания интерактивных веб-приложений. Используется с HTML и CSS.</p>
-      <h3>Плюсы:</h3>
-      <ul>
-        <li>Работает в браузере без установки</li>
-        <li>Огромное сообщество и экосистема</li>
-        <li>Node.js позволяет использовать JS и на сервере</li>
-      </ul>
-      <h3>Минусы:</h3>
-      <ul>
-        <li>Иногда непредсказуемое поведение типов</li>
-        <li>Быстро меняющаяся экосистема</li>
-      </ul>
-      <h3>План обучения:</h3>
-      <table border="1" cellpadding="6">
-        <tr><th>Этап</th><th>Что изучать</th></tr>
-        <tr><td>1</td><td>Основы JS, DOM, функции</td></tr>
-        <tr><td>2</td><td>ES6+, классы и модули</td></tr>
-        <tr><td>3</td><td>Асинхронность (Promise, async/await)</td></tr>
-        <tr><td>4</td><td>React, Vue или Angular</td></tr>
-        <tr><td>5</td><td>Node.js и Express</td></tr>
-      </table>
-    `
-  },
-  {
-    name: "Java",
-    logo: "https://cdn-icons-png.flaticon.com/512/226/226777.png",
-    desc: "Мощный и безопасный язык. Основа корпоративных систем и Android-приложений.",
-    details: `
-      <h2>Java</h2>
-      <p><b>Описание:</b> Объектно-ориентированный язык, созданный для стабильности и масштабируемости.</p>
-      <h3>Плюсы:</h3>
-      <ul>
-        <li>Высокая производительность</li>
-        <li>Надёжность и безопасность</li>
-        <li>Огромное количество библиотек</li>
-      </ul>
-      <h3>Минусы:</h3>
-      <ul>
-        <li>Большой объём кода для простых задач</li>
-        <li>Потребляет больше памяти</li>
-      </ul>
-      <h3>План обучения:</h3>
-      <table border="1" cellpadding="6">
-        <tr><th>Этап</th><th>Что изучать</th></tr>
-        <tr><td>1</td><td>Основы Java и синтаксис</td></tr>
-        <tr><td>2</td><td>ООП и коллекции</td></tr>
-        <tr><td>3</td><td>Многопоточность</td></tr>
-        <tr><td>4</td><td>Spring Framework</td></tr>
-        <tr><td>5</td><td>Проекты и Android</td></tr>
-      </table>
-    `
-  },
-  {
-    name: "C++",
-    logo: "https://cdn-icons-png.flaticon.com/512/6132/6132222.png",
-    desc: "Классика системного программирования. Быстрый и гибкий язык.",
-    details: `
-      <h2>C++</h2>
-      <p><b>Описание:</b> Используется для разработки игр, системных приложений, ПО в реальном времени.</p>
-      <h3>Плюсы:</h3>
-      <ul>
-        <li>Высокая производительность</li>
-        <li>Контроль над памятью</li>
-        <li>Подходит для любых систем</li>
-      </ul>
-      <h3>Минусы:</h3>
-      <ul>
-        <li>Сложный синтаксис</li>
-        <li>Легко сделать ошибку при управлении памятью</li>
-      </ul>
-      <h3>План обучения:</h3>
-      <table border="1" cellpadding="6">
-        <tr><th>Этап</th><th>Что изучать</th></tr>
-        <tr><td>1</td><td>Основы синтаксиса и компиляция</td></tr>
-        <tr><td>2</td><td>Функции и указатели</td></tr>
-        <tr><td>3</td><td>ООП и шаблоны</td></tr>
-        <tr><td>4</td><td>STL и структуры данных</td></tr>
-        <tr><td>5</td><td>Проекты (игры, системы)</td></tr>
-      </table>
-    `
-  },
-  {
-    name: "C#",
-    logo: "https://cdn-icons-png.flaticon.com/512/6132/6132221.png",
-    desc: "Современный язык от Microsoft. Подходит для приложений, игр и веба.",
-    details: `
-      <h2>C#</h2>
-      <p><b>Описание:</b> Используется с платформой .NET, для Unity-игр, Windows и веба.</p>
-      <h3>Плюсы:</h3>
-      <ul>
-        <li>Интеграция с .NET</li>
-        <li>Безопасное управление памятью</li>
-        <li>Подходит для кроссплатформенной разработки</li>
-      </ul>
-      <h3>Минусы:</h3>
-      <ul>
-        <li>Привязан к экосистеме Microsoft</li>
-        <li>Медленнее, чем C++</li>
-      </ul>
-      <h3>План обучения:</h3>
-      <table border="1" cellpadding="6">
-        <tr><th>Этап</th><th>Что изучать</th></tr>
-        <tr><td>1</td><td>Основы синтаксиса, переменные, классы</td></tr>
-        <tr><td>2</td><td>ООП и интерфейсы</td></tr>
-        <tr><td>3</td><td>Работа с WinForms/WPF</td></tr>
-        <tr><td>4</td><td>Unity 3D</td></tr>
-        <tr><td>5</td><td>ASP.NET Core</td></tr>
-      </table>
-    `
-  }
-];
-
-// вставка карточек
-const grid = document.getElementById("languagesGrid");
-languages.forEach(lang => {
-  const card = document.createElement("div");
-  card.className = "card";
-  card.innerHTML = `
-    <img src="${lang.logo}">
-    <h3>${lang.name}</h3>
-    <p>${lang.desc}</p>
-  `;
-  card.onclick = () => openModal(lang.details);
-  grid.appendChild(card);
-});
-</script>
-<!-- ========== ЧАСТЬ 3/3 ========== -->
-<script>
-/* ================== ЧАСТЬ 3: дополнительные языки, модал, чат-бот, тема, курсор ================== */
-
-/* 1) Функции модалки (openModal / closeModal) — используются карточками, определёнными в Части 2 */
-function openModal(htmlContent, langObj = null) {
-  // Если передан объект языка, формируем расширённый контент (с видео и таблицей)
-  const modal = document.getElementById('languageModal');
-  const modalInner = document.getElementById('modalContent');
-  if (langObj) {
-    // build detailed content from langObj
-    let videoBlock = '';
-    if (langObj.video) {
-      videoBlock = `
-        <div style="margin:12px 0;">
-          <div style="position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;">
-            <iframe class="video-embed" src="https://www.youtube.com/embed/${langObj.video}?rel=0" 
-              style="position:absolute;inset:0;width:100%;height:100%;border:0;" allowfullscreen></iframe>
-          </div>
+    <header>
+        <h1>IT Portal</h1>
+        <p class="subtitle">Programming Languages - Полное руководство для разработчиков</p>
+    </header>
+    
+    <div class="container">
+        <div class="search-filter">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Поиск языков программирования...">
+                <i>🔍</i>
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                <button class="filter-btn" data-filter="web">Веб-разработка</button>
+                <button class="filter-btn" data-filter="mobile">Мобильная разработка</button>
+                <button class="filter-btn" data-filter="desktop">Десктоп</button>
+                <button class="filter-btn" data-filter="ai">AI/Data Science</button>
+            </div>
         </div>
-      `;
-    }
-    const pros = (langObj.pros || []).map(p => `<li>${p}</li>`).join('') || '<li>—</li>';
-    const cons = (langObj.cons || []).map(c => `<li>${c}</li>`).join('') || '<li>—</li>';
-    const resources = (langObj.resources || []).map(r => `<li>${r}</li>`).join('') || '<li>—</li>';
-    const planRows = (langObj.plan || []).map(row => `<tr><td>${escapeHtml(row.level)}</td><td>${escapeHtml(row.items)}</td></tr>`).join('');
-    modalInner.innerHTML = `
-      <button class="close-btn" onclick="closeModal()" aria-label="Закрыть">✖</button>
-      <h2 style="margin-top:6px;color:var(--accent);">${escapeHtml(langObj.name)}</h2>
-      <div style="display:flex;gap:12px;align-items:flex-start;margin-top:10px;">
-        <div style="flex:1">
-          <p style="color:var(--text);line-height:1.45;">${langObj.longDesc || langObj.desc || 'Информация отсутствует.'}</p>
-          <h3>Преимущества</h3><ul style="margin-left:18px;color:var(--text)">${pros}</ul>
-          <h3>Недостатки</h3><ul style="margin-left:18px;color:var(--text)">${cons}</ul>
-          <h3>Где применяется</h3><p style="color:var(--text)">${(langObj.where || '—')}</p>
-          <h3>Ресурсы</h3><ul style="margin-left:18px;color:var(--text)">${resources}</ul>
+        
+        <div class="languages-grid" id="languagesContainer">
+            <!-- Карточки языков будут добавлены через JavaScript -->
         </div>
-        <aside style="width:360px;max-width:40%">
-          <strong>План обучения</strong>
-          <table style="width:100%;margin-top:8px;border-collapse:collapse">
-            <thead><tr><th style="text-align:left;border-bottom:1px solid rgba(0,0,0,0.08);padding:6px">Уровень</th><th style="text-align:left;border-bottom:1px solid rgba(0,0,0,0.08);padding:6px">Фокус</th></tr></thead>
-            <tbody>${planRows}</tbody>
-          </table>
-          <div style="margin-top:10px">
-            <button onclick="copyPlan(${JSON.stringify(langObj.plan || []).replace(/"/g,'&quot;')})" class="btn-primary" style="width:100%;">Копировать план</button>
-          </div>
-        </aside>
-      </div>
-      ${videoBlock}
-      <div style="margin-top:8px;color:var(--muted);font-size:13px">Источник: демонстрационный контент — проверяй официальную документацию и курсы.</div>
-    `;
-  } else {
-    modalInner.innerHTML = htmlContent;
-  }
-  modal.style.display = 'flex';
-  modal.setAttribute('aria-hidden','false');
-  // trap focus (basic)
-  setTimeout(()=> {
-    const close = modal.querySelector('.close-btn');
-    if (close) close.focus();
-  },100);
-}
+        
+        <div class="chat-bot">
+            <div class="chat-header">
+                <div style="background: #6a11cb; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem;">AI</div>
+                <h3>Чат-бот по языкам программирования</h3>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    Привет! Я помогу тебе с информацией о языках программирования. Спроси меня о любом языке из представленных выше!
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Задайте вопрос о языках программирования...">
+                <button id="sendButton">Отправить</button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>IT Portal &copy; 2023 - Все права защищены</p>
+    </footer>
 
-function closeModal() {
-  const modal = document.getElementById('languageModal');
-  modal.style.display = 'none';
-  modal.setAttribute('aria-hidden','true');
-  // stop all videos by clearing iframes inside modal
-  const iframes = modal.querySelectorAll('iframe');
-  iframes.forEach(f=> f.src = '');
-}
+    <script>
+        // Данные о языках программирования
+        const languages = [
+            {
+                id: 1,
+                name: "Python",
+                year: "1991",
+                creator: "Гвидо ван Россум",
+                type: "Интерпретируемый",
+                paradigm: "Мультипарадигмальный",
+                usage: "Веб-разработка, Data Science, AI, автоматизация",
+                description: "Python — высокоуровневый язык программирования общего назначения с динамической типизацией и автоматическим управлением памятью. Отличается простым синтаксисом, что делает его идеальным для начинающих.",
+                pros: ["Простой и читаемый синтаксис", "Большое сообщество и библиотеки", "Универсальность", "Хорошая документация"],
+                cons: ["Медленнее компилируемых языков", "Потребляет много памяти", "Глобальная блокировка интерпретатора (GIL)"],
+                applications: ["Веб-разработка (Django, Flask)", "Data Science и ML (Pandas, NumPy, TensorFlow)", "Автоматизация и скрипты", "Научные вычисления"],
+                learning: "Относительно легкий для изучения, рекомендуется начинающим",
+                demand: "Очень высокий спрос на рынке труда",
+                logo: "🐍",
+                color: "#3776AB",
+                video: "https://www.youtube.com/embed/kqtD5dpn9C8",
+                tags: ["web", "ai"]
+            },
+            {
+                id: 2,
+                name: "JavaScript",
+                year: "1995",
+                creator: "Брендан Эйх",
+                type: "Интерпретируемый",
+                paradigm: "Мультипарадигмальный",
+                usage: "Веб-разработка, мобильные приложения, серверная разработка",
+                description: "JavaScript — язык программирования, который в первую очередь используется для создания интерактивных веб-страниц. Может выполняться как на стороне клиента, так и на стороне сервера (Node.js).",
+                pros: ["Универсальность (frontend, backend, mobile)", "Большое сообщество", "Мгновенный результат выполнения", "Огромное количество фреймворков"],
+                cons: ["Разные реализации в браузерах", "Динамическая типизация может приводить к ошибкам", "Сложность масштабирования больших приложений"],
+                applications: ["Интерактивные веб-страницы", "Серверная разработка (Node.js)", "Мобильные приложения (React Native)", "Десктоп приложения (Electron)"],
+                learning: "Средняя сложность, обязателен для веб-разработки",
+                demand: "Очень высокий спрос, особенно для full-stack разработчиков",
+                logo: "JS",
+                color: "#F7DF1E",
+                video: "https://www.youtube.com/embed/W6NZfCO5SIk",
+                tags: ["web", "mobile"]
+            },
+            {
+                id: 3,
+                name: "Java",
+                year: "1995",
+                creator: "James Gosling (Sun Microsystems)",
+                type: "Компилируемый",
+                paradigm: "Объектно-ориентированный",
+                usage: "Корпоративные приложения, Android разработка, большие системы",
+                description: "Java — строго типизированный объектно-ориентированный язык программирования, предназначенный для создания кроссплатформенных приложений. Принцип 'напиши once, запускай где угодно'.",
+                pros: ["Кроссплатформенность (JVM)", "Высокая производительность", "Надежность и безопасность", "Огромное сообщество"],
+                cons: ["Многословный синтаксис", "Высокое потребление памяти", "Медленнее чем C++", "Сложность для начинающих"],
+                applications: ["Корпоративные приложения", "Android приложения", "Веб-приложения (Spring)", "Большие данные (Hadoop)"],
+                learning: "Средняя сложность, требует понимания ООП",
+                demand: "Высокий спрос, особенно в корпоративном секторе",
+                logo: "☕",
+                color: "#007396",
+                video: "https://www.youtube.com/embed/l9AzO1FMgM8",
+                tags: ["web", "mobile", "desktop"]
+            },
+            {
+                id: 4,
+                name: "C++",
+                year: "1985",
+                creator: "Бьёрн Страуструп",
+                type: "Компилируемый",
+                paradigm: "Мультипарадигмальный",
+                usage: "Системное программирование, игры, высокопроизводительные приложения",
+                description: "C++ — компилируемый язык программирования общего назначения, поддерживающий разные парадигмы программирования. Является расширением языка C с добавлением объектно-ориентированных возможностей.",
+                pros: ["Высокая производительность", "Низкоуровневый доступ к памяти", "Широкие возможности", "Большое наследие кода"],
+                cons: ["Сложный для изучения", "Ручное управление памятью", "Возможность создания небезопасного кода", "Длинная компиляция"],
+                applications: ["Операционные системы", "Игровые движки", "Высокопроизводительные вычисления", "Встраиваемые системы"],
+                learning: "Высокая сложность, рекомендуется после изучения основ программирования",
+                demand: "Высокий спрос в специфических областях (игры, системы)",
+                logo: "C++",
+                color: "#00599C",
+                video: "https://www.youtube.com/embed/vLnPwxZdW4Y",
+                tags: ["desktop"]
+            },
+            {
+                id: 5,
+                name: "C#",
+                year: "2000",
+                creator: "Microsoft",
+                type: "Компилируемый",
+                paradigm: "Объектно-ориентированный",
+                usage: "Разработка под Windows, игры (Unity), веб-приложения",
+                description: "C# — современный объектно-ориентированный язык программирования, разработанный Microsoft. Сочетает в себе мощь C++ и простоту Visual Basic.",
+                pros: ["Интеграция с экосистемой Microsoft", "Мощная среда разработки (Visual Studio)", "Хорошая производительность", "Поддержка Unity для игр"],
+                cons: ["В основном ограничен экосистемой Microsoft", "Менее популярен вне Windows", "Закрытая разработка (хотя сейчас открыт)"],
+                applications: ["Десктоп приложения Windows", "Игры (Unity)", "Веб-приложения (ASP.NET)", "Корпоративные системы"],
+                learning: "Средняя сложность, проще чем C++",
+                demand: "Высокий спрос в корпоративной среде и геймдеве",
+                logo: "C#",
+                color: "#239120",
+                video: "https://www.youtube.com/embed/gfkTfCPWqA0",
+                tags: ["web", "desktop"]
+            },
+            {
+                id: 6,
+                name: "PHP",
+                year: "1995",
+                creator: "Расмус Лердорф",
+                type: "Интерпретируемый",
+                paradigm: "Мультипарадигмальный",
+                usage: "Веб-разработка, серверная часть",
+                description: "PHP — скриптовый язык общего назначения, интенсивно применяемый для разработки веб-приложений. В настоящее время поддерживается подавляющим большинством хостинг-провайдеров.",
+                pros: ["Простота развертывания", "Большое количество хостингов", "Огромное сообщество", "Множество CMS (WordPress, Drupal)"],
+                cons: ["Несогласованность в стандартных библиотеках", "Проблемы с безопасностью в старых версиях", "Медленнее некоторых альтернатив"],
+                applications: ["Веб-сайты и веб-приложения", "Системы управления контентом (CMS)", "E-commerce платформы", "Серверная логика"],
+                learning: "Относительно легкий для изучения основ веб-разработки",
+                demand: "Высокий спрос для веб-разработки, особенно WordPress",
+                logo: "PHP",
+                color: "#777BB4",
+                video: "https://www.youtube.com/embed/OK_JCtrrv-c",
+                tags: ["web"]
+            },
+            {
+                id: 7,
+                name: "Swift",
+                year: "2014",
+                creator: "Apple",
+                type: "Компилируемый",
+                paradigm: "Мультипарадигмальный",
+                usage: "Разработка под iOS, macOS, watchOS, tvOS",
+                description: "Swift — современный, быстрый и безопасный язык программирования от Apple для разработки приложений под все платформы Apple. Призван заменить Objective-C.",
+                pros: ["Безопасность и производительность", "Современный синтаксис", "Полная интеграция с экосистемой Apple", "Автоматическое управление памятью"],
+                cons: ["Ограничен экосистемой Apple", "Меньше вакансий чем для других мобильных платформ", "Быстро меняется"],
+                applications: ["iOS приложения", "macOS приложения", "watchOS приложения", "tvOS приложения"],
+                learning: "Средняя сложность, проще чем Objective-C",
+                demand: "Высокий спрос для разработки под Apple устройства",
+                logo: "🐦",
+                color: "#FA7343",
+                video: "https://www.youtube.com/embed/comQ1-x2a1Q",
+                tags: ["mobile"]
+            },
+            {
+                id: 8,
+                name: "Kotlin",
+                year: "2011",
+                creator: "JetBrains",
+                type: "Компилируемый",
+                paradigm: "Мультипарадигмальный",
+                usage: "Android разработка, серверная разработка, кроссплатформенная разработка",
+                description: "Kotlin — статически типизированный язык программирования, работающий поверх JVM и полностью совместимый с Java. Официальный язык для разработки под Android.",
+                pros: ["Полная совместимость с Java", "Более лаконичный синтаксис чем у Java", "Null-безопасность", "Официальная поддержка Google для Android"],
+                cons: ["Меньше ресурсов и библиотек чем у Java", "Долгая компиляция для больших проектов", "Меньшее сообщество"],
+                applications: ["Android приложения", "Серверная разработка", "Десктоп приложения", "Кроссплатформенная разработка (Kotlin Multiplatform)"],
+                learning: "Средняя сложность, проще чем Java",
+                demand: "Растущий спрос, особенно для Android разработки",
+                logo: "KT",
+                color: "#7F52FF",
+                video: "https://www.youtube.com/embed/F9UC9DY-vIU",
+                tags: ["mobile", "web"]
+            },
+            {
+                id: 9,
+                name: "Go",
+                year: "2009",
+                creator: "Google",
+                type: "Компилируемый",
+                paradigm: "Императивный, структурный",
+                usage: "Серверная разработка, системное программирование, облачные приложения",
+                description: "Go (Golang) — компилируемый многопоточный язык программирования, разработанный Google. Сочетает производительность C++ с простотой Python.",
+                pros: ["Высокая производительность", "Простой и понятный синтаксис", "Встроенная поддержка многопоточности", "Быстрая компиляция"],
+                cons: ["Отсутствие generics (до недавнего времени)", "Меньше библиотек чем у старых языков", "Простой подход может быть ограничивающим"],
+                applications: ["Серверная разработка", "Облачные приложения", "Системное программирование", "Микросервисы"],
+                learning: "Относительно легкий для изучения, особенно для бэкенд разработки",
+                demand: "Растущий спрос, особенно в облачных и микросервисных проектах",
+                logo: "GO",
+                color: "#00ADD8",
+                video: "https://www.youtube.com/embed/YS4e4q9oBaU",
+                tags: ["web"]
+            },
+            {
+                id: 10,
+                name: "Rust",
+                year: "2010",
+                creator: "Mozilla",
+                type: "Компилируемый",
+                paradigm: "Мультипарадигмальный",
+                usage: "Системное программирование, веб-assembly, безопасные приложения",
+                description: "Rust — язык системного программирования, ориентированный на безопасность, скорость и параллелизм. Гарантирует безопасность памяти без сборщика мусора.",
+                pros: ["Безопасность памяти без сборщика мусора", "Высокая производительность", "Современная система пакетов (Cargo)", "Растущее сообщество"],
+                cons: ["Сложная кривая обучения", "Долгая компиляция", "Меньше библиотек чем у C++"],
+                applications: ["Системное программирование", "Веб-браузеры (Firefox)", "Операционные системы", "ВебAssembly"],
+                learning: "Высокая сложность, не рекомендуется начинающим",
+                demand: "Растущий спрос в областях требующих безопасности и производительности",
+                logo: "🦀",
+                color: "#000000",
+                video: "https://www.youtube.com/embed/5C_HPTJg5ek",
+                tags: ["web", "desktop"]
+            },
+            {
+                id: 11,
+                name: "TypeScript",
+                year: "2012",
+                creator: "Microsoft",
+                type: "Компилируемый в JavaScript",
+                paradigm: "Мультипарадигмальный",
+                usage: "Крупномасштабная веб-разработка, приложения с сложной логикой",
+                description: "TypeScript — строго типизированное надмножество JavaScript, которое компилируется в обычный JavaScript. Добавляет статическую типизацию и другие возможности.",
+                pros: ["Статическая типизация уменьшает ошибки", "Полная совместимость с JavaScript", "Отличная поддержка в IDE", "Подходит для больших проектов"],
+                cons: ["Требует компиляции", "Дополнительный слой абстракции", "Может замедлить разработку маленьких проектов"],
+                applications: ["Крупные веб-приложения", "Проекты с сложной бизнес-логикой", "Приложения на Angular", "Серверная разработка (Node.js)"],
+                learning: "Средняя сложность, требует знания JavaScript",
+                demand: "Высокий и растущий спрос для enterprise веб-разработки",
+                logo: "TS",
+                color: "#3178C6",
+                video: "https://www.youtube.com/embed/dpgMiHcHuhk",
+                tags: ["web"]
+            },
+            {
+                id: 12,
+                name: "Ruby",
+                year: "1995",
+                creator: "Юкихиро Мацумото",
+                type: "Интерпретируемый",
+                paradigm: "Мультипарадигмальный",
+                usage: "Веб-разработка, скрипты, автоматизация",
+                description: "Ruby — динамический, рефлективный, интерпретируемый высокоуровневый язык программирования. Фокусируется на простоте и продуктивности.",
+                pros: ["Очень читаемый синтаксис", "Фреймворк Ruby on Rails", "Большое сообщество", "Принцип 'не удивляй' (principle of least surprise)"],
+                cons: ["Медленная производительность", "Высокое потребление памяти", "Меньше вакансий чем у других языков"],
+                applications: ["Веб-разработка (Ruby on Rails)", "Скрипты и автоматизация", "DevOps инструменты", "Прототипирование"],
+                learning: "Относительно легкий для изучения, интуитивный синтаксис",
+                demand: "Умеренный спрос, в основном для legacy проектов и стартапов",
+                logo: "💎",
+                color: "#CC342D",
+                video: "https://www.youtube.com/embed/t_ispmWmdjY",
+                tags: ["web"]
+            },
+            {
+                id: 13,
+                name: "R",
+                year: "1993",
+                creator: "Ross Ihaka и Robert Gentleman",
+                type: "Интерпретируемый",
+                paradigm: "Мультипарадигмальный",
+                usage: "Статистический анализ, Data Science, визуализация данных",
+                description: "R — язык программирования для статистической обработки данных и работы с графикой. Широко используется среди статистиков и аналитиков данных.",
+                pros: ["Мощные статистические возможности", "Отличные возможности визуализации", "Большое количество пакетов", "Активное сообщество в Data Science"],
+                cons: ["Медленная производительность", "Специфический синтаксис", "Ограничен за пределами статистики и анализа данных"],
+                applications: ["Статистический анализ", "Визуализация данных", "Машинное обучение", "Биоинформатика"],
+                learning: "Средняя сложность, требует математического бэкграунда",
+                demand: "Высокий спрос в областях анализа данных и исследований",
+                logo: "R",
+                color: "#276DC3",
+                video: "https://www.youtube.com/embed/_V8eKsto3Ug",
+                tags: ["ai"]
+            },
+            {
+                id: 14,
+                name: "Scala",
+                year: "2004",
+                creator: "Martin Odersky",
+                type: "Компилируемый",
+                paradigm: "Мультипарадигмальный",
+                usage: "Большие данные, распределенные системы, веб-приложения",
+                description: "Scala — язык программирования, сочетающий объектно-ориентированное и функциональное программирование. Работает на JVM и полностью совместим с Java.",
+                pros: ["Сочетание ООП и ФП", "Полная совместимость с Java", "Высокая производительность", "Подходит для больших распределенных систем"],
+                cons: ["Сложный для изучения", "Долгая компиляция", "Меньше ресурсов чем у Java"],
+                applications: ["Большие данные (Apache Spark)", "Распределенные системы", "Веб-приложения", "Высоконагруженные системы"],
+                learning: "Высокая сложность, требует знания Java и ФП концепций",
+                demand: "Умеренный спрос, в основном в больших данных и FinTech",
+                logo: "SC",
+                color: "#DC322F",
+                video: "https://www.youtube.com/embed/3jg1AheF4n0",
+                tags: ["web", "ai"]
+            },
+            {
+                id: 15,
+                name: "Dart",
+                year: "2011",
+                creator: "Google",
+                type: "Компилируемый",
+                paradigm: "Объектно-ориентированный",
+                usage: "Кроссплатформенная мобильная разработка, веб-приложения",
+                description: "Dart — язык программирования, оптимизированный для создания пользовательских интерфейсов. Основной язык для фреймворка Flutter.",
+                pros: ["Быстрая производительность", "Кроссплатформенность с Flutter", "Простой синтаксис для Java/JavaScript разработчиков", "Поддержка от Google"],
+                cons: ["Меньше сообщество", "Ограничен вне экосистемы Flutter", "Меньше библиотек чем у других языков"],
+                applications: ["Кроссплатформенные мобильные приложения (Flutter)", "Веб-приложения", "Десктоп приложения", "Серверная разработка"],
+                learning: "Средняя сложность, особенно с фреймворком Flutter",
+                demand: "Растущий спрос благодаря популярности Flutter",
+                logo: "DART",
+                color: "#00B4AB",
+                video: "https://www.youtube.com/embed/5F-6n_2XWR8",
+                tags: ["mobile", "web"]
+            }
+        ];
 
-function copyPlan(planArrayJson) {
-  try {
-    const arr = typeof planArrayJson === 'string' ? JSON.parse(planArrayJson) : planArrayJson;
-    const text = arr.map(r => `${r.level}: ${r.items}`).join('\n');
-    navigator.clipboard && navigator.clipboard.writeText(text);
-    alert('План скопирован в буфер обмена');
-  } catch (e) {
-    alert('Не удалось скопировать план');
-  }
-}
+        // Инициализация страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            renderLanguages(languages);
+            setupFilters();
+            setupSearch();
+            setupChatBot();
+        });
 
-/* helper to sanitize small html fragments (very basic) */
-function escapeHtml(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-
-/* 2) Дополнительные языки (чтобы суммарно было около 50 карт) — короткие записи для менее популярных,
-      но для ключевых (HTML/CSS/TS/SQL/Rust/Go/Swift/Kotlin/etc) даём расширения.
-   Мы создаём массив extraLangs и затем динамически добавляем карточки в grid (как в Части 2).
-*/
-const extraLangs = [
-  { name: "HTML", logo: "https://cdn-icons-png.flaticon.com/512/732/732212.png", desc: "Язык разметки для создания структуры веб-страниц.", longDesc: "HTML (HyperText Markup Language) — основа веба. Используется для структуры страниц, семантической разметки и совместной работы с CSS/JavaScript.", tags:['Web','Markup'], where:'Browsers, Web', pros:['Простейший старт для веба'], cons:['Не язык программирования, а разметка'], resources:['MDN HTML'], plan:[{level:'Beginner',items:'Теги, структура, семантика'},{level:'Intermediate',items:'Forms, семантическая разметка'},{level:'Advanced',items:'Accessibility, SEO'}], video:'UB1O30fR-EE' },
-  { name: "CSS", logo: "https://cdn-icons-png.flaticon.com/512/732/732190.png", desc: "Каскадные таблицы стилей — оформление веб-страниц.", longDesc: "CSS отвечает за внешний вид: позиционирование, адаптивность, анимации и дизайн систем.", tags:['Web','Styling'], where:'Browsers, UI', pros:['Мощный средства стилизации'], cons:['Иногда сложное поведение каскада'], resources:['MDN CSS'], plan:[{level:'Beginner',items:'Селекторы, box-model'},{level:'Intermediate',items:'Flexbox, Grid, адаптивность'},{level:'Advanced',items:'Анимации, производительность'}], video:'yfoY53QXEnI' },
-  { name: "TypeScript", logo: "https://cdn.worldvectorlogo.com/logos/typescript.svg", desc: "Надстройка над JS с типами.", longDesc: "TypeScript добавляет статическую типизацию, что улучшает масштабирование больших проектов и сокращает количество ошибок на этапе разработки.", tags:['Frontend','Typed'], where:'Web, Node.js', pros:['Статическая типизация'], cons:['Необходима сборка в JS'], resources:['TypeScript Handbook'], plan:[{level:'Beginner',items:'Типы, интерфейсы'},{level:'Intermediate',items:'Generics, утилиты типов'},{level:'Advanced',items:'TS в больших проектах'}], video:'BwuLxPH8IDs' },
-  { name: "SQL", logo: "https://cdn-icons-png.flaticon.com/512/2602/2602106.png", desc: "Язык запросов к реляционным базам данных.", longDesc: "SQL — незаменим для работы с реляционными БД: создание запросов, JOIN'ы, агрегация и оптимизация.", tags:['Data','DB'], where:'Databases, Backend', pros:['Необходим для аналитики и backend'], cons:['Различия в диалектах'], resources:['SQLZoo, LeetCode DB'], plan:[{level:'Beginner',items:'SELECT, WHERE, JOINs'},{level:'Intermediate',items:'Индексы, транзакции'},{level:'Advanced',items:'Проектирование схем, оптимизация'}], video:'HXV3zeQKqGY' },
-  { name: "Rust", logo: "https://www.rust-lang.org/logos/rust-logo-512x512.png", desc: "Безопасный и быстрый язык.", longDesc: "Rust делает упор на безопасность памяти и отсутствие data races. Отлично для системного ПО, WebAssembly и высоконагруженных сервисов.", tags:['Systems','Safe'], where:'Systems, WebAssembly', pros:['Безопасность памяти на уровне компилятора'], cons:['Крутая кривая обучения'], resources:['The Rust Book'], plan:[{level:'Beginner',items:'Ownership, базовый синтаксис'},{level:'Intermediate',items:'Типажи, жизненный цикл'},{level:'Advanced',items:'Unsafe, оптимизация'}], video:'ygL_xcavzQ4' },
-  { name: "Go", logo: "https://golang.org/lib/godoc/images/go-logo-blue.svg", desc: "Простой и быстрый язык для серверов.", longDesc: "Go ориентирован на простоту, скорость и отличную поддержку параллелизма (goroutines). Часто используется в облачных сервисах и микросервисах.", tags:['Cloud','Backend'], where:'Microservices, Cloud', pros:['Простота и надёжность'], cons:['Меньше удобств чем в высокоуровневых языках'], resources:['Tour of Go'], plan:[{level:'Beginner',items:'Синтаксис, пакеты'},{level:'Intermediate',items:'Горутины, каналы'},{level:'Advanced',items:'Микросервисы'}], video:'YS4e4q9oBaU' },
-  { name: "Swift", logo: "https://developer.apple.com/assets/elements/icons/swift/swift-64x64_2x.png", desc: "Язык Apple для iOS/macOS.", longDesc: "Swift — современный, безопасный и быстрый язык для разработки приложений под iOS и macOS. Поддерживает SwiftUI и современную экосистему.", tags:['Mobile','iOS'], where:'iOS/macOS', pros:['Оптимизирован для Apple'], cons:['Ограниченная экосистема вне Apple'], resources:['Apple Developer'], plan:[{level:'Beginner',items:'Синтаксис, Xcode'},{level:'Intermediate',items:'SwiftUI/Combine'},{level:'Advanced',items:'Архитектура приложений'}], video:'FcsY1YPBwzQ' },
-  { name: "Kotlin", logo: "https://upload.wikimedia.org/wikipedia/commons/7/74/Kotlin_Icon.png", desc: "Современный JVM-язык, популярен на Android.", longDesc: "Kotlin сочетает лаконичность и совместимость с Java. Широко применяется в Android-разработке и серверной части.", tags:['Android','JVM'], where:'Android, Backend', pros:['Совместим с Java'], cons:['Меньше исторических материалов'], resources:['Kotlin docs'], plan:[{level:'Beginner',items:'Синтаксис, базовые структуры'},{level:'Intermediate',items:'Coroutines, Android'},{level:'Advanced',items:'Архитектура и оптимизация'}], video:'F9UC9DY-vIU' },
-  { name: "Ruby", logo: "https://upload.wikimedia.org/wikipedia/commons/7/73/Ruby_logo.svg", desc: "Фокус на удобстве разработчика, популярен с Rails.", longDesc: "Ruby предлагает чистый синтаксис и концентрируется на продуктивности. Ruby on Rails позволил быстро создавать веб-приложения.", tags:['Web','Rails'], where:'Web, Startups', pros:['Быстрая разработка MVP'], cons:['Меньше вакансий сейчас'], resources:['Rails Guides'], plan:[{level:'Beginner',items:'Ruby syntax'},{level:'Intermediate',items:'Rails basics'},{level:'Advanced',items:'Performance'}], video:'v1et5PqSx6Y' },
-  { name: "PHP", logo: "https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg", desc: "Серверный веб-язык с большим наследием.", longDesc: "PHP остаётся популярным благодаря WordPress и большому количеству сайтов. Современные фреймворки (Laravel) делают разработку удобнее.", tags:['Web','Server'], where:'Web', pros:['Лёгкий старт'], cons:['Критика дизайна языка'], resources:['PHP Manual'], plan:[{level:'Beginner',items:'Синтаксис и формы'},{level:'Intermediate',items:'Laravel basics'},{level:'Advanced',items:'Безопасность и масштабирование'}], video:'OK_JCtrrv-c' },
-  { name: "Scala", logo: "https://upload.wikimedia.org/wikipedia/commons/3/39/Scala-full-color.svg", desc: "Функциональный JVM-язык, популярен в Big Data.", longDesc: "Scala сочетает функциональные и объектно-ориентированные парадигмы, используется в экосистеме Spark.", tags:['JVM','Functional','Big Data'], where:'Big Data, Backend', pros:['Мощные абстракции'], cons:['Крутая кривая'], resources:['Scala docs'], plan:[{level:'Beginner',items:'Синтаксис, OOP vs FP'},{level:'Intermediate',items:'Spark basics'},{level:'Advanced',items:'Производительность'}], video:'' },
-  { name: "R", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1b/R_logo.svg", desc: "Язык для статистики и визуализации данных.", longDesc: "R широко применяется в академии и аналитике; отличная экосистема для статистики и визуализации.", tags:['Data','Statistics'], where:'Data Science', pros:['Сильная статистическая поддержка'], cons:['Может быть медленным'], resources:['R for Data Science'], plan:[{level:'Beginner',items:'Основы R и визуализация'},{level:'Intermediate',items:'dplyr, ggplot2'},{level:'Advanced',items:'Моделирование'}], video:'s2Z5tZ51Gqk' },
-  { name: "Dart", logo: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Dart-logo.png", desc: "Язык для Flutter — кроссплатформенные UI.", longDesc: "Dart используется в связке с Flutter для создания приложений под iOS/Android и веб, с единым кодом интерфейса.", tags:['Mobile','Flutter'], where:'Mobile, Web', pros:['Быстрый UI dev'], cons:['Связан в основном с Flutter'], resources:['Flutter docs'], plan:[{level:'Beginner',items:'Dart basics'},{level:'Intermediate',items:'Widgets, state'},{level:'Advanced',items:'Performance'}], video:'1gDhl4leEzA' },
-  { name: "MATLAB", logo: "https://upload.wikimedia.org/wikipedia/commons/2/21/Matlab_Logo.png", desc: "Среда и язык для научных вычислений.", longDesc: "MATLAB удобен для прототипирования и численных методов; часто используется в инженерии и научных исследованиях.", tags:['Numeric','Science'], where:'Research, Engineering', pros:['Мощные инструменты для численных задач'], cons:['Коммерческая лицензия'], resources:['MathWorks'], plan:[{level:'Beginner',items:'Matrix ops'},{level:'Intermediate',items:'Toolboxes'},{level:'Advanced',items:'Simulink'}], video:'' },
-  { name: "Haskell", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Haskell-Logo.svg", desc: "Чисто функциональный язык с сильной типизацией.", longDesc: "Haskell полезен для изучения функциональных парадигм и работы с абстракциями; богатая система типов.", tags:['Functional','Research'], where:'Academia, Research', pros:['Высокая абстракция и безопасность типов'], cons:['Крутая кривая'], resources:['Learn You a Haskell'], plan:[{level:'Beginner',items:'FP basics'},{level:'Intermediate',items:'Monads, types'},{level:'Advanced',items:'Performance'}], video:'' },
-  { name: "Lua", logo: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Lua-Logo.svg", desc: "Лёгкий встраиваемый скриптовый язык.", longDesc: "Lua часто встраивают в игры и приложения как конфигурационный или скриптовый язык.",
-    tags:['Embedded','Games'], where:'Games, Embedded', pros:['Лёгкий и быстрый'], cons:['Ограниченная стандартная библиотека'], resources:['Programming in Lua'], plan:[{level:'Beginner',items:'Syntax, tables'},{level:'Intermediate',items:'Coroutines'},{level:'Advanced',items:'C API'}], video:'' },
-  { name: "Assembly", logo: "", desc: "Низкоуровневый язык для работы с железом.", longDesc: "Assembly — диалекты для x86/ARM; нужен для драйверов, встроенных систем и оптимизации.", tags:['Low-level'], where:'Embedded, Drivers', pros:['Максимальный контроль и скорость'], cons:['Сложная разработка'], resources:['Assembly guides'], plan:[{level:'Beginner',items:'Registers & mnemonics'},{level:'Intermediate',items:'Calling conventions'},{level:'Advanced',items:'Optimization'}], video:'' },
-  { name: "Fortran", logo: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Fortran_logo.png", desc: "Язык для численного моделирования (исторически важен).", longDesc: "Fortran всё ещё используется в науке и инженерии для численных расчётов и высокопроизводительных вычислений.", tags:['Numeric'], where:'Scientific computing', pros:['Оптимизирован для математических расчётов'], cons:['Устаревшие парадигмы'], resources:['Fortran docs'], plan:[{level:'Beginner',items:'Синтаксис'}, {level:'Intermediate',items:'Функции'}, {level:'Advanced',items:'Performance'}], video:'' },
-  { name: "COBOL", logo: "https://upload.wikimedia.org/wikipedia/commons/3/3b/COBOL_logo.png", desc: "Язык бизнес-приложений — активно используется в банковских системах.", longDesc: "COBOL применяется в старых банковских и финансовых системах; понимание COBOL ценно в поддержке legacy-систем.", tags:['Legacy','Business'], where:'Banks, Legacy systems', pros:['Много унаследованного кода'], cons:['Устаревшая парадигма'], resources:['COBOL resources'], plan:[{level:'Beginner',items:'Syntax'}, {level:'Intermediate',items:'File handling'}, {level:'Advanced',items:'Integration'}], video:'' },
-  { name: "Pascal", logo: "https://upload.wikimedia.org/wikipedia/commons/5/50/Pascal_logo.png", desc: "Образовательный язык, исторически используемый для обучения.", longDesc: "Pascal хорош для обучения алгоритмам и структурному программированию; имеет несколько диалектов и реализаций.", tags:['Education'], where:'Education', pros:['Хорош для базового обучения'], cons:['Меньше применения в продакшне'], resources:['Pascal guides'], plan:[{level:'Beginner',items:'Syntax'}, {level:'Intermediate',items:'Structures'}, {level:'Advanced',items:'Projects'}], video:'' },
-  { name: "Lisp", logo: "https://upload.wikimedia.org/wikipedia/commons/3/36/Common_Lisp_Logo.svg", desc: "Один из старейших языков, влиявший на AI-исследования.", longDesc: "Lisp с его макросистемой и обработкой списков исторически важен и использовался в ранних исследованиях AI.", tags:['AI','Research'], where:'Research', pros:['Очень гибкий'], cons:['Необычный синтаксис'], resources:['Lisp guides'], plan:[{level:'Beginner',items:'S-expressions'},{level:'Intermediate',items:'Macros'},{level:'Advanced',items:'DSLs'}], video:'' },
-  { name: "Prolog", logo: "https://upload.wikimedia.org/wikipedia/commons/8/87/Prolog_logo.png", desc: "Логический язык, применяемый в экспертных системах.", longDesc: "Prolog удобен для задач логики и вывода, часто используется в академических исследованиях.", tags:['Logic'], where:'Research', pros:['Естественен для логических задач'], cons:['Узкая область применения'], resources:['Prolog docs'], plan:[{level:'Beginner',items:'Facts & rules'},{level:'Intermediate',items:'Backtracking'},{level:'Advanced',items:'Constraints'}], video:'' },
-  { name: "Scala2", logo: "", desc: "См. Scala (повтор)", longDesc: "", tags:[], where:'', pros:[], cons:[], resources:[], plan:[], video:'' },
-  { name: "Elixir", logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Elixir_logo.png", desc: "Функциональный язык для распределённых систем (Erlang VM).", longDesc: "Elixir подходит для realtime и распределённых приложений, используя надёжность BEAM VM.", tags:['Functional','Concurrent'], where:'Backend, Telecom', pros:['Высокая надёжность'], cons:['Нишевая экосистема'], resources:['Elixir docs'], plan:[{level:'Beginner',items:'Basics'},{level:'Intermediate',items:'OTP'},{level:'Advanced',items:'Scalability'}], video:'' },
-  { name: "Erlang", logo: "https://upload.wikimedia.org/wikipedia/commons/5/59/Erlang_logo.png", desc: "Язык для надёжных распределённых систем.", longDesc: "Erlang и BEAM VM обеспечивают устойчивость и обработку большого числа соединений.", tags:['Concurrent'], where:'Telecom, Backend', pros:['Fault-tolerance'], cons:['Неинтуитивный синтаксис'], resources:['Erlang docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'OTP'}], video:'' },
-  { name: "Solidity", logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png", desc: "Язык смарт-контрактов (Ethereum).", longDesc: "Solidity используется для создания смарт-контрактов и DApps в экосистеме Ethereum.", tags:['Blockchain'], where:'Smart contracts', pros:['Ключевой язык Web3'], cons:['Высокая ответственность и уязвимости'], resources:['Solidity docs'], plan:[{level:'Beginner',items:'Basics & security'},{level:'Intermediate',items:'Testing'},{level:'Advanced',items:'Audits'}], video:'' },
-  { name: "Julia", logo: "https://julialang.org/assets/julialogo.svg", desc: "Язык для численных вычислений и научных задач.", longDesc: "Julia сочетает простоту и высокую производительность, особенно в численных задачах.", tags:['Numeric'], where:'Science', pros:['Быстро для численных задач'], cons:['Экосистема меньше Python'], resources:['Julia docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'Packages'},{level:'Advanced',items:'Optimization'}], video:'' },
-  { name: "OCaml", logo: "https://upload.wikimedia.org/wikipedia/commons/8/8f/OCaml_logo.png", desc: "Функциональный язык со статической типизацией.", longDesc: "OCaml даёт мощную типовую систему и удобен для построения компиляторов и аналитических инструментов.", tags:['Functional'], where:'Research, Tools', pros:['Сильная типизация'], cons:['Меньше материалов'], resources:['OCaml docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'Modules'},{level:'Advanced',items:'Projects'}], video:'' },
-  { name: "F#", logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/F_Sharp_logo.png", desc: "Функциональный язык на платформе .NET.", longDesc: "F# сочетает функциональные парадигмы с экосистемой .NET и подходит для аналитических задач.", tags:['Functional','.NET'], where:'Enterprise, Analytics', pros:['Интеграция с .NET'], cons:['Нишевая экосистема'], resources:['F# docs'], plan:[{level:'Beginner',items:'Basics'},{level:'Intermediate',items:'Functional patterns'},{level:'Advanced',items:'Applications'}], video:'' },
-  { name: "Groovy", logo: "https://www.groovy-lang.org/images/groovy-logo.png", desc: "Динамический JVM-язык, удобен для скриптов и DSL.", longDesc: "Groovy упрощает разработку скриптов на JVM, хорошо интегрирован с Gradle и инструментами Java.", tags:['JVM','Scripting'], where:'Build scripts, Automation', pros:['Удобен как скриптовый язык'], cons:['Меньше использования в новых проектах'], resources:['Groovy docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'DSLs'},{level:'Advanced',items:'Integrations'}], video:'' },
-  { name: "Bash", logo: "", desc: "Shell scripting для UNIX-систем.", longDesc: "Bash незаменим для администрирования серверов, автоматизации задач и простых утилит.", tags:['Scripting','DevOps'], where:'System admin', pros:['Незаменим для автоматизации'], cons:['Портируемость и сложность скриптов'], resources:['Bash guides'], plan:[{level:'Beginner',items:'Scripts'},{level:'Intermediate',items:'Automation'},{level:'Advanced',items:'Complex tooling'}], video:'' },
-  { name: "PowerShell", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Windows_PowerShell_5.0_icon.png", desc: "Инструмент автоматизации для Windows и кроссплатформенный PowerShell Core.", longDesc: "PowerShell мощный для управления Windows-инфраструктурой и имеет современную кроссплатформенную версию.", tags:['Admin'], where:'Windows admin', pros:['Мощный для администрирования'], cons:['Изначально Windows-centric'], resources:['Microsoft docs'], plan:[{level:'Beginner',items:'Cmdlets'},{level:'Intermediate',items:'Scripting'},{level:'Advanced',items:'Modules'}], video:'' },
-  { name: "Nim", logo: "https://nim-lang.org/assets/nim-logo.svg", desc: "Компилируемый язык с лаконичным синтаксисом и генерируемым C.", longDesc: "Nim предлагает простоту и скорость, компилируясь в C для получения высокой производительности.", tags:['Systems'], where:'Systems, Tools', pros:['Лёгкий синтаксис и быстрый код'], cons:['Меньше экосистемы'], resources:['Nim docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'Interop'},{level:'Advanced',items:'Projects'}], video:'' },
-  { name: "Crystal", logo: "https://crystal-lang.org/images/crystal-logo.svg", desc: "Синтаксис как Ruby, компилируется в быстрый код.", longDesc: "Crystal похож на Ruby по синтаксису, но компилируется и даёт высокую производительность.", tags:['Compiled','Web'], where:'Web, Tools', pros:['Синтаксис удобен, производительность хороша'], cons:['Молодой язык'], resources:['Crystal docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'Frameworks'},{level:'Advanced',items:'Performance'}], video:'' },
-  { name: "Julia2", logo: "", desc: "Повтор Julia (см. выше)", longDesc:'', tags:[], where:'', pros:[], cons:[], resources:[], plan:[], video:'' },
-  { name: "Racket", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Racket-logo.svg", desc: "Язык семейства Lisp, часто в образовании.", longDesc: "Racket удобен для прототипирования языков и обладает мощной средой разработки.", tags:['Education'], where:'Academia', pros:['Гибкость'], cons:['Нишевая экосистема'], resources:['Racket docs'], plan:[{level:'Beginner',items:'Basics'},{level:'Intermediate',items:'Macros'},{level:'Advanced',items:'DSLs'}], video:'' },
-  { name: "Groovy2", logo:'', desc:'повтор Groovy' },
-  { name: "Perl", logo: "https://www.perl.org/images/perlorg-logo.png", desc: "Мощный язык для текстовой обработки и автоматизации.", longDesc: "Perl широко использовался в вебе и системном администрировании; имеет сильные возможности обработки строк и регулярных выражений.", tags:['Scripting','Text'], where:'Scripting', pros:['Regex power'], cons:['Плохая читаемость иногда'], resources:['Modern Perl'], plan:[{level:'Beginner',items:'Regex basics'},{level:'Intermediate',items:'CPAN modules'},{level:'Advanced',items:'Large scripts'}], video:'' },
-  { name: "Cobol2", logo:'', desc:'повтор COBOL' },
-  { name: "Ada", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2b/Ada_language_logo.png", desc: "Язык с сильной типизацией, применяемый в критичных системах.", longDesc: "Ada используется в авиации и других областях, где критична надёжность и предсказуемость.", tags:['Safety','Embedded'], where:'Aerospace, Safety-critical', pros:['Высокая надёжность'], cons:['Узкая область применения'], resources:['Ada docs'], plan:[{level:'Beginner',items:'Syntax'},{level:'Intermediate',items:'RTOS integration'},{level:'Advanced',items:'Formal verification'}], video:'' },
-  { name: "Haxe", logo:'', desc:'Кроссплатформенный язык с компиляцией в разные таргеты.' },
-  { name: "OpenCL C", logo:'', desc:'Язык для GPGPU-программирования (OpenCL).' },
-  { name: "CUDA C", logo:'', desc:'Язык NVIDIA для программирования GPU.' },
-  { name: "GLSL", logo:'', desc:'Шейдерный язык OpenGL для графики.' },
-  { name: "VHDL", logo:'', desc:'Язык описания аппаратуры для FPGA/ASIC.' },
-  { name: "Verilog", logo:'', desc:'Ещё один язык описания аппаратуры.' },
-  { name: "Smalltalk", logo:'https://upload.wikimedia.org/wikipedia/commons/2/24/Smalltalk_logo.png', desc:'Один из первых объектно-ориентированных языков; влиял на OOP.' },
-  { name: "Delphi", logo:'https://upload.wikimedia.org/wikipedia/commons/9/90/Embarcadero-Delphi.svg', desc:'Object Pascal / RAD-инструмент для Windows.' },
-  { name: "Pascal2", logo:'', desc:'повтор Pascal' },
-  { name: "Algol", logo:'', desc:'Исторически важный язык, оказавший влияние на синтаксис многих современных языков.' },
-  { name: "Logo", logo:'', desc:'Образовательные языки (черепашка)' },
-  { name: "Scratch", logo:'https://scratch.mit.edu/images/scratch-og.png', desc:'Визуальная среда для обучения детей.' },
-  { name: "APL", logo:'', desc:'Язык с символической нотацией для матричных операций.' },
-  { name: "J", logo:'', desc:'Язык, родственный APL, для матричных вычислений.' },
-  { name: "Awk", logo:'', desc:'Удобен для обработки текстовых потоков и логов.' },
-  { name: "Tcl", logo:'', desc:'Скриптовый язык с возможностью встраивания.' },
-  { name: "PostScript", logo:'', desc:'Язык описания страниц и векторной графики.' },
-  { name: "XSLT", logo:'', desc:'Язык трансформации XML.' },
-  { name: "ML", logo:'', desc:'Семейство функциональных языков (Standard ML).' },
-  { name: "Standard ML", logo:'', desc:'Functional language with strong typing.' },
-  { name: "SML(N)", logo:'', desc:'Повтор SML' }
-];
-
-/* Функция добавления карточки в DOM (используем ту же структуру, что в Части 2) */
-const gridEl = document.getElementById('languagesGrid');
-function appendLangCard(lang) {
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.innerHTML = `
-    ${lang.logo ? `<img src="${lang.logo}" alt="${escapeHtml(lang.name)}" style="width:70px;height:70px;object-fit:contain">` : ''}
-    <h3>${escapeHtml(lang.name)}</h3>
-    <p>${escapeHtml(lang.desc || 'Описание отсутствует')}</p>
-  `;
-  card.addEventListener('click', () => {
-    // open modal with detailed content where available
-    if (lang.longDesc || lang.plan || lang.pros || lang.cons) {
-      openModal('', lang);
-    } else if (lang.details) {
-      openModal(lang.details);
-    } else {
-      openModal(`<h2>${escapeHtml(lang.name)}</h2><p>Краткая информация: ${escapeHtml(lang.desc||'—')}</p>`);
-    }
-  });
-  gridEl.appendChild(card);
-}
-
-/* Добавляем дополнительные карточки */
-extraLangs.forEach(l => appendLangCard(l));
-
-/* 3) Тема + сохранение состояния темы в localStorage */
-(function(){
-  const btn = document.getElementById('themeToggle');
-  const key = 'itportal.theme';
-  const saved = localStorage.getItem(key) || 'dark';
-  applyTheme(saved === 'light' ? 'light' : 'dark');
-  btn.addEventListener('click', ()=>{
-    const cur = document.body.classList.contains('dark') ? 'dark' : 'light';
-    const next = cur === 'dark' ? 'light' : 'dark';
-    applyTheme(next);
-    localStorage.setItem(key, next);
-  });
-  function applyTheme(name){
-    if(name === 'light') {
-      document.body.classList.remove('dark');
-      document.body.classList.add('light');
-      // adjust colors for light mode if needed
-    } else {
-      document.body.classList.remove('light');
-      document.body.classList.add('dark');
-    }
-  }
-})();
-
-/* 4) Курсор: обновляем CSS-переменные для ::before (часть 1 использует var(--x) var(--y)) */
-(function(){
-  window.addEventListener('mousemove', (e) => {
-    document.body.style.setProperty('--x', e.clientX + 'px');
-    document.body.style.setProperty('--y', e.clientY + 'px');
-  });
-})();
-
-/* 5) Простой оффлайн чат-бот (знает языки на странице) */
-(function(){
-  // Create assistant UI (small improvements)
-  // If chat box not present, create minimal one (we had in earlier parts chat-box markup, but ensure)
-  let assistantWindow = document.querySelector('.chat-box');
-  if(!assistantWindow){
-    // create structure
-    assistantWindow = document.createElement('div');
-    assistantWindow.className = 'chat-box';
-    assistantWindow.innerHTML = `
-      <div class="chat-header">Помощник</div>
-      <div class="chat-messages" id="chatMessages"><div style="opacity:.9;color:var(--muted);padding:6px">Привет! Спроси меня про язык: "Python", "план JavaScript" или "плюсы Rust".</div></div>
-      <div class="chat-input">
-        <input id="chatInput" placeholder="Например: 'расскажи про Python'">
-        <button id="chatSend" class="btn-primary">Отправить</button>
-      </div>
-    `;
-    document.body.appendChild(assistantWindow);
-  }
-
-  // Assistant floating button (exists in some parts as chat-btn)
-  let assistantBtn = document.getElementById('assistantBtn') || document.getElementById('openAssistantMini') || document.createElement('button');
-  let createdBtn = false;
-  if(!document.getElementById('assistantBtn')){
-    assistantBtn.className = 'chat-btn';
-    assistantBtn.id = 'assistantBtn';
-    assistantBtn.title = 'Помощник';
-    assistantBtn.innerText = '💬';
-    document.body.appendChild(assistantBtn);
-    createdBtn = true;
-  }
-
-  const chatMessages = document.getElementById('chatMessages');
-  const chatInput = document.getElementById('chatInput');
-  const chatSend = document.getElementById('chatSend');
-
-  // Toggle assistant window
-  const chatBoxEl = document.querySelector('.chat-box');
-  assistantBtn.addEventListener('click', ()=> {
-    if(chatBoxEl.style.display === 'flex') chatBoxEl.style.display = 'none';
-    else chatBoxEl.style.display = 'flex';
-  });
-
-  // Build a simple knowledge-base from all languages on the page (both initial and extraLangs)
-  const knownLangs = [];
-  // collect languages from part2 (variable 'languages' exists) and our extraLangs
-  try {
-    if(Array.isArray(window.languages)) window.languages.forEach(l=> knownLangs.push(l));
-  } catch(e){}
-  extraLangs.forEach(l=> knownLangs.push(l));
-
-  function appendMessage(who, text) {
-    const div = document.createElement('div');
-    div.textContent = (who === 'bot' ? 'Бот: ' : 'Вы: ') + text;
-    div.style.fontWeight = who === 'bot' ? 700 : 600;
-    chatMessages.appendChild(div);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  function findLangByName(name){
-    if(!name) return null;
-    const q = name.toLowerCase().trim();
-    return knownLangs.find(l => (l.name||'').toLowerCase() === q) || knownLangs.find(l => (l.name||'').toLowerCase().includes(q));
-  }
-
-  function botRespond(text){
-    const q = (text||'').toLowerCase();
-    // direct commands
-    if(/план|plan|как учиться|как начать/.test(q)){
-      // try to find language in query
-      const words = q.split(/\s+/);
-      for(const w of words){
-        const lang = findLangByName(w);
-        if(lang){
-          appendMessage('bot', `План изучения для ${lang.name}: ${ (lang.plan||[]).map(p=>p.level+': '+p.items).join(' | ') }`);
-          return;
+        // Рендеринг карточек языков
+        function renderLanguages(langs) {
+            const container = document.getElementById('languagesContainer');
+            container.innerHTML = '';
+            
+            langs.forEach(lang => {
+                const card = document.createElement('div');
+                card.className = 'language-card';
+                card.setAttribute('data-tags', lang.tags.join(' '));
+                
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="language-logo" style="background-color: ${lang.color}">
+                            ${lang.logo}
+                        </div>
+                        <div class="language-info">
+                            <h3>${lang.name}</h3>
+                            <p>Создан в ${lang.year} • ${lang.creator}</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="description">${lang.description}</p>
+                        
+                        <div class="details">
+                            <div class="detail-item">
+                                <div class="detail-title">Тип:</div>
+                                <div>${lang.type}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-title">Парадигма:</div>
+                                <div>${lang.paradigm}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-title">Основное применение:</div>
+                                <div>${lang.usage}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-title">Сложность изучения:</div>
+                                <div>${lang.learning}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-title">Спрос на рынке:</div>
+                                <div>${lang.demand}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h4>Плюсы:</h4>
+                                <ul>
+                                    ${lang.pros.map(pro => `<li>${pro}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h4>Минусы:</h4>
+                                <ul>
+                                    ${lang.cons.map(con => `<li>${con}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="detail-item">
+                            <div class="detail-title">Применение:</div>
+                            <div>${lang.applications.join(', ')}</div>
+                        </div>
+                        
+                        <div class="video-container">
+                            <iframe src="${lang.video}" title="${lang.name} видео" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
         }
-      }
-      appendMessage('bot', 'Уточни язык, например: "план Python" или "как начать с JavaScript".');
-      return;
-    }
-    if(/плюс|минус|польза|недостаток|причины/.test(q)){
-      const words = q.split(/\s+/);
-      for(const w of words){
-        const lang = findLangByName(w);
-        if(lang){
-          appendMessage('bot', `Плюсы: ${(lang.pros||[]).slice(0,5).join(', ') || '—'}; Минусы: ${(lang.cons||[]).slice(0,5).join(', ') || '—'}`);
-          return;
+
+        // Настройка фильтров
+        function setupFilters() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Убираем активный класс у всех кнопок
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Добавляем активный класс текущей кнопке
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    filterLanguages(filter);
+                });
+            });
         }
-      }
-      appendMessage('bot', 'Скажи: "плюсы Python" или "минусы Rust" — я отвечу конкретно.');
-      return;
-    }
-    // general language info
-    const lang = findLangByName(q.replace(/расскажи про |tell me about |about /i,''));
-    if(lang){
-      appendMessage('bot', `${lang.name}: ${lang.longDesc || lang.desc || 'Краткая информация отсутствует.'}`);
-      return;
-    }
-    // fallback
-    appendMessage('bot', 'Извини, не понял. Попробуй: "расскажи про Python", "план JavaScript", "плюсы Rust".');
-  }
 
-  // send mechanisms
-  if(chatSend){
-    chatSend.addEventListener('click', ()=>{
-      const txt = chatInput.value && chatInput.value.trim();
-      if(!txt) return;
-      appendMessage('user', txt);
-      chatInput.value = '';
-      setTimeout(()=> botRespond(txt), 350 + Math.random()*450);
-    });
-  }
-  if(chatInput){
-    chatInput.addEventListener('keypress', (e)=>{ if(e.key === 'Enter') chatSend && chatSend.click(); });
-  }
+        // Фильтрация языков
+        function filterLanguages(filter) {
+            const allCards = document.querySelectorAll('.language-card');
+            
+            if (filter === 'all') {
+                allCards.forEach(card => {
+                    card.style.display = 'block';
+                });
+            } else {
+                allCards.forEach(card => {
+                    if (card.getAttribute('data-tags').includes(filter)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+        }
 
-  // Close/Hide assistant by pressing Escape
-  window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape'){ const box = document.querySelector('.chat-box'); if(box && box.style.display === 'flex') box.style.display = 'none'; } });
+                // Настройка поиска
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                if (searchTerm === '') {
+                    renderLanguages(languages);
+                    return;
+                }
+                
+                const filteredLanguages = languages.filter(lang => {
+                    return lang.name.toLowerCase().includes(searchTerm) ||
+                           lang.description.toLowerCase().includes(searchTerm) ||
+                           lang.usage.toLowerCase().includes(searchTerm) ||
+                           lang.paradigm.toLowerCase().includes(searchTerm) ||
+                           lang.applications.some(app => app.toLowerCase().includes(searchTerm));
+                });
+                
+                renderLanguages(filteredLanguages);
+            });
+        }
+                // Настройка поиска
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase().trim();
+                
+                if (searchTerm === '') {
+                    renderLanguages(languages);
+                    return;
+                }
+                
+                const filteredLanguages = languages.filter(lang => {
+                    return lang.name.toLowerCase().includes(searchTerm) ||
+                           lang.description.toLowerCase().includes(searchTerm) ||
+                           lang.usage.toLowerCase().includes(searchTerm) ||
+                           lang.paradigm.toLowerCase().includes(searchTerm) ||
+                           lang.applications.some(app => app.toLowerCase().includes(searchTerm));
+                });
+                
+                renderLanguages(filteredLanguages);
+            });
+        }
 
-})();
-
-/* 6) Accessibility: close modal with ESC; stop video on close is already implemented */
-window.addEventListener('keydown', (e) => {
-  if(e.key === 'Escape') {
-    const modal = document.getElementById('languageModal');
-    if (modal && modal.style.display === 'flex') closeModal();
-  }
-});
-
-/* 7) Final touch: if user searches via URL (?lang=python) open that language automatically */
-(function(){
-  const params = new URLSearchParams(window.location.search);
-  const q = params.get('lang');
-  if(q){
-    // try to find on page
-    const allLangs = (window.languages && window.languages.slice ? window.languages.concat(extraLangs) : extraLangs);
-    const found = allLangs.find(l => (l.name||'').toLowerCase() === q.toLowerCase());
-    if(found){
-      // delay to ensure DOM ready
-      setTimeout(()=> openModal('', found), 300);
-    }
-  }
-})();
-
-/* ================== КОНЕЦ ЧАСТИ 3 ================== */
-  "COBOL", "Fortran", "Ada", "Lisp", "Prolog", "Pascal", "Logo",
-  "Smalltalk", "Forth", "Delphi", "Clipper", "ALGOL", "PL/I",
-  "Erlang", "ML", "AWK", "Tcl", "FoxPro", "Simula"
-;
-
-const container = document.getElementById("languagesContainer");
-
-extraLangs.forEach(lang => {
-  const card = document.createElement("div");
-  card.className = "lang-card";
-  card.innerHTML = `
-    <h3>${lang}</h3>
-    <p>Подробнее о языке ${lang} — история, особенности, применение, плюсы и минусы.</p>
-    <button onclick="openModal('${lang}')">Подробнее</button>
-  `;
-  container.appendChild(card);
-});
-
-// ========== МОДАЛКА ========== //
-const modal = document.getElementById("infoModal");
-const modalTitle = document.getElementById("modalTitle");
-const modalBody = document.getElementById("modalBody");
-
-function openModal(lang) {
-  modal.style.display = "flex";
-  modalTitle.textContent = lang;
-
-  const data = {
-    "Python": "Python — язык для анализа данных, AI и веб-разработки. Прост в изучении, популярен, имеет огромную экосистему библиотек. Минус — медленнее C++.",
-    "JavaScript": "JS управляет динамикой сайтов, используется во фронтенде и бэкенде (Node.js). Минус — быстро меняется экосистема.",
-    "Java": "Java — корпоративный стандарт. Мощный, безопасный, но многословный.",
-    "C++": "C++ — мощный язык для игр, систем и высокопроизводительных приложений. Минус — сложен в изучении.",
-    "C#": "C# используется для Unity, Windows и веба. Комфортный, но связан с экосистемой Microsoft.",
-    "Go": "Go — быстрый и лёгкий, создан Google. Идеален для серверов и микросервисов.",
-    "Rust": "Rust — безопасный аналог C++, без утечек памяти. Минус — медленное освоение.",
-    "Kotlin": "Kotlin — современная замена Java для Android. Короткий и выразительный.",
-    "Swift": "Swift — язык Apple для iOS и macOS. Удобный, но ограничен экосистемой Apple.",
-    "PHP": "PHP — для веба, работает на миллионах сайтов. Минус — старый синтаксис, но всё ещё актуален.",
-    "TypeScript": "TypeScript — улучшенный JavaScript с типами, делает код стабильнее."
-  };
-
-  modalBody.textContent = data[lang] || `Информация о языке ${lang} скоро появится.`;
-}
-
-function closeModal() {
-  modal.style.display = "none";
-}
-
-window.onclick = e => {
-  if (e.target === modal) closeModal();
-};
-
-// ========== ЧАТ-БОТ ========== //
-const chatBox = document.getElementById("chatBox");
-const chatToggle = document.getElementById("chatToggle");
-const chatMessages = document.getElementById("chatMessages");
-const chatInput = document.getElementById("chatInput");
-
-chatToggle.onclick = () => {
-  chatBox.style.display = chatBox.style.display === "flex" ? "none" : "flex";
-};
-
-function sendMessage() {
-  const msg = chatInput.value.trim();
-  if (!msg) return;
-  const userMsg = document.createElement("div");
-  userMsg.textContent = "Вы: " + msg;
-  chatMessages.appendChild(userMsg);
-
-  const botMsg = document.createElement("div");
-  let reply = "Пока я учусь. Попробуй спросить про языки программирования!";
-  if (msg.toLowerCase().includes("привет")) reply = "Привет! Я помогу тебе разобраться в языках программирования.";
-  if (msg.toLowerCase().includes("какой язык лучше")) reply = "Зависит от цели: Python для анализа, JS для веба, C++ для игр, Java для бизнеса.";
-  if (msg.toLowerCase().includes("учить")) reply = "Начни с Python — он проще и поможет понять основы.";
-  if (msg.toLowerCase().includes("html")) reply = "HTML — это каркас сайта, язык разметки, не программирования.";
-
-  botMsg.textContent = "🤖 " + reply;
-  chatMessages.appendChild(botMsg);
-  chatInput.value = "";
-  chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-// ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ========== //
-const themeToggle = document.getElementById("themeToggle");
-themeToggle.onclick = () => {
-  document.body.classList.toggle("dark");
-  themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
-};
-
-// ========== СВЕЧЕНИЕ КУРСОРА ========== //
-const cursor = document.createElement("div");
-cursor.style.position = "fixed";
-cursor.style.width = "25px";
-cursor.style.height = "25px";
-cursor.style.borderRadius = "50%";
-cursor.style.pointerEvents = "none";
-cursor.style.background = "rgba(0, 153, 255, 0.4)";
-cursor.style.boxShadow = "0 0 25px rgba(0,153,255,0.6)";
-cursor.style.transition = "transform 0.1s ease";
-cursor.style.zIndex = "9999";
-document.body.appendChild(cursor);
-
-document.addEventListener("mousemove", e => {
-  cursor.style.transform = `translate(${e.clientX - 12}px, ${e.clientY - 12}px)`;
-});
-</script>
-
+        // Настройка чат-бота
+        function setupChatBot() {
+            const chatInput = document.getElementById('chatInput');
+            const sendButton = document.getElementById('sendButton');
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Ответы чат-бота
+            const botResponses = {
+                'привет': 'Привет! Я помогу тебе узнать о языках программирования. Спроси о любом языке из списка выше!',
+                'помощь': 'Я могу рассказать о любом языке программирования из списка. Просто спроси, например: "Расскажи о Python" или "Какие плюсы у JavaScript?"',
+                'python': 'Python — высокоуровневый язык с простым синтаксисом. Идеален для начинающих, веб-разработки, Data Science и AI. Плюсы: простой синтаксис, большое сообщество. Минусы: медленнее компилируемых языков.',
+                'javascript': 'JavaScript — язык для веб-разработки. Работает в браузере и на сервере (Node.js). Плюсы: универсальность, большое сообщество. Минусы: проблемы с типизацией в больших проектах.',
+                'java': 'Java — кроссплатформенный язык для корпоративных приложений и Android. Плюсы: надежность, безопасность. Минусы: многословный синтаксис.',
+                'c++': 'C++ — мощный язык для системного программирования и игр. Плюсы: высокая производительность. Минусы: сложный для изучения.',
+                'c#': 'C# — язык от Microsoft для Windows и игр на Unity. Плюсы: хорошая интеграция с экосистемой Microsoft. Минусы: ограничен вне Windows.',
+                'php': 'PHP — язык для веб-разработки. Плюсы: простота развертывания. Минусы: проблемы с безопасностью в старых версиях.',
+                'swift': 'Swift — язык от Apple для iOS/macOS разработки. Плюсы: безопасность и производительность. Минусы: ограничен экосистемой Apple.',
+                'kotlin': 'Kotlin — современный язык для Android. Плюсы: совместимость с Java. Минусы: меньше библиотек чем у Java.',
+                'go': 'Go — язык от Google для серверной разработки. Плюсы: производительность и простота. Минусы: меньше библиотек.',
+                'rust': 'Rust — язык для системного программирования. Плюсы: безопасность памяти. Минусы: сложная кривая обучения.',
+                'typescript': 'TypeScript — типизированный JavaScript. Плюсы: статическая типизация. Минусы: требует компиляции.',
+                'ruby': 'Ruby — язык с фокусом на продуктивность. Плюсы: читаемый синтаксис. Минусы: медленная производительность.',
+                'r': 'R — язык для статистики и Data Science. Плюсы: мощные статистические возможности. Минусы: медленный.',
+                'scala': 'Scala — язык для больших данных. Плюсы: сочетание ООП и ФП. Минусы: сложный для изучения.',
+                'dart': 'Dart — язык для Flutter. Плюсы: кроссплатформенность. Минусы: меньше сообщество.',
+                'какой язык выбрать': 'Зависит от твоих целей:\n- Веб: JavaScript/Python\n- Мобильные: Kotlin/Swift\n- Игры: C#/C++\n- Data Science: Python/R\n- Системное: Go/Rust',
+                'самый популярный': 'Сейчас самые популярные языки: JavaScript, Python, Java, C#, TypeScript',
+                'для начинающих': 'Лучшие языки для начинающих: Python, JavaScript, Ruby - у них простой синтаксис и большое комьюнити',
+                'высокооплачиваемый': 'Высокооплачиваемые языки: Go, Rust, Scala, TypeScript - они используются в сложных и высоконагруженных системах',
+                'веб разработка': 'Для веб-разработки:\nFrontend: JavaScript/TypeScript\nBackend: Python, Java, Go, Node.js\nFullstack: JavaScript',
+                'мобильная разработка': 'Для мобильной разработки:\niOS: Swift\nAndroid: Kotlin/Java\nКроссплатформенная: Flutter(Dart), React Native(JavaScript)',
+                'игры': 'Для разработки игр:\nUnity: C#\nUnreal: C++\nМобильные: Java, Kotlin, Swift',
+                'data science': 'Для Data Science и AI:\nPython (основной)\nR (статистика)\nScala (большие данные)',
+                'минусы python': 'Минусы Python: медленнее компилируемых языков, высокое потребление памяти, GIL ограничивает многопоточность',
+                'плюсы javascript': 'Плюсы JavaScript: универсальность (frontend/backend/mobile), огромное сообщество, мгновенное выполнение, много фреймворков',
+                'что такое java': 'Java - строго типизированный ООП язык. Принцип "напиши once, запускай где угодно" благодаря JVM. Используется для корпоративных приложений и Android.',
+                'отличия typescript javascript': 'TypeScript добавляет статическую типизацию к JavaScript, что помогает находить ошибки на этапе компиляции. TypeScript компилируется в JavaScript.'
+            };
+            
+            function addMessage(text, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+                messageDiv.textContent = text;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            function processMessage(message) {
+                const lowerMessage = message.toLowerCase();
+                let response = '';
+                
+                // Поиск точного совпадения
+                if (botResponses[lowerMessage]) {
+                    response = botResponses[lowerMessage];
+                } else {
+                    // Поиск по ключевым словам
+                    for (const [key, value] of Object.entries(botResponses)) {
+                        if (lowerMessage.includes(key)) {
+                            response = value;
+                            break;
+                        }
+                    }
+                    
+                    // Если не нашли ответа
+                    if (!response) {
+                        const langNames = languages.map(lang => lang.name.toLowerCase());
+                        const foundLang = langNames.find(lang => lowerMessage.includes(lang));
+                        
+                        if (foundLang) {
+                            response = `О ${foundLang}: ${botResponses[foundLang] || 'Информация об этом языке есть в карточке выше. Могу ответить на конкретные вопросы о нем.'}`;
+                        } else {
+                            response = 'Извини, я не совсем понял вопрос. Могу рассказать о конкретных языках программирования или помочь с выбором. Попробуй спросить иначе!';
+                        }
+                    }
+                }
+                
+                // Задержка для имитации "печатания"
+                setTimeout(() => {
+                    addMessage(response);
+                }, 500);
+            }
+            
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message === '') return;
+                
+                addMessage(message, true);
+                chatInput.value = '';
+                
+                processMessage(message);
+            }
+            
+            sendButton.addEventListener('click', sendMessage);
+            
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Приветственное сообщение
+            setTimeout(() => {
+                addMessage('Привет! Я чат-бот по языкам программирования. Спроси меня о любом языке из списка или попроси помочь с выбором!');
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
