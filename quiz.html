@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Викторины - IT Portal</title>
+    <style>
+        :root {
+            --bg: #f4f6fb;
+            --text: #111;
+            --card: #fff;
+            --accent: #0059ff;
+        }
+        body.dark {
+            --bg: #0e1320;
+            --text: #f5f5f5;
+            --card: #1c2233;
+            --accent: #3b82f6;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            transition: background-color .3s, color .3s;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: var(--card);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .back-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .quiz-card {
+            background: var(--card);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,.1);
+            text-align: center;
+            cursor: pointer;
+            transition: transform .3s;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .difficulty {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .easy { background: #10b981; color: white; }
+        .medium { background: #f59e0b; color: white; }
+        .hard { background: #ef4444; color: white; }
+
+        .questions-count {
+            color: var(--accent);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo">💻 IT Portal</a>
+    <a href="index.html" class="back-btn">← Назад</a>
+</header>
+
+<section class="hero">
+    <h1>🎯 IT Викторины</h1>
+    <p>Проверь свои знания в программировании и IT</p>
+</section>
+
+<div class="container">
+    <div class="quiz-grid">
+        <div class="quiz-card" onclick="startQuiz('programming')">
+            <h3>🐍 Основы программирования</h3>
+            <span class="difficulty easy">ЛЕГКО</span>
+            <p>Переменные, циклы, условия и базовые концепции</p>
+            <div class="questions-count">10 вопросов</div>
+        </div>
+
+        <div class="quiz-card" onclick="startQuiz('web')">
+            <h3>🌐 Веб-разработка</h3>
+            <span class="difficulty medium">СРЕДНЕ</span>
+            <p>HTML, CSS, JavaScript и веб-технологии</p>
+            <div class="questions-count">15 вопросов</div>
+        </div>
+
+        <div class="quiz-card" onclick="startQuiz('algorithms')">
+            <h3>⚡ Алгоритмы</h3>
+            <span class="difficulty hard">СЛОЖНО</span>
+            <p>Структуры данных и алгоритмы</p>
+            <div class="questions-count">20 вопросов</div>
+        </div>
+    </div>
+
+    <div class="quiz-grid">
+        <div class="quiz-card" onclick="startQuiz('python')">
+            <h3>🐍 Python</h3>
+            <span class="difficulty medium">СРЕДНЕ</span>
+            <p>Синтаксис, библиотеки и особенности Python</p>
+            <div class="questions-count">12 вопросов</div>
+        </div>
+
+        <div class="quiz-card" onclick="startQuiz('javascript')">
+            <h3>🟨 JavaScript</h3>
+            <span class="difficulty medium">СРЕДНЕ</span>
+            <p>ES6+, асинхронность, DOM манипуляции</p>
+            <div class="questions-count">15 вопросов</div>
+        </div>
+
+        <div class="quiz-card" onclick="startQuiz('databases')">
+            <h3>🗄️ Базы данных</h3>
+            <span class="difficulty hard">СЛОЖНО</span>
+            <p>SQL, NoSQL, оптимизация запросов</p>
+            <div class="questions-count">18 вопросов</div>
+        </div>
+    </div>
+
+    <div class="quiz-grid">
+        <div class="quiz-card" onclick="startQuiz('git')">
+            <h3>📚 Git & GitHub</h3>
+            <span class="difficulty easy">ЛЕГКО</span>
+            <p>Основы контроля версий</p>
+            <div class="questions-count">8 вопросов</div>
+        </div>
+
+        <div class="quiz-card" onclick="startQuiz('security')">
+            <h3>🛡️ Кибербезопасность</h3>
+            <span class="difficulty hard">СЛОЖНО</span>
+            <p>Безопасность веб-приложений</p>
+            <div class="questions-count">16 вопросов</div>
+        </div>
+
+        <div class="quiz-card" onclick="startQuiz('ai')">
+            <h3>🤖 Искусственный интеллект</h3>
+            <span class="difficulty hard">СЛОЖНО</span>
+            <p>ML, нейросети, Data Science</p>
+            <div class="questions-count">20 вопросов</div>
+        </div>
+    </div>
+</div>
+
+<script>
+function startQuiz(quizType) {
+    alert(`Викторина "${quizType}" запускается! 🎯\n\nЭта функция в разработке. Скоро здесь будут настоящие вопросы!`);
+}
+</script>
+
+</body>
+</html>
