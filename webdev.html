@@ -1,295 +1,806 @@
-<!DOCTYPE html>
-<html lang="ru">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Веб-разработка - IT Portal</title>
-    <style>
-        :root {
-            --bg: #f4f6fb;
-            --text: #111;
-            --card: #fff;
-            --accent: #0059ff;
-        }
-        body.dark {
-            --bg: #0e1320;
-            --text: #f5f5f5;
-            --card: #1c2233;
-            --accent: #3b82f6;
-        }
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: "Inter", sans-serif;
-            margin: 0;
-            transition: background-color .3s, color .3s;
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Trello Pro — Frontend (HTML + CSS + JS, local)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===========================
+   Trello Pro - Single File UI
+   HTML + CSS + JS (front-end only)
+   =========================== */
 
-        /* Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background: var(--card);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent);
-            text-decoration: none;
-        }
-        .theme-toggle {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text);
-        }
-        .back-btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-        }
+/* ---- Variables ---- */
+:root{
+  --bg: #f4f7fb;
+  --surface: #fff;
+  --muted: #64748b;
+  --accent: #0ea5a4;
+  --accent-2:#2563eb;
+  --danger:#ef4444;
+  --radius:12px;
+  --shadow: 0 8px 30px rgba(12,18,29,0.06);
+  --glass: rgba(255,255,255,0.6);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
 
-        /* Hero */
-        .hero {
-            text-align: center;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, var(--accent), #8b5cf6);
-            color: white;
-        }
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
+/* ---- Base ---- */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background: linear-gradient(180deg,#eef2ff 0%, var(--bg) 100%);
+  color:#0f172a;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-size:14px;
+  line-height:1.4;
+}
 
-        /* Content */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        .tech-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
-        }
-        .tech-card {
-            background: var(--card);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 20px rgba(0,0,0,.1);
-            transition: transform .3s;
-        }
-        .tech-card:hover {
-            transform: translateY(-5px);
-        }
-        .tech-card h3 {
-            color: var(--accent);
-            margin-bottom: 15px;
-        }
-        .tech-card ul {
-            list-style: none;
-            padding: 0;
-        }
-        .tech-card li {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }
-        .tech-card li:before {
-            content: "▸";
-            color: var(--accent);
-            margin-right: 10px;
-        }
+/* ---- App container ---- */
+.app{
+  max-width:1200px;
+  margin:28px auto;
+  padding:18px;
+}
 
-        /* Roadmap */
-        .roadmap {
-            background: var(--card);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 40px 0;
-        }
-        .roadmap-step {
-            display: flex;
-            align-items: center;
-            margin: 20px 0;
-            padding: 20px;
-            background: var(--bg);
-            border-radius: 10px;
-        }
-        .step-number {
-            background: var(--accent);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-            font-weight: bold;
-        }
+/* ---- Header ---- */
+.header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:18px;
+}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{
+  width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:18px;box-shadow:0 6px 18px rgba(14,165,164,0.12);
+}
+.title{font-weight:700;font-size:18px}
+.sub{color:var(--muted);font-size:13px}
 
-        /* Chat */
-        .chat-btn {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 28px;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(0,0,0,.3);
-        }
-    </style>
+/* ---- Auth area ---- */
+.card{
+  background:var(--surface);
+  padding:18px;border-radius:14px;box-shadow:var(--shadow);
+}
+.auth{
+  display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-bottom:18px;
+}
+.auth-left{flex:1;min-width:280px}
+.auth-right{flex:1;min-width:260px;background:linear-gradient(180deg,#f8fcff,#ffffff);padding:14px;border-radius:12px}
+.form-row{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+input[type="text"], input[type="email"], input[type="password"], textarea, select{
+  padding:10px 12px;border-radius:10px;border:1px solid #e6edf3;font-size:14px;background:#fff;outline:none;
+}
+button{
+  background:var(--accent); color:white;border:0;padding:10px 12px;border-radius:10px;cursor:pointer;font-weight:700;
+}
+.btn-ghost{background:transparent;color:var(--accent);border:1px solid rgba(14,165,164,0.12)}
+.small{font-size:12px;color:var(--muted)}
+
+/* ---- Dashboard ---- */
+.controls{display:flex;gap:8px;align-items:center}
+.profile{display:flex;gap:12px;align-items:center}
+.avatar{width:44px;height:44px;border-radius:50%;background:#e6fffb;color:#04494b;display:flex;align-items:center;justify-content:center;font-weight:800}
+.boards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-top:12px}
+.board-card{padding:14px;border-radius:12px;background:linear-gradient(180deg,#ffffff,#fbfeff);cursor:pointer;min-height:110px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid #eef2ff}
+.board-title{font-weight:800}
+.board-meta{color:var(--muted);font-size:12px}
+
+/* ---- Board view ---- */
+.board-view{display:flex;flex-direction:column;gap:10px}
+.board-top{display:flex;gap:10px;align-items:center}
+.board-content{display:flex;gap:12px;align-items:flex-start;overflow-x:auto;padding:12px 0}
+.column{
+  min-width:260px;background:rgba(255,255,255,0.95);border-radius:12px;padding:10px;box-shadow:0 6px 14px rgba(12,18,29,0.04);display:flex;flex-direction:column;gap:10px;
+}
+.col-header{display:flex;align-items:center;justify-content:space-between}
+.col-title{font-weight:700}
+.cards{display:flex;flex-direction:column;gap:8px}
+.card-item{background:var(--surface);padding:10px;border-radius:10px;box-shadow:0 6px 14px rgba(12,18,29,0.04);cursor:grab}
+.card-item .meta{font-size:12px;color:var(--muted);margin-top:6px}
+.add-btn{padding:8px;border-radius:8px;border:1px dashed #dbeafe;background:transparent;cursor:pointer}
+.trash{background:transparent;border:0;color:var(--danger);cursor:pointer}
+
+/* ---- Modal ---- */
+.modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:4000}
+.modal.active{display:flex}
+.modal-body{background:var(--surface);padding:18px;border-radius:12px;width:420px;box-shadow:var(--shadow)}
+.modal-body h3{margin-bottom:10px}
+
+/* ---- Helpers ---- */
+.hidden{display:none}
+.flex{display:flex;gap:8px;align-items:center}
+.space{flex:1}
+.link{color:var(--accent);cursor:pointer;text-decoration:underline}
+.kv{font-weight:700;color:var(--muted)}
+.badge{display:inline-block;padding:4px 8px;border-radius:10px;background:#eef2ff;color:var(--accent-2);font-weight:700;font-size:12px}
+
+/* ---- Responsive ---- */
+@media (max-width:780px){
+  .app{padding:12px}
+  .board-content{padding-bottom:8px}
+  .column{min-width:220px}
+}
+/* =========================== */
+</style>
 </head>
 <body>
+<div class="app">
 
-<header>
-    <a href="index.html" class="logo">💻 IT Portal</a>
-    <div>
-        <a href="index.html" class="back-btn">← Назад</a>
-        <button class="theme-toggle" id="themeToggle">🌙</button>
-    </div>
-</header>
-
-<section class="hero">
-    <h1>Веб-разработка</h1>
-    <p>Создавайте современные веб-приложения и сайты</p>
-</section>
-
-<div class="container">
-    <div class="tech-grid">
-        <div class="tech-card">
-            <h3>🌐 Frontend</h3>
-            <ul>
-                <li>HTML5 & CSS3</li>
-                <li>JavaScript ES6+</li>
-                <li>React.js / Vue.js / Angular</li>
-                <li>TypeScript</li>
-                <li>SASS/SCSS</li>
-                <li>Webpack / Vite</li>
-            </ul>
-        </div>
-        
-        <div class="tech-card">
-            <h3>⚙️ Backend</h3>
-            <ul>
-                <li>Node.js & Express</li>
-                <li>Python Django/Flask</li>
-                <li>PHP Laravel</li>
-                <li>Java Spring</li>
-                <li>C# ASP.NET</li>
-                <li>Ruby on Rails</li>
-            </ul>
-        </div>
-        
-        <div class="tech-card">
-            <h3>🗄️ Базы данных</h3>
-            <ul>
-                <li>MySQL / PostgreSQL</li>
-                <li>MongoDB</li>
-                <li>Redis</li>
-                <li>SQLite</li>
-                <li>Firebase</li>
-                <li>GraphQL</li>
-            </ul>
-        </div>
+  <header class="header">
+    <div class="brand">
+      <div class="logo">TP</div>
+      <div>
+        <div class="title">Trello Pro — Frontend</div>
+        <div class="sub">HTML • CSS • JavaScript — local demo</div>
+      </div>
     </div>
 
-    <div class="roadmap">
-        <h2>🚀 Путь веб-разработчика</h2>
-        
-        <div class="roadmap-step">
-            <div class="step-number">1</div>
-            <div>
-                <h3>Основы</h3>
-                <p>HTML, CSS, JavaScript - база для начала</p>
-            </div>
+    <div id="globalActions" class="controls">
+      <!-- dynamic -->
+    </div>
+  </header>
+
+  <!-- AUTH -->
+  <div id="authCard" class="card auth">
+    <div class="auth-left">
+      <h2 id="authTitle">Login</h2>
+      <p class="small" id="authSub">Sign in or register to save your boards locally.</p>
+
+      <div class="form-row">
+        <input id="emailInput" type="email" placeholder="Email" />
+        <input id="passwordInput" type="password" placeholder="Password" />
+        <input id="nameInput" type="text" placeholder="Full name (register)" class="hidden" />
+        <div style="display:flex;gap:8px">
+          <button id="authPrimary">Login</button>
+          <button id="toggleAuth" class="btn-ghost">Switch to Register</button>
         </div>
-        
-        <div class="roadmap-step">
-            <div class="step-number">2</div>
-            <div>
-                <h3>Frontend Framework</h3>
-                <p>Выбор фреймворка: React, Vue или Angular</p>
-            </div>
-        </div>
-        
-        <div class="roadmap-step">
-            <div class="step-number">3</div>
-            <div>
-                <h3>Backend Development</h3>
-                <p>Node.js, базы данных, API разработка</p>
-            </div>
-        </div>
-        
-        <div class="roadmap-step">
-            <div class="step-number">4</div>
-            <div>
-                <h3>DevOps & Deployment</h3>
-                <p>Docker, CI/CD, облачные платформы</p>
-            </div>
-        </div>
+        <div class="small">Data stored locally in your browser only (localStorage).</div>
+      </div>
     </div>
 
-    <div class="tech-grid">
-        <div class="tech-card">
-            <h3>🎨 Дизайн системы</h3>
-            <ul>
-                <li>Figma / Adobe XD</li>
-                <li>UI/UX принципы</li>
-                <li>Адаптивный дизайн</li>
-                <li>Material Design</li>
-                <li>Прототипирование</li>
-            </ul>
-        </div>
-        
-        <div class="tech-card">
-            <h3>🔧 Инструменты</h3>
-            <ul>
-                <li>Git & GitHub</li>
-                <li>VS Code / WebStorm</li>
-                <li>Chrome DevTools</li>
-                <li>Postman</li>
-                <li>Docker</li>
-            </ul>
-        </div>
-        
-        <div class="tech-card">
-            <h3>📈 Продвинутые темы</h3>
-            <ul>
-                <li>PWA (Progressive Web Apps)</li>
-                <li>SSR (Server-Side Rendering)</li>
-                <li>Microservices</li>
-                <li>Web Performance</li>
-                <li>Security Best Practices</li>
-            </ul>
-        </div>
+    <div class="auth-right">
+      <h3>How to use</h3>
+      <ol>
+        <li>Create account (register)</li>
+        <li>Create boards → open board → add lists and cards</li>
+        <li>Drag & drop cards between lists</li>
+        <li>Export JSON backup or import</li>
+      </ol>
+      <div style="margin-top:12px">
+        <button id="demoBtn" class="btn-ghost">Create Demo Account</button>
+      </div>
     </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="hidden">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div class="profile">
+          <div id="userAvatar" class="avatar">U</div>
+          <div>
+            <div id="userName" style="font-weight:800">User</div>
+            <div class="small" id="userEmailShow">user@example.com</div>
+          </div>
+        </div>
+
+        <div class="flex">
+          <input id="searchBoards" type="text" placeholder="Search boards" style="padding:8px;border-radius:8px;border:1px solid #e6edf3" />
+          <button id="newBoardBtn" class="btn">+ New Board</button>
+        </div>
+      </div>
+
+      <h3 style="margin-top:12px">My Boards</h3>
+      <div id="boardsGrid" class="boards-grid"></div>
+
+      <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+        <button id="exportBtn" class="btn-ghost">Export JSON</button>
+        <input id="importFile" type="file" accept=".json" />
+        <div class="space"></div>
+        <button id="logoutBtn" class="btn-ghost">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOARD VIEW -->
+  <div id="boardViewWrap" class="hidden">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+      <button id="backToDash" class="btn-ghost">← Back</button>
+      <h2 id="boardTitle">Board</h2>
+      <div class="space"></div>
+      <button id="addListBtn" class="btn">+ Add List</button>
+      <button id="exportBoardBtn" class="btn-ghost">Export Board</button>
+      <button id="boardOptionsBtn" class="btn-ghost">Options</button>
+    </div>
+
+    <div id="boardContent" class="board-content"></div>
+  </div>
+
+  <!-- Activity / Footer -->
+  <div id="activityLog" class="card" style="margin-top:14px;display:none">
+    <h4>Activity Log</h4>
+    <div id="activityList" style="max-height:200px;overflow:auto"></div>
+  </div>
 </div>
 
-<button class="chat-btn" onclick="alert('Чат-бот на этой странице в разработке!')">💬</button>
+<!-- MODALS -->
+<div id="modal" class="modal">
+  <div class="modal-body" id="modalBody"></div>
+</div>
 
 <script>
-const toggle = document.getElementById('themeToggle');
-toggle.onclick = () => {
-    document.body.classList.toggle('dark');
-    toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-};
-</script>
+/* =========================
+   Trello Pro - Frontend JS
+   Single-file application.
+   Features:
+   - Auth (localStorage)
+   - Boards, Lists, Cards
+   - Drag & Drop
+   - Modals (card detail, edit)
+   - Export / Import JSON
+   - BroadcastChannel to sync tabs
+   - Activity log
+   ========================= */
 
+/* ---------- Utilities ---------- */
+const uid = (n=9)=> Math.random().toString(36).slice(2,2+n);
+const now = ()=> new Date().toISOString();
+const clone = obj => JSON.parse(JSON.stringify(obj));
+const show = el=> el.classList.remove('hidden');
+const hide = el=> el.classList.add('hidden');
+const qs = s => document.querySelector(s);
+const qsa = s => Array.from(document.querySelectorAll(s));
+
+/* ---------- Storage keys ---------- */
+const USERS_KEY = 'tp_users_v1';
+const CURRENT_KEY = 'tp_current_v1';
+const ACT_KEY = 'tp_activity_v1';
+
+/* ---------- App state ---------- */
+let users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+let current = JSON.parse(localStorage.getItem(CURRENT_KEY) || 'null'); // { email }
+let activity = JSON.parse(localStorage.getItem(ACT_KEY) || '[]');
+
+/* BroadcastChannel for same-browser tab sync */
+let bc = null;
+if ('BroadcastChannel' in window) {
+  try { bc = new BroadcastChannel('tp_channel'); bc.onmessage = (e)=> handleBroadcast(e.data); } catch(e){ bc=null; }
+}
+
+/* DOM elements */
+const authCard = qs('#authCard');
+const dashboard = qs('#dashboard');
+const boardViewWrap = qs('#boardViewWrap');
+const modal = qs('#modal');
+const modalBody = qs('#modalBody');
+
+/* auth elements */
+const emailInput = qs('#emailInput');
+const passwordInput = qs('#passwordInput');
+const nameInput = qs('#nameInput');
+const authPrimary = qs('#authPrimary');
+const toggleAuth = qs('#toggleAuth');
+const authTitle = qs('#authTitle');
+const authSub = qs('#authSub');
+const demoBtn = qs('#demoBtn');
+
+/* global actions */
+const globalActions = qs('#globalActions');
+const userAvatar = qs('#userAvatar');
+const userName = qs('#userName');
+const userEmailShow = qs('#userEmailShow');
+
+/* dashboard elements */
+const boardsGrid = qs('#boardsGrid');
+const newBoardBtn = qs('#newBoardBtn');
+const searchBoards = qs('#searchBoards');
+const exportBtn = qs('#exportBtn');
+const importFile = qs('#importFile');
+const logoutBtn = qs('#logoutBtn');
+
+/* board view */
+const backToDash = qs('#backToDash');
+const boardTitle = qs('#boardTitle');
+const boardContent = qs('#boardContent');
+const addListBtn = qs('#addListBtn');
+const exportBoardBtn = qs('#exportBoardBtn');
+const boardOptionsBtn = qs('#boardOptionsBtn');
+
+/* modal helpers */
+function openModal(html){
+  modalBody.innerHTML = html;
+  modal.classList.add('active');
+}
+function closeModal(){
+  modal.classList.remove('active');
+  modalBody.innerHTML = '';
+}
+modal.addEventListener('click', (e)=>{ if (e.target===modal) closeModal(); });
+
+/* ---------- Auth logic ---------- */
+function saveUsers(){ localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
+function saveCurrent(){ localStorage.setItem(CURRENT_KEY, JSON.stringify(current)); }
+function saveActivity(){ localStorage.setItem(ACT_KEY, JSON.stringify(activity)); }
+
+/* find user */
+function findUserByEmail(email){ return users.find(u=>u.email===email); }
+
+/* register */
+function registerUser(name, email, password){
+  email = email.trim().toLowerCase();
+  if (!email || !password) throw new Error('Email and password required');
+  if (findUserByEmail(email)) throw new Error('User exists');
+  const user = {
+    id: uid(6),
+    name: name || email.split('@')[0],
+    email,
+    password, // plain - demo only
+    avatar: null,
+    boards: []
+  };
+  users.push(user); saveUsers();
+  logActivity(user.email, 'register', { email: user.email });
+  return user;
+}
+
+/* login */
+function loginUser(email, password){
+  email = email.trim().toLowerCase();
+  const u = findUserByEmail(email);
+  if (!u || u.password !== password) throw new Error('Invalid credentials');
+  current = { email: u.email }; saveCurrent();
+  logActivity(u.email, 'login', { email: u.email });
+  broadcast({ type:'auth', email:u.email, action:'login' });
+  return u;
+}
+
+/* logout */
+function logout(){
+  if (!current) return;
+  logActivity(current.email, 'logout', {});
+  broadcast({ type:'auth', email:current.email, action:'logout' });
+  current = null; saveCurrent();
+  renderAuth();
+}
+
+/* demo create */
+function createDemo(){
+  const demoEmail = 'demo@local';
+  if (!findUserByEmail(demoEmail)){
+    const u = registerUser('Demo User', demoEmail, 'demo');
+    // sample board
+    const b = {
+      id: uid(6),
+      title: 'Demo Board',
+      desc: 'This is a demo board',
+      createdAt: now(),
+      members: [u.email],
+      lists: []
+    };
+    // lists
+    const l1 = { id: uid(5), title: 'To Do', position:0, cards: []};
+    const l2 = { id: uid(5), title: 'Doing', position:1, cards: []};
+    const l3 = { id: uid(5), title: 'Done', position:2, cards: []};
+    // cards
+    l1.cards.push({ id: uid(6), title:'Welcome to Trello Pro', desc:'This is a demo card. Edit me!', labels:[], due:null, comments:[], createdAt:now() });
+    l2.cards.push({ id: uid(6), title:'Build the app', desc:'Implement features', labels:['blue'], due:null, comments:[], createdAt:now() });
+    b.lists.push(l1,l2,l3);
+    u.boards.push(b);
+    saveUsers();
+  }
+  alert('Demo user created: demo@local / demo. Use Login to enter.');
+}
+
+/* ---------- Activity log ---------- */
+function logActivity(actor, action, payload){
+  const entry = { id: uid(6), actor, action, payload, ts: now() };
+  activity.unshift(entry);
+  if (activity.length>500) activity.pop();
+  saveActivity();
+}
+
+/* ---------- Broadcast ---------- */
+function broadcast(payload){
+  if (bc) bc.postMessage(payload);
+  // also localStorage event for other tabs without BroadcastChannel
+  try { localStorage.setItem('tp_last_event', JSON.stringify({ ...payload, ts:Date.now() })); } catch(e){}
+}
+window.addEventListener('storage', (e)=>{
+  if (e.key==='tp_last_event' && e.newValue) {
+    try{ handleBroadcast(JSON.parse(e.newValue)); } catch(e){}
+  }
+});
+function handleBroadcast(msg){
+  if (!msg || !msg.type) return;
+  // simple handlers
+  if (msg.type==='boards_updated'){
+    if (current && current.email===msg.email) renderDashboard(); // refresh own view
+  }
+}
+
+/* ---------- Render auth/global UI ---------- */
+function renderAuth(){
+  if (current){
+    hide(authCard);
+    show(dashboard);
+    renderGlobalActions();
+    renderDashboard();
+  } else {
+    show(authCard);
+    hide(dashboard);
+    hide(boardViewWrap);
+    renderGlobalActions();
+  }
+}
+function renderGlobalActions(){
+  globalActions.innerHTML = '';
+  if (current){
+    const u = findUserByEmail(current.email);
+    const box = document.createElement('div'); box.className='flex';
+    const av = document.createElement('div'); av.className='avatar'; av.textContent = (u.name||u.email)[0].toUpperCase();
+    const txt = document.createElement('div'); txt.innerHTML = `<div style="font-weight:800">${u.name}</div><div class="small">${u.email}</div>`;
+    const out = document.createElement('button'); out.className='btn-ghost'; out.textContent='Logout';
+    out.addEventListener('click', ()=>{ logout(); renderAuth(); });
+    box.appendChild(av); box.appendChild(txt); box.appendChild(out);
+    globalActions.appendChild(box);
+    userAvatar.textContent = (u.name||u.email)[0].toUpperCase();
+    userName.textContent = u.name;
+    userEmailShow.textContent = u.email;
+  } else {
+    const l = document.createElement('button'); l.className='btn-ghost'; l.textContent='Login/Register';
+    l.addEventListener('click', ()=> { window.scrollTo({top:0,behavior:'smooth'}); });
+    globalActions.appendChild(l);
+  }
+}
+
+/* ---------- Dashboard rendering ---------- */
+function renderDashboard(filter=''){
+  if (!current) return;
+  hide(authCard);
+  show(dashboard);
+  hide(boardViewWrap);
+  boardsGrid.innerHTML = '';
+  const u = findUserByEmail(current.email);
+  if (!u) return;
+  const boards = (u.boards||[]).filter(b => b.title.toLowerCase().includes(filter.toLowerCase()));
+  if (boards.length===0) {
+    boardsGrid.innerHTML = `<div style="grid-column:1/-1;padding:14px;border-radius:10px;background:linear-gradient(180deg,#ffffff,#fbfbff)">No boards yet — create one.</div>`;
+    return;
+  }
+  boards.forEach(b=>{
+    const el = document.createElement('div'); el.className='board-card';
+    el.innerHTML = `<div><div class="board-title">${escapeHtml(b.title)}</div><div class="board-meta">${(b.lists||[]).length} lists</div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center"><div class="small">${new Date(b.createdAt||Date.now()).toLocaleDateString()}</div><div style="display:flex;gap:6px"><button class="btn-ghost open">Open</button><button class="btn-ghost opt">…</button></div></div>`;
+    el.querySelector('.open').addEventListener('click', ()=> openBoard(b.id));
+    el.querySelector('.opt').addEventListener('click', (e)=> {
+      e.stopPropagation();
+      showBoardOptions(b);
+    });
+    boardsGrid.appendChild(el);
+  });
+}
+
+/* ---------- Board operations ---------- */
+function createBoard(title, desc=''){
+  if (!current) throw new Error('No current user');
+  const u = findUserByEmail(current.email);
+  const board = { id: uid(6), title, desc, createdAt: now(), members:[u.email], lists:[] };
+  // default lists
+  const l1 = { id: uid(5), title:'To Do', position:0, cards:[] };
+  const l2 = { id: uid(5), title:'In Progress', position:1, cards:[] };
+  const l3 = { id: uid(5), title:'Done', position:2, cards:[] };
+  board.lists.push(l1,l2,l3);
+  u.boards = u.boards || []; u.boards.push(board); saveUsers();
+  logActivity(u.email,'create_board',{boardId:board.id,title});
+  broadcast({ type:'boards_updated', email:u.email });
+  renderDashboard();
+  openBoard(board.id);
+  return board;
+}
+
+function openBoard(boardId){
+  const u = findUserByEmail(current.email);
+  const b = (u.boards||[]).find(x=>x.id===boardId);
+  if (!b) return alert('Board not found');
+  hide(dashboard); show(boardViewWrap);
+  boardTitle.textContent = b.title;
+  renderBoardContent(b);
+  logActivity(u.email,'open_board',{boardId});
+}
+
+function renderBoardContent(board){
+  boardContent.innerHTML = '';
+  // for each list
+  board.lists.sort((a,b)=> (a.position||0)-(b.position||0)).forEach(list=>{
+    const col = document.createElement('div'); col.className='column'; col.dataset.listId = list.id;
+    col.innerHTML = `<div class="col-header"><div class="col-title">${escapeHtml(list.title)}</div><div class="flex"><button class="add-btn small add">+ Card</button><button class="trash small del">✕</button></div></div><div class="cards"></div><div><button class="add-btn add-bottom">+ Add card</button></div>`;
+    const cardsWrap = col.querySelector('.cards');
+    (list.cards||[]).forEach(card=>{
+      const ci = document.createElement('div'); ci.className='card-item'; ci.draggable=true; ci.dataset.cardId = card.id;
+      ci.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:700">${escapeHtml(card.title)}</div><div class="flex"><button class="btn-ghost edit small">Edit</button><button class="trash small rem">Del</button></div></div><div class="meta">${escapeHtml(card.desc||'')}</div>`;
+      // drag handlers
+      ci.addEventListener('dragstart', (ev)=> {
+        ev.dataTransfer.setData('text/plain', JSON.stringify({ fromList:list.id, cardId:card.id }));
+        ci.classList.add('dragging');
+      });
+      ci.addEventListener('dragend', ()=> ci.classList.remove('dragging'));
+      // edit/delete
+      ci.querySelector('.edit').addEventListener('click', ()=> openCardModal(board.id,list.id,card.id));
+      ci.querySelector('.rem').addEventListener('click', ()=> {
+        if (!confirm('Delete card?')) return;
+        deleteCard(board.id,list.id,card.id);
+      });
+      cardsWrap.appendChild(ci);
+    });
+    // add card buttons
+    col.querySelectorAll('.add, .add-bottom').forEach(btn=> btn.addEventListener('click', ()=> {
+      openAddCardModal(board.id, list.id);
+    }));
+    col.querySelector('.del').addEventListener('click', ()=> {
+      if (!confirm('Delete list?')) return;
+      deleteList(board.id,list.id);
+    });
+
+    // drop handlers
+    col.addEventListener('dragover', (e)=> { e.preventDefault(); col.style.outline = '2px dashed rgba(14,165,164,0.1)'; });
+    col.addEventListener('dragleave', ()=> { col.style.outline = ''; });
+    col.addEventListener('drop', (e)=> {
+      e.preventDefault();
+      col.style.outline = '';
+      try {
+        const payload = JSON.parse(e.dataTransfer.getData('text/plain'));
+        moveCardWithinBoard(board.id, payload.fromList, list.id, payload.cardId);
+      } catch(err){ console.error(err); }
+    });
+
+    boardContent.appendChild(col);
+  });
+
+  // add blank column for add list
+  const addCol = document.createElement('div'); addCol.className='column'; addCol.style.minWidth='200px'; addCol.style.alignItems='center'; addCol.style.justifyContent='center';
+  addCol.innerHTML = `<button id="addListInline" class="add-btn">+ Add list</button>`;
+  addCol.querySelector('#addListInline').addEventListener('click', ()=> openAddListModal(board.id));
+  boardContent.appendChild(addCol);
+}
+
+/* ---------- CRUD: Lists & Cards ---------- */
+function addList(boardId, title){
+  const u = findUserByEmail(current.email);
+  const b = u.boards.find(x=>x.id===boardId);
+  if (!b) return;
+  const list = { id: uid(6), title, position: (b.lists.length||0), cards: []};
+  b.lists.push(list); saveUsers();
+  logActivity(u.email,'add_list',{boardId,listId:list.id});
+  broadcast({ type:'boards_updated', email:u.email });
+  renderBoardContent(b);
+  return list;
+}
+
+function deleteList(boardId, listId){
+  const u = findUserByEmail(current.email);
+  const b = u.boards.find(x=>x.id===boardId);
+  if (!b) return;
+  b.lists = b.lists.filter(l=>l.id!==listId);
+  saveUsers();
+  logActivity(u.email,'delete_list',{boardId,listId});
+  broadcast({ type:'boards_updated', email:u.email });
+  renderBoardContent(b);
+}
+
+function addCard(boardId, listId, title, desc=''){
+  const u = findUserByEmail(current.email);
+  const b = u.boards.find(x=>x.id===boardId);
+  if (!b) return;
+  const list = b.lists.find(l=>l.id===listId);
+  if (!list) return;
+  const card = { id: uid(6), title, desc, labels:[], due:null, comments:[], createdAt:now() };
+  list.cards.push(card); saveUsers();
+  logActivity(u.email,'add_card',{boardId,listId,cardId:card.id});
+  broadcast({ type:'boards_updated', email:u.email });
+  renderBoardContent(b);
+  return card;
+}
+
+function deleteCard(boardId, listId, cardId){
+  const u = findUserByEmail(current.email);
+  const b = u.boards.find(x=>x.id===boardId);
+  if (!b) return;
+  const list = b.lists.find(l=>l.id===listId);
+  if (!list) return;
+  list.cards = list.cards.filter(c=>c.id!==cardId); saveUsers();
+  logActivity(u.email,'delete_card',{boardId,listId,cardId});
+  broadcast({ type:'boards_updated', email:u.email });
+  renderBoardContent(b);
+}
+
+function moveCardWithinBoard(boardId, fromListId, toListId, cardId){
+  if (fromListId === toListId) return;
+  const u = findUserByEmail(current.email);
+  const b = u.boards.find(x=>x.id===boardId);
+  if (!b) return;
+  const from = b.lists.find(l=>l.id===fromListId);
+  const to = b.lists.find(l=>l.id===toListId);
+  if (!from || !to) return;
+  const idx = from.cards.findIndex(c=>c.id===cardId);
+  if (idx<0) return;
+  const [card] = from.cards.splice(idx,1);
+  to.cards.push(card);
+  saveUsers();
+  logActivity(u.email,'move_card',{boardId,fromListId,toListId,cardId});
+  broadcast({ type:'boards_updated', email:u.email });
+  renderBoardContent(b);
+}
+
+/* ---------- Card Modal / Edit ---------- */
+function openCardModal(boardId,listId,cardId){
+  const u = findUserByEmail(current.email);
+  const b = u.boards.find(x=>x.id===boardId);
+  const list = b.lists.find(l=>l.id===listId);
+  const card = list.cards.find(c=>c.id===cardId);
+  const html = `<h3>Edit Card</h3>
+    <div class="modal-field"><label>Title</label><input id="mTitle" value="${escapeHtmlAttr(card.title)}"/></div>
+    <div class="modal-field"><label>Description</label><textarea id="mDesc">${escapeHtmlAttr(card.desc||'')}</textarea></div>
+    <div class="modal-field"><label>Labels (comma)</label><input id="mLabels" value="${(card.labels||[]).join(',')}" /></div>
+    <div class="modal-field"><label>Due Date (ISO)</label><input id="mDue" value="${card.due||''}" /></div>
+    <div style="display:flex;gap:8px"><button id="saveCardModal" class="btn">Save</button><button id="closeCardModal" class="btn-ghost">Cancel</button></div>
+    <h4 style="margin-top:12px">Comments</h4>
+    <div id="commentList" style="max-height:180px;overflow:auto;margin-bottom:8px"></div>
+    <div style="display:flex;gap:8px"><input id="commentInput" placeholder="Write a comment"/><button id="addCommentBtn" class="btn">Add</button></div>
+  `;
+  openModal(html);
+  qs('#closeCardModal').addEventListener('click', closeModal);
+  qs('#saveCardModal').addEventListener('click', ()=>{
+    const t = qs('#mTitle').value.trim(); const d = qs('#mDesc').value.trim(); const labels = qs('#mLabels').value.split(',').map(s=>s.trim()).filter(Boolean);
+    const due = qs('#mDue').value || null;
+    card.title = t || card.title; card.desc = d; card.labels = labels; card.due = due;
+    saveUsers(); logActivity(u.email,'edit_card',{boardId,listId,cardId}); broadcast({ type:'boards_updated', email:u.email }); renderBoardContent(b); closeModal();
+  });
+  // comments render
+  function renderComments(){
+    const cl = qs('#commentList'); cl.innerHTML='';
+    (card.comments||[]).forEach(cm=>{
+      const d = document.createElement('div'); d.style.padding='8px'; d.style.borderBottom='1px solid #f1f5f9';
+      d.innerHTML = `<div style="font-weight:700">${escapeHtml(cm.author||'Anon')}</div><div class="small">${escapeHtml(cm.text)}</div><div class="small" style="color:var(--muted)">${cm.ts}</div>`;
+      cl.appendChild(d);
+    });
+  }
+  renderComments();
+  qs('#addCommentBtn').addEventListener('click', ()=>{
+    const txt = qs('#commentInput').value.trim(); if (!txt) return;
+    card.comments = card.comments || []; card.comments.push({ id: uid(6), author: current.email, text: txt, ts: now() });
+    saveUsers(); renderComments(); qs('#commentInput').value=''; logActivity(current.email,'comment',{boardId,listId,cardId}); broadcast({ type:'boards_updated', email:current.email });
+  });
+}
+
+/* ---------- Add List / Add Card modals ---------- */
+function openAddListModal(boardId){
+  openModal(`<h3>New List</h3><div class="modal-field"><input id="listName" placeholder="List title"/></div><div style="display:flex;gap:8px"><button id="saveListBtn" class="btn">Add</button><button id="closeListModal" class="btn-ghost">Cancel</button></div>`);
+  qs('#closeListModal').addEventListener('click', closeModal);
+  qs('#saveListBtn').addEventListener('click', ()=>{
+    const title = qs('#listName').value.trim(); if (!title) return alert('Title required');
+    addList(boardId,title); closeModal();
+  });
+}
+
+function openAddCardModal(boardId,listId){
+  openModal(`<h3>New Card</h3><div class="modal-field"><input id="cardTitle" placeholder="Card title"/></div><div class="modal-field"><textarea id="cardDesc" placeholder="Description"></textarea></div><div style="display:flex;gap:8px"><button id="saveCard" class="btn">Add</button><button id="closeCard" class="btn-ghost">Cancel</button></div>`);
+  qs('#closeCard').addEventListener('click', closeModal);
+  qs('#saveCard')?.addEventListener('click', ()=>{
+    const t = qs('#cardTitle').value.trim(); const d = qs('#cardDesc').value.trim();
+    if (!t) return alert('Title required');
+    addCard(boardId,listId,t,d); closeModal();
+  });
+}
+
+/* ---------- Board options ---------- */
+function showBoardOptions(board){
+  openModal(`<h3>Board Options</h3><div class="modal-field"><label>Title</label><input id="optTitle" value="${escapeHtmlAttr(board.title)}"/></div><div class="modal-field"><label>Description</label><textarea id="optDesc">${escapeHtmlAttr(board.desc||'')}</textarea></div><div style="display:flex;gap:8px"><button id="saveBoardOpt" class="btn">Save</button><button id="deleteBoard" class="btn-ghost">Delete</button><button class="btn-ghost" id="closeOpt">Cancel</button></div>`);
+  qs('#closeOpt').addEventListener('click', closeModal);
+  qs('#saveBoardOpt').addEventListener('click', ()=>{
+    const t = qs('#optTitle').value.trim(); const d = qs('#optDesc').value.trim();
+    const u = findUserByEmail(current.email); const b = u.boards.find(x=>x.id===board.id); if (!b) return;
+    b.title = t; b.desc = d; saveUsers(); logActivity(u.email,'update_board',{boardId:b.id}); broadcast({ type:'boards_updated', email:u.email }); renderDashboard(); closeModal();
+  });
+  qs('#deleteBoard').addEventListener('click', ()=>{
+    if (!confirm('Delete board?')) return;
+    const u = findUserByEmail(current.email); u.boards = u.boards.filter(x=>x.id!==board.id); saveUsers(); logActivity(u.email,'delete_board',{boardId:board.id}); broadcast({ type:'boards_updated', email:u.email }); renderDashboard(); closeModal();
+  });
+}
+
+/* ---------- Export / Import ---------- */
+exportBtn.addEventListener('click', ()=>{
+  const data = { users, activity, exportedAt: now() };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'trello_export.json'; a.click(); URL.revokeObjectURL(url);
+});
+importFile.addEventListener('change', (e)=>{
+  const f = e.target.files[0]; if (!f) return;
+  const reader = new FileReader(); reader.onload = (ev)=>{
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (data.users) users = data.users;
+      if (data.activity) activity = data.activity;
+      saveUsers(); saveActivity(); alert('Imported successfully'); renderAuth();
+    } catch(err){ alert('Invalid file'); }
+  }; reader.readAsText(f);
+});
+
+/* ---------- Auth UI events ---------- */
+let isRegister=false;
+toggleAuth.addEventListener('click', ()=>{
+  isRegister = !isRegister;
+  if (isRegister){ authTitle.textContent='Register'; authSub.textContent='Create account'; nameInput.classList.remove('hidden'); authPrimary.textContent='Register'; toggleAuth.textContent='Switch to Login'; }
+  else { authTitle.textContent='Login'; authSub.textContent='Enter credentials'; nameInput.classList.add('hidden'); authPrimary.textContent='Login'; toggleAuth.textContent='Switch to Register'; }
+});
+authPrimary.addEventListener('click', ()=>{
+  const email = emailInput.value.trim(); const pass = passwordInput.value; const name = nameInput.value.trim();
+  try {
+    if (isRegister){
+      const u = registerUser(name,email,pass);
+      current = { email: u.email }; saveCurrent(); alert('Registered and logged in'); renderAuth();
+    } else {
+      const u = loginUser(email,pass);
+      current = { email: u.email }; saveCurrent(); alert('Welcome '+u.name); renderAuth();
+    }
+  } catch(err){ alert(err.message || 'Auth error'); }
+});
+demoBtn.addEventListener('click', ()=> { createDemo(); });
+
+logoutBtn.addEventListener('click', ()=> { logout(); renderAuth(); });
+
+/* ---------- Search boards ---------- */
+searchBoards.addEventListener('input', (e)=> {
+  renderDashboard(e.target.value);
+});
+
+/* ---------- New board button ---------- */
+newBoardBtn.addEventListener('click', ()=> {
+  openModal(`<h3>New Board</h3><div class="modal-field"><input id="nbTitle" placeholder="Board title"/></div><div class="modal-field"><textarea id="nbDesc" placeholder="Description"></textarea></div><div style="display:flex;gap:8px"><button id="createNB" class="btn">Create</button><button id="closeNB" class="btn-ghost">Cancel</button></div>`);
+  qs('#closeNB').addEventListener('click', closeModal);
+  qs('#createNB').addEventListener('click', ()=>{
+    const t = qs('#nbTitle').value.trim(); const d = qs('#nbDesc').value.trim();
+    if (!t) return alert('Title required'); createBoard(t,d); closeModal();
+  });
+});
+
+/* ---------- Back to dashboard ---------- */
+backToDash.addEventListener('click', ()=> { renderDashboard(); hide(boardViewWrap); show(dashboard); });
+
+/* ---------- Keyboard shortcuts ---------- */
+document.addEventListener('keydown', (e)=>{
+  if (e.key === 'N' || e.key==='n'){ e.preventDefault(); if (current) newBoardBtn.click(); else alert('Login first'); }
+  if (e.key === 'L' || e.key==='l'){ e.preventDefault(); if (boardViewWrap.classList.contains('hidden')) alert('Open a board first'); else openAddListModal(getCurrentBoardId()); }
+  if (e.key === 'C' || e.key==='c'){ e.preventDefault(); alert('Press + Card button on a list'); }
+  if (e.key === '/'){ e.preventDefault(); qs('#searchBoards').focus(); }
+});
+
+/* ---------- Helpers ---------- */
+function escapeHtml(s){ if (!s) return ''; return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+function escapeHtmlAttr(s){ if (!s) return ''; return s.replaceAll('"','&quot;').replaceAll("'",'&#39;').replaceAll('<','&lt;'); }
+function getCurrentBoardId(){ // return id of open board by title
+  const title = boardTitle.textContent;
+  const u = findUserByEmail(current.email); const b = (u.boards||[]).find(x=>x.title===title); return b && b.id;
+}
+
+/* ---------- Load initial state ---------- */
+function initApp(){
+  // If there is a logged-in user, restore
+  if (current && findUserByEmail(current.email)) {
+    renderAuth();
+  } else {
+    renderAuth();
+  }
+}
+initApp();
+
+/* ---------- Expose for debugging in console ---------- */
+window._tp = { users, current, registerUser, loginUser, createBoard, addList, addCard, deleteCard, moveCardWithinBoard, saveUsers, logActivity };
+
+</script>
 </body>
 </html>
